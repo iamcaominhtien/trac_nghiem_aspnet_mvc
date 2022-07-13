@@ -1,0 +1,95 @@
+﻿@model trac_nghiem_project.Models.user
+
+@{
+    ViewBag.Title = "Delete";
+    ViewBag.Page = "Bạn có chắc muốn xóa Admin:";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="py-2 px-5 rounded-4" style="background-color:white">
+    <dl class="dl-horizontal">
+        <dt>
+            UserName
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.username)
+        </dd>
+
+        <dt>
+            Họ và tên
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            Email
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.email)
+        </dd>
+
+        <dt>
+            Giới tính
+        </dt>
+
+        <dd>
+            @{
+                if (Model.gender == false)
+                {
+                    @: Nữ
+                }
+                else
+                {
+                    @: Nam
+                }
+            }
+        </dd>
+
+        <dt>
+            Ngày sinh
+        </dt>
+
+        <dd>
+            @{
+                if (Model.birthday.HasValue == false)
+                {
+                    @: Unknown
+                }
+                else
+                {
+                    <span>@Html.FormatValue(Model.birthday, "{0:dd/MM/yyyy}")</span>
+                }
+            }
+        </dd>
+
+        <dt>
+            Ngày tạo
+        </dt>
+
+        <dd>
+            @{
+                if (Model.date_create.HasValue == false)
+                {
+                    @: Unknown
+                }
+                else
+                {
+                    <span>@Html.FormatValue(Model.date_create, "{0:dd/MM/yyyy}")</span>
+                }
+            }
+        </dd>
+    </dl>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Xóa" class="btn btn-success px-3" />
+            <a class="btn btn-primary ms-3 px-3" href="@Url.Action("Index")">Back</a>
+        </div>
+    }
+</div>

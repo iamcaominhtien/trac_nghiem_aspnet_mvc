@@ -1,0 +1,423 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="trac_nghiemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="do_exam">
+    <Key>
+      <PropertyRef Name="id_exam" />
+      <PropertyRef Name="id_student" />
+    </Key>
+    <Property Name="score" Type="int" />
+    <Property Name="note" Type="text" />
+    <Property Name="statrt_time" Type="datetime" />
+    <Property Name="finsh_time" Type="datetime" />
+    <Property Name="id_exam" Type="bigint" Nullable="false" />
+    <Property Name="id_student" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="exam_question">
+    <Key>
+      <PropertyRef Name="id_exam" />
+      <PropertyRef Name="id_question" />
+    </Key>
+    <Property Name="id_exam" Type="bigint" Nullable="false" />
+    <Property Name="id_question" Type="bigint" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="500" />
+    <Property Name="date_create" Type="datetime" />
+  </EntityType>
+  <EntityType Name="exams">
+    <Key>
+      <PropertyRef Name="id_exam" />
+    </Key>
+    <Property Name="id_exam" Type="bigint" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="100" />
+    <Property Name="start_time" Type="datetime" />
+    <Property Name="end_time" Type="datetime" />
+    <Property Name="time_to_do" Type="datetime" />
+    <Property Name="do_number" Type="int" />
+    <Property Name="date_create" Type="datetime" />
+    <Property Name="note" Type="nvarchar" MaxLength="500" />
+    <Property Name="id_subject" Type="bigint" />
+    <Property Name="status" Type="bit" />
+  </EntityType>
+  <EntityType Name="fields">
+    <Key>
+      <PropertyRef Name="id_field" />
+    </Key>
+    <Property Name="id_field" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="50" />
+    <Property Name="date_create" Type="datetime" />
+  </EntityType>
+  <EntityType Name="grades">
+    <Key>
+      <PropertyRef Name="id_grade" />
+    </Key>
+    <Property Name="id_grade" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="50" />
+    <Property Name="date_create" Type="datetime" />
+  </EntityType>
+  <EntityType Name="question_types">
+    <Key>
+      <PropertyRef Name="id_question_type" />
+    </Key>
+    <Property Name="id_question_type" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="50" />
+    <Property Name="note" Type="nvarchar" MaxLength="500" />
+    <Property Name="date_create" Type="datetime" />
+  </EntityType>
+  <EntityType Name="questions">
+    <Key>
+      <PropertyRef Name="id_question" />
+    </Key>
+    <Property Name="id_question" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_question_type" Type="bigint" />
+    <Property Name="avatar" Type="nvarchar" MaxLength="200" />
+    <Property Name="question" Type="nchar" MaxLength="10" />
+    <Property Name="answer_1" Type="nvarchar" MaxLength="100" />
+    <Property Name="answer_2" Type="nvarchar" MaxLength="100" />
+    <Property Name="answer_3" Type="nvarchar" MaxLength="100" />
+    <Property Name="answer_4" Type="nvarchar" MaxLength="100" />
+    <Property Name="correct" Type="nvarchar" MaxLength="100" />
+    <Property Name="note" Type="nvarchar" MaxLength="500" />
+    <Property Name="date_create" Type="datetime" />
+  </EntityType>
+  <EntityType Name="rights">
+    <Key>
+      <PropertyRef Name="id_right" />
+    </Key>
+    <Property Name="id_right" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nchar" MaxLength="10" />
+    <Property Name="note" Type="text" />
+    <Property Name="date_create" Type="datetime" />
+  </EntityType>
+  <EntityType Name="subject_student">
+    <Key>
+      <PropertyRef Name="id_subject" />
+      <PropertyRef Name="id_student" />
+    </Key>
+    <Property Name="id_subject" Type="bigint" Nullable="false" />
+    <Property Name="id_student" Type="bigint" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="subject_teacher">
+    <Key>
+      <PropertyRef Name="id_sbject" />
+      <PropertyRef Name="id_teacher" />
+    </Key>
+    <Property Name="id_sbject" Type="bigint" Nullable="false" />
+    <Property Name="id_teacher" Type="bigint" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="subjects">
+    <Key>
+      <PropertyRef Name="id_subject" />
+    </Key>
+    <Property Name="id_subject" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="50" />
+    <Property Name="date_create" Type="datetime" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="users">
+    <Key>
+      <PropertyRef Name="id_user" />
+    </Key>
+    <Property Name="id_user" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="username" Type="nchar" MaxLength="20" />
+    <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="password" Type="nchar" MaxLength="100" Nullable="false" />
+    <Property Name="email" Type="nchar" MaxLength="50" />
+    <Property Name="avatar" Type="nchar" MaxLength="200" />
+    <Property Name="gender" Type="bit" />
+    <Property Name="birthday" Type="date" />
+    <Property Name="date_create" Type="datetime" />
+    <Property Name="id_right" Type="bigint" />
+    <Property Name="id_grade" Type="bigint" />
+    <Property Name="id_field" Type="bigint" />
+  </EntityType>
+  <Association Name="FK_do_exam_exams">
+    <End Role="exams" Type="Self.exams" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="do_exam" Type="Self.do_exam" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="exams">
+        <PropertyRef Name="id_exam" />
+      </Principal>
+      <Dependent Role="do_exam">
+        <PropertyRef Name="id_exam" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_do_exam_users">
+    <End Role="users" Type="Self.users" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="do_exam" Type="Self.do_exam" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="id_user" />
+      </Principal>
+      <Dependent Role="do_exam">
+        <PropertyRef Name="id_student" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_exam_question_exams">
+    <End Role="exams" Type="Self.exams" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="exam_question" Type="Self.exam_question" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="exams">
+        <PropertyRef Name="id_exam" />
+      </Principal>
+      <Dependent Role="exam_question">
+        <PropertyRef Name="id_exam" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_exam_question_questions">
+    <End Role="questions" Type="Self.questions" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="exam_question" Type="Self.exam_question" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="questions">
+        <PropertyRef Name="id_question" />
+      </Principal>
+      <Dependent Role="exam_question">
+        <PropertyRef Name="id_question" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_exams_subjects">
+    <End Role="subjects" Type="Self.subjects" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="exams" Type="Self.exams" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="subjects">
+        <PropertyRef Name="id_subject" />
+      </Principal>
+      <Dependent Role="exams">
+        <PropertyRef Name="id_subject" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_questions_question_types">
+    <End Role="question_types" Type="Self.question_types" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="questions" Type="Self.questions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="question_types">
+        <PropertyRef Name="id_question_type" />
+      </Principal>
+      <Dependent Role="questions">
+        <PropertyRef Name="id_question_type" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_subject_student_subjects">
+    <End Role="subjects" Type="Self.subjects" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="subject_student" Type="Self.subject_student" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="subjects">
+        <PropertyRef Name="id_subject" />
+      </Principal>
+      <Dependent Role="subject_student">
+        <PropertyRef Name="id_subject" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_subject_student_users">
+    <End Role="users" Type="Self.users" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="subject_student" Type="Self.subject_student" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="id_user" />
+      </Principal>
+      <Dependent Role="subject_student">
+        <PropertyRef Name="id_student" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_subject_teacher_subjects">
+    <End Role="subjects" Type="Self.subjects" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="subject_teacher" Type="Self.subject_teacher" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="subjects">
+        <PropertyRef Name="id_subject" />
+      </Principal>
+      <Dependent Role="subject_teacher">
+        <PropertyRef Name="id_sbject" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_subject_teacher_users">
+    <End Role="users" Type="Self.users" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="subject_teacher" Type="Self.subject_teacher" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="id_user" />
+      </Principal>
+      <Dependent Role="subject_teacher">
+        <PropertyRef Name="id_teacher" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_users_fields">
+    <End Role="fields" Type="Self.fields" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="users" Type="Self.users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="fields">
+        <PropertyRef Name="id_field" />
+      </Principal>
+      <Dependent Role="users">
+        <PropertyRef Name="id_field" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_users_grades">
+    <End Role="grades" Type="Self.grades" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="users" Type="Self.users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="grades">
+        <PropertyRef Name="id_grade" />
+      </Principal>
+      <Dependent Role="users">
+        <PropertyRef Name="id_grade" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_users_rights">
+    <End Role="rights" Type="Self.rights" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="users" Type="Self.users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="rights">
+        <PropertyRef Name="id_right" />
+      </Principal>
+      <Dependent Role="users">
+        <PropertyRef Name="id_right" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="trac_nghiemModelStoreContainer">
+    <EntitySet Name="do_exam" EntityType="Self.do_exam" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="exam_question" EntityType="Self.exam_question" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="exams" EntityType="Self.exams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="fields" EntityType="Self.fields" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="grades" EntityType="Self.grades" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="question_types" EntityType="Self.question_types" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="questions" EntityType="Self.questions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="rights" EntityType="Self.rights" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="subject_student" EntityType="Self.subject_student" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="subject_teacher" EntityType="Self.subject_teacher" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="subjects" EntityType="Self.subjects" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_do_exam_exams" Association="Self.FK_do_exam_exams">
+      <End Role="exams" EntitySet="exams" />
+      <End Role="do_exam" EntitySet="do_exam" />
+    </AssociationSet>
+    <AssociationSet Name="FK_do_exam_users" Association="Self.FK_do_exam_users">
+      <End Role="users" EntitySet="users" />
+      <End Role="do_exam" EntitySet="do_exam" />
+    </AssociationSet>
+    <AssociationSet Name="FK_exam_question_exams" Association="Self.FK_exam_question_exams">
+      <End Role="exams" EntitySet="exams" />
+      <End Role="exam_question" EntitySet="exam_question" />
+    </AssociationSet>
+    <AssociationSet Name="FK_exam_question_questions" Association="Self.FK_exam_question_questions">
+      <End Role="questions" EntitySet="questions" />
+      <End Role="exam_question" EntitySet="exam_question" />
+    </AssociationSet>
+    <AssociationSet Name="FK_exams_subjects" Association="Self.FK_exams_subjects">
+      <End Role="subjects" EntitySet="subjects" />
+      <End Role="exams" EntitySet="exams" />
+    </AssociationSet>
+    <AssociationSet Name="FK_questions_question_types" Association="Self.FK_questions_question_types">
+      <End Role="question_types" EntitySet="question_types" />
+      <End Role="questions" EntitySet="questions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_subject_student_subjects" Association="Self.FK_subject_student_subjects">
+      <End Role="subjects" EntitySet="subjects" />
+      <End Role="subject_student" EntitySet="subject_student" />
+    </AssociationSet>
+    <AssociationSet Name="FK_subject_student_users" Association="Self.FK_subject_student_users">
+      <End Role="users" EntitySet="users" />
+      <End Role="subject_student" EntitySet="subject_student" />
+    </AssociationSet>
+    <AssociationSet Name="FK_subject_teacher_subjects" Association="Self.FK_subject_teacher_subjects">
+      <End Role="subjects" EntitySet="subjects" />
+      <End Role="subject_teacher" EntitySet="subject_teacher" />
+    </AssociationSet>
+    <AssociationSet Name="FK_subject_teacher_users" Association="Self.FK_subject_teacher_users">
+      <End Role="users" EntitySet="users" />
+      <End Role="subject_teacher" EntitySet="subject_teacher" />
+    </AssociationSet>
+    <AssociationSet Name="FK_users_fields" Association="Self.FK_users_fields">
+      <End Role="fields" EntitySet="fields" />
+      <End Role="users" EntitySet="users" />
+    </AssociationSet>
+    <AssociationSet Name="FK_users_grades" Association="Self.FK_users_grades">
+      <End Role="grades" EntitySet="grades" />
+      <End Role="users" EntitySet="users" />
+    </AssociationSet>
+    <AssociationSet Name="FK_users_rights" Association="Self.FK_users_rights">
+      <End Role="rights" EntitySet="rights" />
+      <End Role="users" EntitySet="users" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
