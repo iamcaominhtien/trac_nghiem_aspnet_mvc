@@ -32,10 +32,13 @@ namespace trac_nghiem_project.Models
         [DisplayName("Thời gian bắt đầu")]
         [Required(ErrorMessage = "Không được bỏ trống")]
         [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-ddThh:mm:ss}", ApplyFormatInEditMode = true)]
+        //DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)
         public Nullable<System.DateTime> start_time { get; set; }
 
         [DisplayName("Thời gian kết thúc")]
         [Required(ErrorMessage = "Không được bỏ trống")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-ddThh:mm:ss}", ApplyFormatInEditMode = true)]
         [DataType(DataType.DateTime)]
         public Nullable<System.DateTime> end_time { get; set; }
 

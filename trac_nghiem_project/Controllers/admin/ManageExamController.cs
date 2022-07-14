@@ -10,120 +10,113 @@ using trac_nghiem_project.Models;
 
 namespace trac_nghiem_project.Controllers.admin
 {
-    public class GradesController : Controller
+    public class ManageExamController : Controller
     {
         private trac_nghiemEntities7 db = new trac_nghiemEntities7();
 
-        // GET: Grades
+        // GET: ManageExam
         public ActionResult Index()
         {
-            return View(db.grades.ToList());
+            var exams = db.exams.Include(e => e.subject);
+            return View(exams.ToList());
         }
 
-        // GET: Grades/Details/5
+        // GET: ManageExam/Details/5
         public ActionResult Details(long? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            grade grade = db.grades.Find(id);
-            if (grade == null)
+            exam exam = db.exams.Find(id);
+            if (exam == null)
             {
                 return HttpNotFound();
             }
-            return View(grade);
+            return View(exam);
         }
 
-        // GET: Grades/Create
+        // GET: ManageExam/Create
         public ActionResult Create()
         {
+            ViewBag.id_subject = new SelectList(db.subjects, "id_subject", "name");
             return View();
         }
 
-        // POST: Grades/Create
+        // POST: ManageExam/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_grade,name,date_create")] grade grade)
+        public ActionResult Create([Bind(Include = "id_exam,name,start_time,end_time,time_to_do,date_create,note,id_subject,status")] exam exam)
         {
             if (ModelState.IsValid)
             {
-                if (db.grades.Where(s => s.name == grade.name).Any())
-                {
-                    ModelState.AddModelError("name", "Tên lớp đã tồn tại");
-                    return View(grade);
-                }
-
-                grade.date_create = DateTime.Now;
-                db.grades.Add(grade);
+                exam.date_create = DateTime.Now;
+                db.exams.Add(exam);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(grade);
+            ViewBag.id_subject = new SelectList(db.subjects, "id_subject", "name", exam.id_subject);
+            return View(exam);
         }
 
-        // GET: Grades/Edit/5
+        // GET: ManageExam/Edit/5
         public ActionResult Edit(long? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            grade grade = db.grades.Find(id);
-            if (grade == null)
+            exam exam = db.exams.Find(id);
+            if (exam == null)
             {
                 return HttpNotFound();
             }
-            return View(grade);
+            ViewBag.id_subject = new SelectList(db.subjects, "id_subject", "name", exam.id_subject);
+            return View(exam);
         }
 
-        // POST: Grades/Edit/5
+        // POST: ManageExam/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id_grade,name,date_create")] grade grade)
+        public ActionResult Edit([Bind(Include = "id_exam,name,start_time,end_time,time_to_do,date_create,note,id_subject,status")] exam exam)
         {
             if (ModelState.IsValid)
             {
-                if (db.grades.Where(s => s.name == grade.name).Any())
-                {
-                    ModelState.AddModelError("name", "Tên lớp đã tồn tại");
-                    return View(grade);
-                }
-
-                db.Entry(grade).State = System.Data.Entity.EntityState.Modified;
+                db.Entry(exam).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(grade);
+            ViewBag.id_subject = new SelectList(db.subjects, "id_subject", "name", exam.id_subject);
+            return View(exam);
         }
 
-        // GET: Grades/Delete/5
+        // GET: ManageExam/Delete/5
         public ActionResult Delete(long? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            grade grade = db.grades.Find(id);
-            if (grade == null)
+            exam exam = db.exams.Find(id);
+            if (exam == null)
             {
                 return HttpNotFound();
             }
-            return View(grade);
+            return View(exam);
         }
 
-        // POST: Grades/Delete/5
+        // POST: ManageExam/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long id)
         {
-            grade grade = db.grades.Find(id);
-            db.grades.Remove(grade);
+            exam exam = db.exams.Find(id);
+            db.exams.Remove(exam);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

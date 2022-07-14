@@ -31,7 +31,7 @@
           <Key>
             <PropertyRef Name="id_exam" />
           </Key>
-          <Property Name="id_exam" Type="bigint" Nullable="false" />
+          <Property Name="id_exam" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="100" />
           <Property Name="start_time" Type="datetime" />
           <Property Name="end_time" Type="datetime" />
@@ -74,7 +74,7 @@
           <Property Name="id_question" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="id_question_type" Type="bigint" />
           <Property Name="avatar" Type="nvarchar" MaxLength="200" />
-          <Property Name="question" Type="nchar" MaxLength="10" />
+          <Property Name="question" Type="nvarchar" MaxLength="200" />
           <Property Name="answer_1" Type="nvarchar" MaxLength="100" />
           <Property Name="answer_2" Type="nvarchar" MaxLength="100" />
           <Property Name="answer_3" Type="nvarchar" MaxLength="100" />
@@ -459,7 +459,7 @@
           <Key>
             <PropertyRef Name="id_exam" />
           </Key>
-          <Property Name="id_exam" Type="Int64" Nullable="false" />
+          <Property Name="id_exam" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="start_time" Type="DateTime" Precision="3" />
           <Property Name="end_time" Type="DateTime" Precision="3" />
@@ -509,7 +509,7 @@
           <Property Name="id_question" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="id_question_type" Type="Int64" />
           <Property Name="avatar" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="question1" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="question1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="answer_1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="answer_2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="answer_3" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
@@ -776,7 +776,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="trac_nghiemEntities4" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="trac_nghiemEntities7" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="do_exam" EntityType="Self.do_exam" />
           <EntitySet Name="exam_question" EntityType="Self.exam_question" />
           <EntitySet Name="exams" EntityType="Self.exam" />
@@ -889,7 +889,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="trac_nghiemModelStoreContainer" CdmEntityContainer="trac_nghiemEntities4">
+        <EntityContainerMapping StorageEntityContainer="trac_nghiemModelStoreContainer" CdmEntityContainer="trac_nghiemEntities7">
           <EntitySetMapping Name="do_exam">
             <EntityTypeMapping TypeName="trac_nghiemModel.do_exam">
               <MappingFragment StoreEntitySet="do_exam">

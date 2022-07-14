@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="trac_nghiemModelStoreContainer" CdmEntityContainer="trac_nghiemEntities4">
+  <EntityContainerMapping StorageEntityContainer="trac_nghiemModelStoreContainer" CdmEntityContainer="trac_nghiemEntities7">
     <EntitySetMapping Name="do_exam">
       <EntityTypeMapping TypeName="trac_nghiemModel.do_exam">
         <MappingFragment StoreEntitySet="do_exam">

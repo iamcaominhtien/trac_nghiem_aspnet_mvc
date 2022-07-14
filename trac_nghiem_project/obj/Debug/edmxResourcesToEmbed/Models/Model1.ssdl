@@ -26,7 +26,7 @@
     <Key>
       <PropertyRef Name="id_exam" />
     </Key>
-    <Property Name="id_exam" Type="bigint" Nullable="false" />
+    <Property Name="id_exam" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="name" Type="nvarchar" MaxLength="100" />
     <Property Name="start_time" Type="datetime" />
     <Property Name="end_time" Type="datetime" />
@@ -69,7 +69,7 @@
     <Property Name="id_question" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="id_question_type" Type="bigint" />
     <Property Name="avatar" Type="nvarchar" MaxLength="200" />
-    <Property Name="question" Type="nchar" MaxLength="10" />
+    <Property Name="question" Type="nvarchar" MaxLength="200" />
     <Property Name="answer_1" Type="nvarchar" MaxLength="100" />
     <Property Name="answer_2" Type="nvarchar" MaxLength="100" />
     <Property Name="answer_3" Type="nvarchar" MaxLength="100" />

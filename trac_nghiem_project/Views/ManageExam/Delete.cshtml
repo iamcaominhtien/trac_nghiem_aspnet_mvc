@@ -1,0 +1,121 @@
+﻿@model trac_nghiem_project.Models.exam
+
+@{
+    ViewBag.Title = "Delete";
+    ViewBag.Page = "Bạn có chắc muốn xóa bài kiểm tra:";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="py-2 px-5 rounded-4" style="background-color:white">
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.start_time)
+        </dt>
+
+        <dd>
+            @{
+                if (Model.start_time.HasValue == false)
+                {
+                    @: Unknown
+                }
+                else
+                {
+                    <span>@Html.FormatValue(Model.start_time, "{0:dd/MM/yyyy lúc HH:mm:ss}")</span>
+                }
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.end_time)
+        </dt>
+
+        <dd>
+            @{
+                if (Model.end_time.HasValue == false)
+                {
+                    @: Unknown
+                }
+                else
+                {
+                    <span>@Html.FormatValue(Model.end_time, "{0:dd/MM/yyyy lúc HH:mm:ss}")</span>
+                }
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.time_to_do)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.time_to_do) phút
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.date_create)
+        </dt>
+
+        <dd>
+            @{
+                if (Model.date_create.HasValue == false)
+                {
+                    @: Unknown
+                }
+                else
+                {
+                    <span>@Html.FormatValue(Model.date_create, "{0:dd/MM/yyyy}")</span>
+                }
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.note)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.note)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.status)
+        </dt>
+
+        <dd>
+            @{
+                if (Model.status == true)
+                {
+                    @:Mở
+                }
+                else
+                {
+                    @:Khóa
+                }
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.subject.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.subject.name)
+        </dd>
+    </dl>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Xóa" class="btn btn-success px-3" />
+            <a class="btn btn-primary ms-3 px-3" href="@Url.Action("Index")">Back</a>
+        </div>
+    }
+
+</div>

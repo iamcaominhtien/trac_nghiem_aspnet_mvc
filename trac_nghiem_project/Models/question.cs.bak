@@ -25,40 +25,40 @@ namespace trac_nghiem_project.Models
         public long id_question { get; set; }
         public Nullable<long> id_question_type { get; set; }
 
-        [DisplayName("Hình ảnh")]
+        [DisplayName("H�nh ?nh")]
         [DataType(DataType.Upload)]
         public string avatar { get; set; }
 
-        [DisplayName("Câu hỏi")]
-        [Required(ErrorMessage ="Không được để trống")]
+        [DisplayName("C�u h?i")]
+        [Required(ErrorMessage ="Kh�ng ???c ?? tr?ng")]
         [DataType(DataType.MultilineText)]
         public string question1 { get; set; }
 
-        [DisplayName("Câu trả lời 1")]
+        [DisplayName("C�u tr? l?i 1")]
         [DataType(DataType.MultilineText)]
         public string answer_1 { get; set; }
 
-        [DisplayName("Câu trả lời 2")]
+        [DisplayName("C�u tr? l?i 2")]
         [DataType(DataType.MultilineText)]
         public string answer_2 { get; set; }
 
-        [DisplayName("Câu trả lời 3")]
+        [DisplayName("C�u tr? l?i 3")]
         [DataType(DataType.MultilineText)]
         public string answer_3 { get; set; }
 
-        [DisplayName("Câu trả lời 4")]
+        [DisplayName("C�u tr? l?i 4")]
         [DataType(DataType.MultilineText)]
         public string answer_4 { get; set; }
 
-        [DisplayName("Đáp án")]
+        [DisplayName("?�p �n")]
         [DataType(DataType.MultilineText)]
         public string correct { get; set; }
 
-        [DisplayName("Ghi chú")]
+        [DisplayName("Ghi ch�")]
         [DataType(DataType.MultilineText)]
         public string note { get; set; }
 
-        [DisplayName("Ngày tạo")]
+        [DisplayName("Ng�y t?o")]
         [DataType(DataType.Date)]
         public Nullable<System.DateTime> date_create { get; set; }
     

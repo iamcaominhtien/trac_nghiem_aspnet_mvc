@@ -12,7 +12,7 @@ namespace trac_nghiem_project.Controllers.teacher
 {
     public class TeachersController : Controller
     {
-        private trac_nghiemEntities4 db = new trac_nghiemEntities4();
+        private trac_nghiemEntities7 db = new trac_nghiemEntities7();
 
         // GET: Teachers
         public ActionResult Index()

@@ -12,7 +12,7 @@ namespace trac_nghiem_project.Controllers
 {
     public class AdminsController : Controller
     {
-        private trac_nghiemEntities4 db = new trac_nghiemEntities4();
+        private trac_nghiemEntities7 db = new trac_nghiemEntities7();
 
         // GET: Admins
         public ActionResult Index()
@@ -39,7 +39,6 @@ namespace trac_nghiem_project.Controllers
         // GET: Admins/Create
         public ActionResult Create()
         {
-            ViewBag.id_field = new SelectList(db.fields, "id_field", "name");
             ViewBag.id_grade = new SelectList(db.grades, "id_grade", "name");
             ViewBag.id_right = new SelectList(db.rights, "id_right", "name");
             return View();

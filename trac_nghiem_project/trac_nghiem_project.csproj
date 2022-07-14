@@ -131,7 +131,10 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\admin\AdminsController.cs" />
+    <Compile Include="Controllers\admin\ExamQuestionController.cs" />
     <Compile Include="Controllers\admin\GradesController.cs" />
+    <Compile Include="Controllers\admin\ManageExamController.cs" />
+    <Compile Include="Controllers\admin\QuestionsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\admin\StudentsController.cs" />
     <Compile Include="Controllers\admin\TeachersController.cs" />
@@ -302,9 +305,26 @@
     <Content Include="Views\Grades\Details.cshtml" />
     <Content Include="Views\Grades\Edit.cshtml" />
     <Content Include="Views\Grades\Index.cshtml" />
+    <Content Include="Views\ManageExam\Delete.cshtml" />
+    <Content Include="Views\ManageExam\Details.cshtml" />
+    <Content Include="Views\ManageExam\Edit.cshtml" />
+    <Content Include="Views\ManageExam\Index.cshtml" />
+    <Content Include="Views\ManageExam\Create.cshtml" />
+    <Content Include="Views\Questions\Create.cshtml" />
+    <Content Include="Views\Questions\Delete.cshtml" />
+    <Content Include="Views\Questions\Details.cshtml" />
+    <Content Include="Views\Questions\Edit.cshtml" />
+    <Content Include="Views\Questions\Index.cshtml" />
+    <Content Include="Views\ExamQuestion\Create.cshtml" />
+    <Content Include="Views\ExamQuestion\Delete.cshtml" />
+    <Content Include="Views\ExamQuestion\Details.cshtml" />
+    <Content Include="Views\ExamQuestion\Edit.cshtml" />
+    <Content Include="Views\ExamQuestion\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Assets\js\admin\" />
+    <Folder Include="Common\" />
     <Folder Include="Controllers\student\" />
     <Folder Include="Controllers\teacher\" />
   </ItemGroup>

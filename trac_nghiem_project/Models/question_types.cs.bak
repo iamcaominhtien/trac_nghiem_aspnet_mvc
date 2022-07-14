@@ -24,15 +24,15 @@ namespace trac_nghiem_project.Models
     
         public long id_question_type { get; set; }
 
-        [DisplayName("Loại câu hỏi")]
-        [Required(ErrorMessage ="Không được để trống")]
+        [DisplayName("Lo?i c�u h?i")]
+        [Required(ErrorMessage ="Kh�ng ???c ?? tr?ng")]
         public string name { get; set; }
 
-        [DisplayName("Ghi chú")]
+        [DisplayName("Ghi ch�")]
         [DataType(DataType.MultilineText)]
         public string note { get; set; }
 
-        [DisplayName("Loại câu hỏi")]
+        [DisplayName("Lo?i c�u h?i")]
         [DataType(DataType.Date)]
         public Nullable<System.DateTime> date_create { get; set; }
     

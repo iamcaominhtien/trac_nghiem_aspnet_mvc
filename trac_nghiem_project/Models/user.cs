@@ -53,6 +53,7 @@ namespace trac_nghiem_project.Models
 
         [DisplayName("Ngày sinh")]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> birthday { get; set; }
 
         [DisplayName("Ngày tạo")]
