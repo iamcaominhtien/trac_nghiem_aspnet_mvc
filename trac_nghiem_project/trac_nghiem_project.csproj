@@ -230,13 +230,6 @@
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="Models\Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Content>
     <Content Include="Assets\dist\css\bootstrap.min.css.map" />
     <Content Include="Assets\dist\css\bootstrap.rtl.min.css.map" />
     <Content Include="Assets\dist\js\bootstrap.bundle.min.js.map" />
@@ -256,6 +249,13 @@
     <Content Include="Assets\fonts\roboto\Roboto-Regular.woff2" />
     <Content Include="Assets\fonts\roboto\Roboto-Thin.woff" />
     <Content Include="Assets\fonts\roboto\Roboto-Thin.woff2" />
+    <EntityDeploy Include="Models\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

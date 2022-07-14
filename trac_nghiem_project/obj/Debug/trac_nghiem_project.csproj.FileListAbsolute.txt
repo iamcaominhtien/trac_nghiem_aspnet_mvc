@@ -52,6 +52,7 @@ E:\Users\iamca\source\repos\trac_nghiem_project\trac_nghiem_project\bin\roslyn\V
 E:\Users\iamca\source\repos\trac_nghiem_project\trac_nghiem_project\bin\roslyn\VBCSCompiler.exe.config
 E:\Users\iamca\source\repos\trac_nghiem_project\trac_nghiem_project\bin\Antlr3.Runtime.dll
 E:\Users\iamca\source\repos\trac_nghiem_project\trac_nghiem_project\bin\EntityFramework.dll
+E:\Users\iamca\source\repos\trac_nghiem_project\trac_nghiem_project\bin\EntityFramework.SqlServer.dll
 E:\Users\iamca\source\repos\trac_nghiem_project\trac_nghiem_project\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 E:\Users\iamca\source\repos\trac_nghiem_project\trac_nghiem_project\bin\Microsoft.Web.Infrastructure.dll
 E:\Users\iamca\source\repos\trac_nghiem_project\trac_nghiem_project\bin\Newtonsoft.Json.dll
@@ -64,6 +65,7 @@ E:\Users\iamca\source\repos\trac_nghiem_project\trac_nghiem_project\bin\System.W
 E:\Users\iamca\source\repos\trac_nghiem_project\trac_nghiem_project\bin\System.Web.WebPages.Razor.dll
 E:\Users\iamca\source\repos\trac_nghiem_project\trac_nghiem_project\bin\WebGrease.dll
 E:\Users\iamca\source\repos\trac_nghiem_project\trac_nghiem_project\bin\EntityFramework.xml
+E:\Users\iamca\source\repos\trac_nghiem_project\trac_nghiem_project\bin\EntityFramework.SqlServer.xml
 E:\Users\iamca\source\repos\trac_nghiem_project\trac_nghiem_project\bin\System.Web.Helpers.xml
 E:\Users\iamca\source\repos\trac_nghiem_project\trac_nghiem_project\bin\System.Web.Mvc.xml
 E:\Users\iamca\source\repos\trac_nghiem_project\trac_nghiem_project\bin\System.Web.Optimization.xml
@@ -79,5 +81,3 @@ E:\Users\iamca\source\repos\trac_nghiem_project\trac_nghiem_project\obj\Debug\tr
 E:\Users\iamca\source\repos\trac_nghiem_project\trac_nghiem_project\obj\Debug\trac_nghiem_project.csproj.CopyComplete
 E:\Users\iamca\source\repos\trac_nghiem_project\trac_nghiem_project\obj\Debug\trac_nghiem_project.dll
 E:\Users\iamca\source\repos\trac_nghiem_project\trac_nghiem_project\obj\Debug\trac_nghiem_project.pdb
-E:\Users\iamca\source\repos\trac_nghiem_project\trac_nghiem_project\bin\EntityFramework.SqlServer.dll
-E:\Users\iamca\source\repos\trac_nghiem_project\trac_nghiem_project\bin\EntityFramework.SqlServer.xml

@@ -4,26 +4,26 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="3b76cb0e4a034cb7ab2027cdedfcff37" Name="Diagram1">
-        <EntityTypeShape EntityType="trac_nghiemModel.do_exam" Width="1.5" PointX="5.25" PointY="5.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="trac_nghiemModel.exam_question" Width="1.5" PointX="12.25" PointY="7" IsExpanded="true" />
-        <EntityTypeShape EntityType="trac_nghiemModel.exam" Width="1.5" PointX="3" PointY="10.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="trac_nghiemModel.field" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
-        <EntityTypeShape EntityType="trac_nghiemModel.grade" Width="1.5" PointX="0.75" PointY="2.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="trac_nghiemModel.question_types" Width="1.5" PointX="7.75" PointY="3.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="trac_nghiemModel.question" Width="1.5" PointX="10" PointY="2.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="trac_nghiemModel.right" Width="1.5" PointX="0.75" PointY="9.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="trac_nghiemModel.subject_student" Width="1.5" PointX="5.25" PointY="2.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="trac_nghiemModel.subject_teacher" Width="1.5" PointX="5.25" PointY="8.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="trac_nghiemModel.subject" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="trac_nghiemModel.sysdiagram" Width="1.5" PointX="7.75" PointY="7.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="trac_nghiemModel.user" Width="1.5" PointX="3" PointY="4.625" IsExpanded="true" />
+      <Diagram DiagramId="bf577ae90e084c3c95796f46f57fb63d" Name="Diagram1">
+        <EntityTypeShape EntityType="trac_nghiemModel.do_exam" Width="1.5" PointX="7.5" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="trac_nghiemModel.exam_question" Width="1.5" PointX="14.25" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="trac_nghiemModel.exam" Width="1.5" PointX="5.25" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="trac_nghiemModel.field" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="trac_nghiemModel.grade" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="trac_nghiemModel.question_types" Width="1.5" PointX="9.75" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="trac_nghiemModel.question" Width="1.5" PointX="12" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="trac_nghiemModel.right" Width="1.5" PointX="3" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="trac_nghiemModel.subject_student" Width="1.5" PointX="7.5" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="trac_nghiemModel.subject_teacher" Width="1.5" PointX="7.5" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="trac_nghiemModel.subject" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="trac_nghiemModel.sysdiagram" Width="1.5" PointX="0.75" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="trac_nghiemModel.user" Width="1.5" PointX="5.25" PointY="3.75" IsExpanded="true" />
         <AssociationConnector Association="trac_nghiemModel.FK_do_exam_exams" ManuallyRouted="false" />
         <AssociationConnector Association="trac_nghiemModel.FK_do_exam_users" ManuallyRouted="false" />
         <AssociationConnector Association="trac_nghiemModel.FK_exam_question_exams" ManuallyRouted="false" />
         <AssociationConnector Association="trac_nghiemModel.FK_exam_question_questions" ManuallyRouted="false" />
         <AssociationConnector Association="trac_nghiemModel.FK_exams_subjects" ManuallyRouted="false" />
-        <AssociationConnector Association="trac_nghiemModel.FK_users_fields" ManuallyRouted="false" />
+        <AssociationConnector Association="trac_nghiemModel.FK_grades_fields" ManuallyRouted="false" />
         <AssociationConnector Association="trac_nghiemModel.FK_users_grades" ManuallyRouted="false" />
         <AssociationConnector Association="trac_nghiemModel.FK_questions_question_types" ManuallyRouted="false" />
         <AssociationConnector Association="trac_nghiemModel.FK_users_rights" ManuallyRouted="false" />

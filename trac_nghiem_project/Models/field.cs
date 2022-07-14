@@ -11,20 +11,28 @@ namespace trac_nghiem_project.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+
     public partial class field
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public field()
         {
-            this.users = new HashSet<user>();
+            this.grades = new HashSet<grade>();
         }
     
         public long id_field { get; set; }
+
+        [DisplayName("Chuyên ngành")]
+        [Required(ErrorMessage ="Không được bỏ trống")]
         public string name { get; set; }
+
+        [DisplayName("Ngày tạo")]
+        [DataType(DataType.Date)]
         public Nullable<System.DateTime> date_create { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<user> users { get; set; }
+        public virtual ICollection<grade> grades { get; set; }
     }
 }

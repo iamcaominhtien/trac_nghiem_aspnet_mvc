@@ -5,7 +5,7 @@
       <PropertyRef Name="id_exam" />
       <PropertyRef Name="id_student" />
     </Key>
-    <Property Name="score" Type="Int32" />
+    <Property Name="score" Type="Double" />
     <Property Name="note" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="statrt_time" Type="DateTime" Precision="3" />
     <Property Name="finsh_time" Type="DateTime" Precision="3" />
@@ -34,8 +34,7 @@
     <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="start_time" Type="DateTime" Precision="3" />
     <Property Name="end_time" Type="DateTime" Precision="3" />
-    <Property Name="time_to_do" Type="DateTime" Precision="3" />
-    <Property Name="do_number" Type="Int32" />
+    <Property Name="time_to_do" Type="Int32" />
     <Property Name="date_create" Type="DateTime" Precision="3" />
     <Property Name="note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
     <Property Name="id_subject" Type="Int64" />
@@ -51,7 +50,7 @@
     <Property Name="id_field" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="date_create" Type="DateTime" Precision="3" />
-    <NavigationProperty Name="users" Relationship="Self.FK_users_fields" FromRole="fields" ToRole="users" />
+    <NavigationProperty Name="grades" Relationship="Self.FK_grades_fields" FromRole="fields" ToRole="grades" />
   </EntityType>
   <EntityType Name="grade">
     <Key>
@@ -60,6 +59,8 @@
     <Property Name="id_grade" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="date_create" Type="DateTime" Precision="3" />
+    <Property Name="id_field" Type="Int64" />
+    <NavigationProperty Name="field" Relationship="Self.FK_grades_fields" FromRole="grades" ToRole="fields" />
     <NavigationProperty Name="users" Relationship="Self.FK_users_grades" FromRole="grades" ToRole="users" />
   </EntityType>
   <EntityType Name="question_types">
@@ -158,9 +159,7 @@
     <Property Name="date_create" Type="DateTime" Precision="3" />
     <Property Name="id_right" Type="Int64" />
     <Property Name="id_grade" Type="Int64" />
-    <Property Name="id_field" Type="Int64" />
     <NavigationProperty Name="do_exam" Relationship="Self.FK_do_exam_users" FromRole="users" ToRole="do_exam" />
-    <NavigationProperty Name="field" Relationship="Self.FK_users_fields" FromRole="users" ToRole="fields" />
     <NavigationProperty Name="grade" Relationship="Self.FK_users_grades" FromRole="users" ToRole="grades" />
     <NavigationProperty Name="right" Relationship="Self.FK_users_rights" FromRole="users" ToRole="rights" />
     <NavigationProperty Name="subject_student" Relationship="Self.FK_subject_student_users" FromRole="users" ToRole="subject_student" />
@@ -236,16 +235,16 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_users_fields">
+  <Association Name="FK_grades_fields">
     <End Role="fields" Type="Self.field" Multiplicity="0..1">
       <OnDelete Action="Cascade" />
     </End>
-    <End Role="users" Type="Self.user" Multiplicity="*" />
+    <End Role="grades" Type="Self.grade" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="fields">
         <PropertyRef Name="id_field" />
       </Principal>
-      <Dependent Role="users">
+      <Dependent Role="grades">
         <PropertyRef Name="id_field" />
       </Dependent>
     </ReferentialConstraint>
@@ -348,7 +347,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="trac_nghiemEntities1" annotation:LazyLoadingEnabled="true">
+  <EntityContainer Name="trac_nghiemEntities4" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="do_exam" EntityType="Self.do_exam" />
     <EntitySet Name="exam_question" EntityType="Self.exam_question" />
     <EntitySet Name="exams" EntityType="Self.exam" />
@@ -382,9 +381,9 @@
       <End Role="subjects" EntitySet="subjects" />
       <End Role="exams" EntitySet="exams" />
     </AssociationSet>
-    <AssociationSet Name="FK_users_fields" Association="Self.FK_users_fields">
+    <AssociationSet Name="FK_grades_fields" Association="Self.FK_grades_fields">
       <End Role="fields" EntitySet="fields" />
-      <End Role="users" EntitySet="users" />
+      <End Role="grades" EntitySet="grades" />
     </AssociationSet>
     <AssociationSet Name="FK_users_grades" Association="Self.FK_users_grades">
       <End Role="grades" EntitySet="grades" />

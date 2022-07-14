@@ -24,10 +24,10 @@ namespace trac_nghiem_project.Models
     
         public long id_grade { get; set; }
 
-        [DisplayName("Lớp")]
+        [DisplayName("L?p")]
         public string name { get; set; }
 
-        [DisplayName("Ngày tạo")]
+        [DisplayName("Ng�y t?o")]
         [DataType(DataType.Date)]
         public Nullable<System.DateTime> date_create { get; set; }
         public Nullable<long> id_field { get; set; }

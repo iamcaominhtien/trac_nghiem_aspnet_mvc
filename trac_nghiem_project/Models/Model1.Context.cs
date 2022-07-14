@@ -15,10 +15,10 @@ namespace trac_nghiem_project.Models
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class trac_nghiemEntities1 : DbContext
+    public partial class trac_nghiemEntities4 : DbContext
     {
-        public trac_nghiemEntities1()
-            : base("name=trac_nghiemEntities1")
+        public trac_nghiemEntities4()
+            : base("name=trac_nghiemEntities4")
         {
         }
     

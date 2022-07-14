@@ -12,28 +12,29 @@ namespace trac_nghiem_project.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
 
-    public partial class grade
+    public partial class subject
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public grade()
+        public subject()
         {
-            this.users = new HashSet<user>();
+            this.exams = new HashSet<exam>();
+            this.subject_student = new HashSet<subject_student>();
+            this.subject_teacher = new HashSet<subject_teacher>();
         }
     
-        public long id_grade { get; set; }
+        public long id_subject { get; set; }
 
-        [DisplayName("Lớp")]
+        [DisplayName("M�n h?c")]
+        
         public string name { get; set; }
-
-        [DisplayName("Ngày tạo")]
-        [DataType(DataType.Date)]
         public Nullable<System.DateTime> date_create { get; set; }
-        public Nullable<long> id_field { get; set; }
     
-        public virtual field field { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<user> users { get; set; }
+        public virtual ICollection<exam> exams { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<subject_student> subject_student { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<subject_teacher> subject_teacher { get; set; }
     }
 }

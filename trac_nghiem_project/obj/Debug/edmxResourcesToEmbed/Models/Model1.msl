@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="trac_nghiemModelStoreContainer" CdmEntityContainer="trac_nghiemEntities1">
+  <EntityContainerMapping StorageEntityContainer="trac_nghiemModelStoreContainer" CdmEntityContainer="trac_nghiemEntities4">
     <EntitySetMapping Name="do_exam">
       <EntityTypeMapping TypeName="trac_nghiemModel.do_exam">
         <MappingFragment StoreEntitySet="do_exam">
@@ -31,7 +31,6 @@
           <ScalarProperty Name="start_time" ColumnName="start_time" />
           <ScalarProperty Name="end_time" ColumnName="end_time" />
           <ScalarProperty Name="time_to_do" ColumnName="time_to_do" />
-          <ScalarProperty Name="do_number" ColumnName="do_number" />
           <ScalarProperty Name="date_create" ColumnName="date_create" />
           <ScalarProperty Name="note" ColumnName="note" />
           <ScalarProperty Name="id_subject" ColumnName="id_subject" />
@@ -54,6 +53,7 @@
           <ScalarProperty Name="id_grade" ColumnName="id_grade" />
           <ScalarProperty Name="name" ColumnName="name" />
           <ScalarProperty Name="date_create" ColumnName="date_create" />
+          <ScalarProperty Name="id_field" ColumnName="id_field" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -146,7 +146,6 @@
           <ScalarProperty Name="date_create" ColumnName="date_create" />
           <ScalarProperty Name="id_right" ColumnName="id_right" />
           <ScalarProperty Name="id_grade" ColumnName="id_grade" />
-          <ScalarProperty Name="id_field" ColumnName="id_field" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

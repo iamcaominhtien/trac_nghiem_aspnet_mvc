@@ -25,34 +25,34 @@ namespace trac_nghiem_project.Models
     
         public long id_exam { get; set; }
 
-        [DisplayName("Tên bài kiểm tra")]
-        [Required(ErrorMessage ="Không được bỏ trống")]
+        [DisplayName("T�n b�i ki?m tra")]
+        [Required(ErrorMessage ="Kh�ng ???c b? tr?ng")]
         public string name { get; set; }
 
-        [DisplayName("Thời gian bắt đầu")]
-        [Required(ErrorMessage = "Không được bỏ trống")]
+        [DisplayName("Th?i gian b?t ??u")]
+        [Required(ErrorMessage = "Kh�ng ???c b? tr?ng")]
         [DataType(DataType.DateTime)]
         public Nullable<System.DateTime> start_time { get; set; }
 
-        [DisplayName("Thời gian kết thúc")]
-        [Required(ErrorMessage = "Không được bỏ trống")]
+        [DisplayName("Th?i gian k?t th�c")]
+        [Required(ErrorMessage = "Kh�ng ???c b? tr?ng")]
         [DataType(DataType.DateTime)]
         public Nullable<System.DateTime> end_time { get; set; }
 
-        [DisplayName("Thời gian làm bài")]
-        [Required(ErrorMessage = "Không được bỏ trống")]
+        [DisplayName("Th?i gian l�m b�i")]
+        [Required(ErrorMessage = "Kh�ng ???c b? tr?ng")]
         public Nullable<int> time_to_do { get; set; }
 
-        [DisplayName("Ngày tạo")]
+        [DisplayName("Ng�y t?o")]
         [DataType(DataType.Date)]
         public Nullable<System.DateTime> date_create { get; set; }
 
-        [DisplayName("Ghi chú")]
+        [DisplayName("Ghi ch�")]
         [DataType(DataType.MultilineText)]
         public string note { get; set; }
         public Nullable<long> id_subject { get; set; }
 
-        [DisplayName("Trạng thái")]
+        [DisplayName("Tr?ng th�i")]
         public Nullable<bool> status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -12,7 +12,7 @@ namespace trac_nghiem_project.Controllers.admin
 {
     public class GradesController : Controller
     {
-        private trac_nghiemEntities1 db = new trac_nghiemEntities1();
+        private trac_nghiemEntities4 db = new trac_nghiemEntities4();
 
         // GET: Grades
         public ActionResult Index()

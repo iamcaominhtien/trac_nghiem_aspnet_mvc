@@ -12,12 +12,12 @@ namespace trac_nghiem_project.Controllers
 {
     public class AdminsController : Controller
     {
-        private trac_nghiemEntities1 db = new trac_nghiemEntities1();
+        private trac_nghiemEntities4 db = new trac_nghiemEntities4();
 
         // GET: Admins
         public ActionResult Index()
         {
-            var users = db.users.Include(u => u.field).Include(u => u.grade).Include(u => u.right).Where(s=>s.id_right==1);
+            var users = db.users.Include(u => u.grade).Include(u => u.right).Where(s=>s.id_right==1);
             return View(users.ToList());
         }
 
@@ -50,7 +50,7 @@ namespace trac_nghiem_project.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_user,username,name,password,email,avatar,gender,birthday,date_create,id_right,id_grade,id_field")] user user)
+        public ActionResult Create([Bind(Include = "id_user,username,name,password,email,avatar,gender,birthday,date_create,id_right,id_grade")] user user)
         {
             if (ModelState.IsValid)
             {
@@ -61,7 +61,6 @@ namespace trac_nghiem_project.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.id_field = new SelectList(db.fields, "id_field", "name", user.id_field);
             ViewBag.id_grade = new SelectList(db.grades, "id_grade", "name", user.id_grade);
             ViewBag.id_right = new SelectList(db.rights, "id_right", "name", user.id_right);
             return View(user);
@@ -79,7 +78,7 @@ namespace trac_nghiem_project.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.id_field = new SelectList(db.fields, "id_field", "name", user.id_field);
+
             ViewBag.id_grade = new SelectList(db.grades, "id_grade", "name", user.id_grade);
             ViewBag.id_right = new SelectList(db.rights, "id_right", "name", user.id_right);
             return View(user);
@@ -90,7 +89,7 @@ namespace trac_nghiem_project.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id_user,username,name,password,email,avatar,gender,birthday,date_create,id_right,id_grade,id_field")] user user)
+        public ActionResult Edit([Bind(Include = "id_user,username,name,password,email,avatar,gender,birthday,date_create,id_right,id_grade")] user user)
         {
             if (ModelState.IsValid)
             {
@@ -98,7 +97,7 @@ namespace trac_nghiem_project.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.id_field = new SelectList(db.fields, "id_field", "name", user.id_field);
+
             ViewBag.id_grade = new SelectList(db.grades, "id_grade", "name", user.id_grade);
             ViewBag.id_right = new SelectList(db.rights, "id_right", "name", user.id_right);
             return View(user);

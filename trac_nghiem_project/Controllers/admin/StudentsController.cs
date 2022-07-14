@@ -12,12 +12,12 @@ namespace trac_nghiem_project.Controllers.student
 {
     public class StudentsController : Controller
     {
-        private trac_nghiemEntities1 db = new trac_nghiemEntities1();
+        private trac_nghiemEntities4 db = new trac_nghiemEntities4();
 
         // GET: Students
         public ActionResult Index()
         {
-            var users = db.users.Include(u => u.field).Include(u => u.grade).Include(u => u.right).Where(s=>s.id_right==3);
+            var users = db.users.Include(u => u.grade).Include(u => u.right).Where(s=>s.id_right==3);
             return View(users.ToList());
         }
 
@@ -29,6 +29,28 @@ namespace trac_nghiem_project.Controllers.student
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             user user = db.users.Find(id);
+            var l_field = from u in db.users
+                            join g in db.grades on u.id_grade equals g.id_grade
+                          join f in db.fields
+                          on g.id_field equals f.id_field
+                          where u.id_user == id
+                          select new
+                          {
+                              name = f.name
+                          };
+            ViewBag.field = "Unknown";
+            try
+            {
+                ViewBag.field = l_field.ToArray()[0].name;
+            }
+            catch
+            {
+                ViewBag.field = "Unknown";
+            }
+            //var search1 = db.users.Find(id).id_grade;
+            //var search2 = db.grades.Find(search1).id_field;
+            //ViewBag.field = db.fields.Find(search2).name;
+
             if (user == null)
             {
                 return HttpNotFound();
@@ -39,7 +61,6 @@ namespace trac_nghiem_project.Controllers.student
         // GET: Students/Create
         public ActionResult Create()
         {
-            ViewBag.id_field = new SelectList(db.fields, "id_field", "name");
             ViewBag.id_grade = new SelectList(db.grades, "id_grade", "name");
             ViewBag.id_right = new SelectList(db.rights, "id_right", "name");
             return View();
@@ -50,7 +71,7 @@ namespace trac_nghiem_project.Controllers.student
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_user,username,name,password,email,avatar,gender,birthday,date_create,id_right,id_grade,id_field")] user user)
+        public ActionResult Create([Bind(Include = "id_user,username,name,password,email,avatar,gender,birthday,date_create,id_right,id_grade")] user user)
         {
             if (ModelState.IsValid)
             {
@@ -61,7 +82,6 @@ namespace trac_nghiem_project.Controllers.student
                 return RedirectToAction("Index");
             }
 
-            ViewBag.id_field = new SelectList(db.fields, "id_field", "name", user.id_field);
             ViewBag.id_grade = new SelectList(db.grades, "id_grade", "name", user.id_grade);
             ViewBag.id_right = new SelectList(db.rights, "id_right", "name", user.id_right);
             return View(user);
@@ -79,7 +99,6 @@ namespace trac_nghiem_project.Controllers.student
             {
                 return HttpNotFound();
             }
-            ViewBag.id_field = new SelectList(db.fields, "id_field", "name", user.id_field);
             ViewBag.id_grade = new SelectList(db.grades, "id_grade", "name", user.id_grade);
             ViewBag.id_right = new SelectList(db.rights, "id_right", "name", user.id_right);
             return View(user);
@@ -90,7 +109,7 @@ namespace trac_nghiem_project.Controllers.student
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id_user,username,name,password,email,avatar,gender,birthday,date_create,id_right,id_grade,id_field")] user user)
+        public ActionResult Edit([Bind(Include = "id_user,username,name,password,email,avatar,gender,birthday,date_create,id_right,id_grade")] user user)
         {
             if (ModelState.IsValid)
             {
@@ -99,7 +118,6 @@ namespace trac_nghiem_project.Controllers.student
                 return RedirectToAction("Index");
             }
             
-            ViewBag.id_field = new SelectList(db.fields, "id_field", "name", user.id_field);
             ViewBag.id_grade = new SelectList(db.grades, "id_grade", "name", user.id_grade);
             ViewBag.id_right = new SelectList(db.rights, "id_right", "name", user.id_right);
             return View(user);

@@ -16,19 +16,19 @@ namespace trac_nghiem_project.Models
 
     public partial class do_exam
     {
-        [DisplayName("Điểm")]
+        [DisplayName("?i?m")]
         public Nullable<double> score { get; set; }
 
-        [DisplayName("Ghi chú")]
+        [DisplayName("Ghi ch�")]
         [DataType(DataType.MultilineText)]
         public string note { get; set; }
 
-        [DisplayName("Thời gian bắt đầu")]
+        [DisplayName("Th?i gian b?t ??u")]
         [DataType(DataType.DateTime)]
 
         public Nullable<System.DateTime> statrt_time { get; set; }
 
-        [DisplayName("Thời gian kết thúc")]
+        [DisplayName("Th?i gian k?t th�c")]
         [DataType(DataType.DateTime)]
         public Nullable<System.DateTime> finsh_time { get; set; }
         public long id_exam { get; set; }

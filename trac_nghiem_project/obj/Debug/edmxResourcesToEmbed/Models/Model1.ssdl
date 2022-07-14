@@ -5,7 +5,7 @@
       <PropertyRef Name="id_exam" />
       <PropertyRef Name="id_student" />
     </Key>
-    <Property Name="score" Type="int" />
+    <Property Name="score" Type="float" />
     <Property Name="note" Type="text" />
     <Property Name="statrt_time" Type="datetime" />
     <Property Name="finsh_time" Type="datetime" />
@@ -30,8 +30,7 @@
     <Property Name="name" Type="nvarchar" MaxLength="100" />
     <Property Name="start_time" Type="datetime" />
     <Property Name="end_time" Type="datetime" />
-    <Property Name="time_to_do" Type="datetime" />
-    <Property Name="do_number" Type="int" />
+    <Property Name="time_to_do" Type="int" />
     <Property Name="date_create" Type="datetime" />
     <Property Name="note" Type="nvarchar" MaxLength="500" />
     <Property Name="id_subject" Type="bigint" />
@@ -52,6 +51,7 @@
     <Property Name="id_grade" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="name" Type="nvarchar" MaxLength="50" />
     <Property Name="date_create" Type="datetime" />
+    <Property Name="id_field" Type="bigint" />
   </EntityType>
   <EntityType Name="question_types">
     <Key>
@@ -138,7 +138,6 @@
     <Property Name="date_create" Type="datetime" />
     <Property Name="id_right" Type="bigint" />
     <Property Name="id_grade" Type="bigint" />
-    <Property Name="id_field" Type="bigint" />
   </EntityType>
   <Association Name="FK_do_exam_exams">
     <End Role="exams" Type="Self.exams" Multiplicity="1">
@@ -210,6 +209,20 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_grades_fields">
+    <End Role="fields" Type="Self.fields" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="grades" Type="Self.grades" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="fields">
+        <PropertyRef Name="id_field" />
+      </Principal>
+      <Dependent Role="grades">
+        <PropertyRef Name="id_field" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_questions_question_types">
     <End Role="question_types" Type="Self.question_types" Multiplicity="0..1">
       <OnDelete Action="Cascade" />
@@ -277,20 +290,6 @@
       </Principal>
       <Dependent Role="subject_teacher">
         <PropertyRef Name="id_teacher" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_users_fields">
-    <End Role="fields" Type="Self.fields" Multiplicity="0..1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="users" Type="Self.users" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="fields">
-        <PropertyRef Name="id_field" />
-      </Principal>
-      <Dependent Role="users">
-        <PropertyRef Name="id_field" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -387,6 +386,10 @@
       <End Role="subjects" EntitySet="subjects" />
       <End Role="exams" EntitySet="exams" />
     </AssociationSet>
+    <AssociationSet Name="FK_grades_fields" Association="Self.FK_grades_fields">
+      <End Role="fields" EntitySet="fields" />
+      <End Role="grades" EntitySet="grades" />
+    </AssociationSet>
     <AssociationSet Name="FK_questions_question_types" Association="Self.FK_questions_question_types">
       <End Role="question_types" EntitySet="question_types" />
       <End Role="questions" EntitySet="questions" />
@@ -406,10 +409,6 @@
     <AssociationSet Name="FK_subject_teacher_users" Association="Self.FK_subject_teacher_users">
       <End Role="users" EntitySet="users" />
       <End Role="subject_teacher" EntitySet="subject_teacher" />
-    </AssociationSet>
-    <AssociationSet Name="FK_users_fields" Association="Self.FK_users_fields">
-      <End Role="fields" EntitySet="fields" />
-      <End Role="users" EntitySet="users" />
     </AssociationSet>
     <AssociationSet Name="FK_users_grades" Association="Self.FK_users_grades">
       <End Role="grades" EntitySet="grades" />
