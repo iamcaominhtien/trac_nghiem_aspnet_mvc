@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using trac_nghiem_project.Common;
 using trac_nghiem_project.Models;
 
 namespace trac_nghiem_project.Controllers.admin
@@ -15,27 +17,46 @@ namespace trac_nghiem_project.Controllers.admin
     {
         private trac_nghiemEntities7 db = new trac_nghiemEntities7();
 
-        [ChildActionOnly]
-        public ActionResult ListQuestion(long? id_kt)
+        //[ChildActionOnly]
+        public JsonResult ListQuestion(long? id_question)
         {
-            if (id_kt == null)
+            question _question = db.questions.Find(id_question);
+            if (_question == null)
+            {
+                return Json(new
+                {
+                    status = false,
+                });
+            }
+            return Json(new
+            {
+                status = true,
+                question = _question.question1,
+                answer_1 = _question.answer_1,
+                answer_2 = _question.answer_2,
+                answer_3=_question.answer_4,
+                answer_4 = _question.answer_4,
+                correct = _question.correct,
+                note = _question.note,
+            });
+        }
+
+        public ActionResult ListAllQuestionFrom(long? id_exam)
+        {
+            if (id_exam == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            question question = db.questions.Find(id_kt);
-            if (question == null)
+            var question = db.Database.SqlQuery<CreatedQuestion>("exec SelectAllQuestionFrom @id_exam", new SqlParameter("id_exam", id_exam)).ToList();
+            Console.Write(question.Count);
+
+            if (!question.Any())
             {
                 return HttpNotFound();
             }
-            return PartialView(question);
-        }
 
-        // GET: Questions
-        public ActionResult Index()
-        {
-            var questions = db.questions.Include(q => q.question_types);
-            return View(questions.ToList());
+            return PartialView(question);
         }
 
         // GET: Questions/Details/5
@@ -53,45 +74,34 @@ namespace trac_nghiem_project.Controllers.admin
             return PartialView(question);
         }
 
-        // GET: Questions/Create
         [ChildActionOnly]
-        public ActionResult Create()
+        public ActionResult Create(long? id_exam)
         {
             ViewBag.id_question_type = new SelectList(db.question_types, "id_question_type", "name");
             ViewBag.selected = "1";
+            ViewBag.id_exam = id_exam;
             return PartialView();
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //[ChildActionOnly]
-        //public ActionResult Create([Bind(Include = "id_question,id_question_type,avatar,question1,answer_1,answer_2,answer_3,answer_4,correct,note,date_create")] question question)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        question.date_create = DateTime.Now;
-        //        db.questions.Add(question);
-        //        db.SaveChanges();
-        //        return PartialView();
-        //    }
-        //    ViewBag.selected = question.id_question_type.ToString();
-
-        //    ViewBag.id_question_type = new SelectList(db.question_types, "id_question_type", "name", question.id_question_type);
-        //    return View(question);
-        //}
+        private bool empty(string check)
+        {
+            return check == null || check == "";
+        }
 
         bool checkValid(question question)
         {
-            if (question.question1==null || question.question1 == "")
+            if (empty(question.question1))
                 return false;
-            if (question.correct == null)
+            if (empty(question.correct))
                 return false;
-            if (question.answer_1 == null && question.id_question_type !=3)
-                return false;
+            else
+            {
+                if (empty(question.answer_4) || empty(question.answer_1) || empty(question.answer_2) || empty(question.answer_1))
+                    return false;
+            }
             return true;
         }
 
-        //id_question, id_question_type,avatar, question, answer_1,answer_2, answer_3, answer_4,correct, note, date_create,
         public JsonResult CreateAQuestion(long? id_question, long? id_question_type,
                     string avatar,
                     string question,
@@ -101,7 +111,9 @@ namespace trac_nghiem_project.Controllers.admin
                     string answer_4,
                     string correct,
                     string note,
-                    DateTime? date_create)
+                    DateTime? date_create,
+                    long? id_exam
+                    )
         {
             var _question = new question();
             //_question.id_question = null;
@@ -124,6 +136,14 @@ namespace trac_nghiem_project.Controllers.admin
                 {
                     db.questions.Add(_question);
                     db.SaveChanges();
+
+                    var _exam_question = new exam_question();
+                    _exam_question.id_exam = (long)id_exam;
+                    _exam_question.id_question = (long)_question.id_question;
+                    _exam_question.date_create = DateTime.Now;
+                    db.exam_question.Add(_exam_question);
+                    db.SaveChanges();
+
                     _status = true;
                 }
                 catch (DbEntityValidationException dbEx)
@@ -139,9 +159,17 @@ namespace trac_nghiem_project.Controllers.admin
                 }
             }
 
+            var Lquestion = db.Database.SqlQuery<CreatedQuestion>("exec SelectAllQuestionFrom @id_exam", new SqlParameter("id_exam", id_exam)).ToList();
+            Console.Write(Lquestion.Last().question_type);
+
             return Json(new
             {
                 status = _status,
+                stt=Lquestion.Count,
+                question = Lquestion.Last().question,
+                question_type = Lquestion.Last().question_type,
+                created_date = Convert.ToDateTime(Lquestion.Last().date_create).ToString("dd/MM/yyyy"),
+                id_question = Lquestion.Last().id_question,
             });
         }
 
@@ -175,30 +203,25 @@ namespace trac_nghiem_project.Controllers.admin
             return View(question);
         }
 
-        // GET: Questions/Delete/5
-        public ActionResult Delete(long? id)
+        public JsonResult DeleteQuestion(long? id_question)
         {
-            if (id == null)
+            bool _status = false;
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                question question = db.questions.Find(id_question);
+                db.questions.Remove(question);
+                db.SaveChanges();
+                _status = true;
             }
-            question question = db.questions.Find(id);
-            if (question == null)
+            catch
             {
-                return HttpNotFound();
+                _status = false;
             }
-            return View(question);
-        }
 
-        // POST: Questions/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(long id)
-        {
-            question question = db.questions.Find(id);
-            db.questions.Remove(question);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            return Json(new
+            {
+                status=_status,
+            });
         }
 
         protected override void Dispose(bool disposing)

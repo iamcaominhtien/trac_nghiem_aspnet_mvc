@@ -81,3 +81,7 @@ E:\Users\iamca\source\repos\trac_nghiem_project\trac_nghiem_project\obj\Debug\tr
 E:\Users\iamca\source\repos\trac_nghiem_project\trac_nghiem_project\obj\Debug\trac_nghiem_project.csproj.CopyComplete
 E:\Users\iamca\source\repos\trac_nghiem_project\trac_nghiem_project\obj\Debug\trac_nghiem_project.dll
 E:\Users\iamca\source\repos\trac_nghiem_project\trac_nghiem_project\obj\Debug\trac_nghiem_project.pdb
+E:\Users\iamca\source\repos\trac_nghiem_project\trac_nghiem_project\bin\BouncyCastle.Crypto.dll
+E:\Users\iamca\source\repos\trac_nghiem_project\trac_nghiem_project\bin\itextsharp.dll
+E:\Users\iamca\source\repos\trac_nghiem_project\trac_nghiem_project\bin\itextsharp.xmlworker.dll
+E:\Users\iamca\source\repos\trac_nghiem_project\trac_nghiem_project\bin\itextsharp.xml

@@ -40,18 +40,18 @@
                 @Html.DisplayFor(modelItem => item.time_to_do) phút
             </td>
             <td>
-                @Html.FormatValue(item.date_create,"{0:dd/MM/yyyy}")
+                @Html.FormatValue(item.date_create, "{0:dd/MM/yyyy}")
             </td>
             <td>
-                @{ 
+                @{
                     if (item.status == true)
-                {
-                    @:Mở 
-                }
-                else
-                {
-                    @:Khóa
-                }
+                    {
+                        @:Mở
+                    }
+                    else
+                    {
+                        @:Khóa
+                    }
                 }
             </td>
             <td>
@@ -75,5 +75,3 @@
     }
 
 </table>
-
-

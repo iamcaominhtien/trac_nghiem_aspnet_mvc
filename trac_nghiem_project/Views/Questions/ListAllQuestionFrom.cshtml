@@ -1,0 +1,138 @@
+﻿@model IEnumerable<trac_nghiem_project.Common.CreatedQuestion>
+
+@{ 
+    int count = 1;
+}
+
+<div class="py-2 px-5 rounded-4" style="background-color:white">
+    <h4 class="text-uppercase fw-bold mb-3" style="text-align:center">Danh sách câu hỏi</h4>
+    <table class="table" id="list_all_question_page">
+        <tr class="table-dark">
+            <th>STT</th>
+            <th style="width:max-content">
+                Câu hỏi
+            </th>
+            <th style="width:130px">
+                Loại
+            </th>
+            <th style="width:105px;">
+                Ngày tạo
+            </th>
+            <th style="width:90px;"></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@count</td>
+                @{ count++;}
+                <td>
+                    @Html.DisplayFor(modelItem => item.question)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.question_type)
+                </td>
+                <td>
+                    @Html.FormatValue(item.date_create, "{0:dd/MM/yyyy}")
+                </td>
+                <td>
+                    <div class="float-end">
+                        <button onclick="onClickShowAboveAll(this, @item.id_question, false, @item.id_question_type)" class="edit-btn btn btn-default p-0 border-0 rounded-0 mb-1"><abbr title="Cập nhật dữ liệu"><img src="/images/edit.png" width="20" height="20" /></abbr></button>
+                        <button onclick="onClickShowAboveAll(this, @item.id_question,true, @item.id_question_type)" class="edit-btn btn btn-default p-0 border-0 rounded-0 mb-1"><abbr title="Xem chi tiết"><img src="/images/details.png" width="20" height="20" /></abbr></button>
+                        <button class="edit-btn btn btn-default p-0 border-0 rounded-0 mb-1" onclick="delQuestion(this,@item.id_question.ToString().Trim())">
+                            <abbr title="Xóa dữ liệu">
+                                <img src="/images/delete.png" width="20" height="20" />
+                            </abbr>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+<script id="question_item" type="text/html">
+    <tr>
+        <td>#stt</td>
+
+        <td>
+            #question
+        </td>
+        <td>
+            #question_type
+        </td>
+        <td>
+            #created_date
+        </td>
+        <td>
+            <div class="float-end">
+                <a href="/Questions/Edit/#id_question" class="edit-btn"><abbr title="Cập nhật dữ liệu"><img src="/images/edit.png" width="20" height="20"></abbr></a>
+                <button class="edit-btn btn btn-default p-0 border-0 rounded-0 mb-1"><abbr title="Xem chi tiết"><img src="/images/details.png" width="20" height="20"></abbr></button>
+                <button class="edit-btn btn btn-default p-0 border-0 rounded-0 mb-1" onclick="delQuestion(this,#id_question)">
+                    <abbr title="Xóa dữ liệu">
+                        <img src="/images/delete.png" width="20" height="20" />
+                    </abbr>
+                </button>
+            </div>
+        </td>
+    </tr>
+</script>
+
+<script>
+    function onClickShowAboveAll(a, id_question, isDetail, id_question_type) {
+        document.getElementById("out_aboveALl").style = "display:block";
+        if (isDetail) {
+            getDetail(id_question, id_question_type)
+        }
+        else {
+        }
+    }
+
+    function getDetail(id_question, id_question_type) {
+        $.ajax({
+            url: "/Questions/ListQuestion",
+            type: "POST",
+            data: { id_question: id_question },
+            dataType: 'json',
+            success: function (response) {
+                if (response.status) {
+                    if (id_question_type == 3) {
+                        document.getElementById("childAboveAll").innerHTML = document.getElementById("childAboveAll_text").innerHTML.replaceAll("#question", response.question).replaceAll("#note", response.note).replaceAll("#correct", response.correct);
+                    }
+                    else {
+                        document.getElementById("childAboveAll").innerHTML = document.getElementById("childAboveAll_radio").innerHTML.replaceAll("#question", response.question).replaceAll("#note", response.note).replaceAll("#answer_1", response.answer_1).replaceAll("#answer_2", response.answer_2).replaceAll("#answer_3", response.answer_3).replaceAll("#answer_4", response.answer_4).replaceAll("#correct", response.correct);
+                    }
+                }
+                else {
+                    alert("Có lỗi xảy ra. Vui lòng thử lại sau.")
+                }
+            },
+            error: function (e) {
+                console.log(e);
+                alert("Có lỗi xảy ra. Vui lòng thử lại sau.")
+            }
+        });
+    }
+
+    function delQuestion(a, id_question) {
+        //alert(id_question)
+        $.ajax({
+            url: "/Questions/DeleteQuestion",
+            type: "POST",
+            data: { id_question: id_question },
+            dataType: 'json',
+            success: function (response) {
+                if (response.status) {
+                    $(a.parentElement.parentElement.parentElement).remove();
+                }
+                else {
+                    alert("Có lỗi xảy ra. Vui lòng thử lại sau.")
+                }
+            },
+            error: function (e) {
+                console.log(e);
+                alert("Có lỗi xảy ra. Vui lòng thử lại sau.")
+            }
+        });
+    }
+</script>

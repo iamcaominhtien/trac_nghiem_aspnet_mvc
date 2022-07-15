@@ -1,0 +1,25 @@
+﻿#out_aboveALl {
+    height: 120vh;
+    position:fixed;
+    width: 100%;
+    cursor: context-menu;
+    padding: 50px;
+    display:none;
+    background-color: rgba(63, 63, 63, 0.7);
+}
+
+#aboveALl {
+    height: fit-content;
+    width: fit-content;
+/*    min-width:500px;
+    max-width:max-content;*/
+    margin:0 auto;
+    background-color: white;
+}
+
+    #aboveALl button {
+        padding: 3px 9px;
+        position: relative;
+        top: -10px;
+        left: -10px;
+    }
