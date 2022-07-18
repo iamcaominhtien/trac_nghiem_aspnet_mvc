@@ -139,15 +139,26 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Common\add_exam.cs" />
     <Compile Include="Common\created_question.cs" />
+    <Compile Include="Common\detail_do_exam.cs" />
+    <Compile Include="Common\manager_controller.cs" />
+    <Compile Include="Common\subject_grade_filter.cs" />
     <Compile Include="Controllers\admin\AdminsController.cs" />
     <Compile Include="Controllers\admin\ExamQuestionController.cs" />
-    <Compile Include="Controllers\admin\GradesController.cs" />
+    <Compile Include="Controllers\admin\FieldsController.cs" />
+    <Compile Include="Controllers\admin\gradesController.cs" />
     <Compile Include="Controllers\admin\ManageExamController.cs" />
     <Compile Include="Controllers\admin\QuestionsController.cs" />
+    <Compile Include="Controllers\admin\SubjectGradesController.cs" />
+    <Compile Include="Controllers\admin\SubjectSController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\admin\StudentsController.cs" />
     <Compile Include="Controllers\admin\TeachersController.cs" />
+    <Compile Include="Controllers\ManagersController.cs" />
+    <Compile Include="Controllers\student\StudentHomeController.cs" />
+    <Compile Include="Controllers\teacher\TeacherHomeController.cs" />
+    <Compile Include="Controllers\UserSessionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -190,6 +201,15 @@
     <Compile Include="Models\right.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\score_of_exam.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SelectAllQuestionFrom_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SelectOneQuestionFrom_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -199,10 +219,10 @@
     <Compile Include="Models\subject.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\subject_student.cs">
+    <Compile Include="Models\subject_grade.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\subject_teacher.cs">
+    <Compile Include="Models\subject_student.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagram.cs">
@@ -224,6 +244,33 @@
     <Content Include="Assets\dist\js\bootstrap.bundle.min.js" />
     <Content Include="Assets\fonts\fontawesome-webfont.svg" />
     <Content Include="Assets\js\my_js\aboveAll.js" />
+    <Content Include="Assets\js\my_js\createNewQuestion.js" />
+    <Content Include="Assets\js\my_js\listAllQuestionOnExam.js" />
+    <Content Include="Assets\usersession\css\style.css" />
+    <Content Include="Assets\usersession\fonts\material-icon\css\material-design-iconic-font.css" />
+    <Content Include="Assets\usersession\fonts\material-icon\css\material-design-iconic-font.min.css" />
+    <Content Include="Assets\usersession\fonts\material-icon\fonts\Material-Design-Iconic-Font.svg" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-300.svg" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-300italic.svg" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-500.svg" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-500italic.svg" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-600.svg" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-700.svg" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-700italic.svg" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-800.svg" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-800italic.svg" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-900.svg" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-italic.svg" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-regular.svg" />
+    <Content Include="Assets\usersession\fonts\poppins\roboto-condensed-v16-latin-700.svg" />
+    <Content Include="Assets\usersession\fonts\poppins\roboto-condensed-v16-latin-700italic.svg" />
+    <Content Include="Assets\usersession\fonts\poppins\roboto-condensed-v16-latin-italic.svg" />
+    <Content Include="Assets\usersession\fonts\poppins\roboto-condensed-v16-latin-regular.svg" />
+    <Content Include="Assets\usersession\images\signin-image.jpg" />
+    <Content Include="Assets\usersession\images\signup-image.jpg" />
+    <Content Include="Assets\usersession\js\main.js" />
+    <Content Include="Assets\usersession\vendor\jquery\jquery-ui.min.js" />
+    <Content Include="Assets\usersession\vendor\jquery\jquery.min.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -264,6 +311,99 @@
     <Content Include="Assets\fonts\roboto\Roboto-Regular.woff2" />
     <Content Include="Assets\fonts\roboto\Roboto-Thin.woff" />
     <Content Include="Assets\fonts\roboto\Roboto-Thin.woff2" />
+    <Content Include="Assets\usersession\.sass-cache\21880c0ffe15753a53f8402e9f64e1077e071510\style.scssc" />
+    <Content Include="Assets\usersession\.sass-cache\2866be86c578bb583fbf023501bb9fd24cc3bf22\extend.scssc" />
+    <Content Include="Assets\usersession\.sass-cache\2866be86c578bb583fbf023501bb9fd24cc3bf22\fonts.scssc" />
+    <Content Include="Assets\usersession\.sass-cache\2866be86c578bb583fbf023501bb9fd24cc3bf22\global.scssc" />
+    <Content Include="Assets\usersession\.sass-cache\2866be86c578bb583fbf023501bb9fd24cc3bf22\minxi.scssc" />
+    <Content Include="Assets\usersession\.sass-cache\2866be86c578bb583fbf023501bb9fd24cc3bf22\variables.scssc" />
+    <Content Include="Assets\usersession\.sass-cache\3948936f84e1a30385e73a9be140b58b48c82e15\style.scssc" />
+    <Content Include="Assets\usersession\.sass-cache\643489b018602f15119d8f44aeb7fc79468873a9\main.scssc" />
+    <Content Include="Assets\usersession\.sass-cache\643489b018602f15119d8f44aeb7fc79468873a9\responsive.scssc" />
+    <Content Include="Assets\usersession\.sass-cache\7643c8aa2e335ff5e104bc47d8dd7f1a0693bb39\extend.scssc" />
+    <Content Include="Assets\usersession\.sass-cache\7643c8aa2e335ff5e104bc47d8dd7f1a0693bb39\fonts.scssc" />
+    <Content Include="Assets\usersession\.sass-cache\7643c8aa2e335ff5e104bc47d8dd7f1a0693bb39\global.scssc" />
+    <Content Include="Assets\usersession\.sass-cache\7643c8aa2e335ff5e104bc47d8dd7f1a0693bb39\minxi.scssc" />
+    <Content Include="Assets\usersession\.sass-cache\7643c8aa2e335ff5e104bc47d8dd7f1a0693bb39\variables.scssc" />
+    <Content Include="Assets\usersession\.sass-cache\9dc767a56f3dc2f8a933300255cd2265f13191d4\main.scssc" />
+    <Content Include="Assets\usersession\.sass-cache\9dc767a56f3dc2f8a933300255cd2265f13191d4\responsive.scssc" />
+    <Content Include="Assets\usersession\css\style.css.map" />
+    <Content Include="Assets\usersession\fonts\material-icon\fonts\Material-Design-Iconic-Font.eot" />
+    <Content Include="Assets\usersession\fonts\material-icon\fonts\Material-Design-Iconic-Font.ttf" />
+    <Content Include="Assets\usersession\fonts\material-icon\fonts\Material-Design-Iconic-Font.woff" />
+    <Content Include="Assets\usersession\fonts\material-icon\fonts\Material-Design-Iconic-Font.woff2" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-300.eot" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-300.ttf" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-300.woff" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-300.woff2" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-300italic.eot" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-300italic.ttf" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-300italic.woff" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-300italic.woff2" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-500.eot" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-500.ttf" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-500.woff" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-500.woff2" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-500italic.eot" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-500italic.ttf" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-500italic.woff" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-500italic.woff2" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-600.eot" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-600.ttf" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-600.woff" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-600.woff2" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-700.eot" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-700.ttf" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-700.woff" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-700.woff2" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-700italic.eot" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-700italic.ttf" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-700italic.woff" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-700italic.woff2" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-800.eot" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-800.ttf" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-800.woff" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-800.woff2" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-800italic.eot" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-800italic.ttf" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-800italic.woff" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-800italic.woff2" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-900.eot" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-900.ttf" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-900.woff" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-900.woff2" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-italic.eot" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-italic.ttf" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-italic.woff" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-italic.woff2" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-regular.eot" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-regular.ttf" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-regular.woff" />
+    <Content Include="Assets\usersession\fonts\poppins\poppins-v5-latin-regular.woff2" />
+    <Content Include="Assets\usersession\fonts\poppins\roboto-condensed-v16-latin-700.eot" />
+    <Content Include="Assets\usersession\fonts\poppins\roboto-condensed-v16-latin-700.ttf" />
+    <Content Include="Assets\usersession\fonts\poppins\roboto-condensed-v16-latin-700.woff" />
+    <Content Include="Assets\usersession\fonts\poppins\roboto-condensed-v16-latin-700.woff2" />
+    <Content Include="Assets\usersession\fonts\poppins\roboto-condensed-v16-latin-700italic.eot" />
+    <Content Include="Assets\usersession\fonts\poppins\roboto-condensed-v16-latin-700italic.ttf" />
+    <Content Include="Assets\usersession\fonts\poppins\roboto-condensed-v16-latin-700italic.woff" />
+    <Content Include="Assets\usersession\fonts\poppins\roboto-condensed-v16-latin-700italic.woff2" />
+    <Content Include="Assets\usersession\fonts\poppins\roboto-condensed-v16-latin-italic.eot" />
+    <Content Include="Assets\usersession\fonts\poppins\roboto-condensed-v16-latin-italic.ttf" />
+    <Content Include="Assets\usersession\fonts\poppins\roboto-condensed-v16-latin-italic.woff" />
+    <Content Include="Assets\usersession\fonts\poppins\roboto-condensed-v16-latin-italic.woff2" />
+    <Content Include="Assets\usersession\fonts\poppins\roboto-condensed-v16-latin-regular.eot" />
+    <Content Include="Assets\usersession\fonts\poppins\roboto-condensed-v16-latin-regular.ttf" />
+    <Content Include="Assets\usersession\fonts\poppins\roboto-condensed-v16-latin-regular.woff" />
+    <Content Include="Assets\usersession\fonts\poppins\roboto-condensed-v16-latin-regular.woff2" />
+    <Content Include="Assets\usersession\scss\common\extend.scss" />
+    <Content Include="Assets\usersession\scss\common\fonts.scss" />
+    <Content Include="Assets\usersession\scss\common\global.scss" />
+    <Content Include="Assets\usersession\scss\common\minxi.scss" />
+    <Content Include="Assets\usersession\scss\common\variables.scss" />
+    <Content Include="Assets\usersession\scss\layouts\main.scss" />
+    <Content Include="Assets\usersession\scss\layouts\responsive.scss" />
+    <Content Include="Assets\usersession\scss\style.scss" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -312,21 +452,12 @@
     <Content Include="Views\Teachers\Details.cshtml" />
     <Content Include="Views\Teachers\Edit.cshtml" />
     <Content Include="Views\Teachers\Index.cshtml" />
-    <Content Include="Views\Grades\Create.cshtml" />
-    <Content Include="Views\Grades\Delete.cshtml" />
-    <Content Include="Views\Grades\Details.cshtml" />
-    <Content Include="Views\Grades\Edit.cshtml" />
-    <Content Include="Views\Grades\Index.cshtml" />
     <Content Include="Views\ManageExam\Delete.cshtml" />
     <Content Include="Views\ManageExam\Details.cshtml" />
     <Content Include="Views\ManageExam\Edit.cshtml" />
     <Content Include="Views\ManageExam\Index.cshtml" />
     <Content Include="Views\ManageExam\Create.cshtml" />
     <Content Include="Views\Questions\Create.cshtml" />
-    <Content Include="Views\Questions\Delete.cshtml" />
-    <Content Include="Views\Questions\Details.cshtml" />
-    <Content Include="Views\Questions\Edit.cshtml" />
-    <Content Include="Views\Questions\Index.cshtml" />
     <Content Include="Views\ExamQuestion\Create.cshtml" />
     <Content Include="Views\ExamQuestion\Delete.cshtml" />
     <Content Include="Views\ExamQuestion\Details.cshtml" />
@@ -334,11 +465,31 @@
     <Content Include="Views\ExamQuestion\Index.cshtml" />
     <Content Include="Views\Questions\ListQuestion.cshtml" />
     <Content Include="Views\Questions\ListAllQuestionFrom.cshtml" />
+    <Content Include="Views\UserSession\Login.cshtml" />
+    <Content Include="Views\UserSession\Register.cshtml" />
+    <Content Include="Views\StudentHome\Index.cshtml" />
+    <Content Include="Views\TeacherHome\Index.cshtml" />
+    <Content Include="Views\StudentHome\ListExam.cshtml" />
+    <Content Include="Views\StudentHome\StartExam.cshtml" />
+    <Content Include="Views\StudentHome\GoToExam.cshtml" />
+    <Content Include="Views\TeacherHome\Edit.cshtml" />
+    <Content Include="Views\TeacherHome\ListExam.cshtml" />
+    <Content Include="Views\SubjectS\Create.cshtml" />
+    <Content Include="Views\SubjectS\Delete.cshtml" />
+    <Content Include="Views\SubjectS\Details.cshtml" />
+    <Content Include="Views\SubjectS\Edit.cshtml" />
+    <Content Include="Views\SubjectS\Index.cshtml" />
+    <Content Include="Views\TeacherHome\Create.cshtml" />
+    <Content Include="Views\grades\Index.cshtml" />
+    <Content Include="Views\Fields\Index.cshtml" />
+    <Content Include="Views\SubjectGrades\Create.cshtml" />
+    <Content Include="Views\SubjectGrades\Delete.cshtml" />
+    <Content Include="Views\SubjectGrades\Details.cshtml" />
+    <Content Include="Views\SubjectGrades\Edit.cshtml" />
+    <Content Include="Views\SubjectGrades\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\student\" />
-    <Folder Include="Controllers\teacher\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

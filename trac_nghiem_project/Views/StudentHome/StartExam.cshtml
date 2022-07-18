@@ -1,0 +1,263 @@
+﻿@*@model IEnumerable<trac_nghiem_project.Common.CreatedQuestion>*@
+@model trac_nghiem_project.Common.CreatedQuestion
+
+@{
+    ViewBag.Title = "StartExam";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    long next_page = ViewBag.current_page + 1;
+    long pre_page = ViewBag.current_page - 1;
+    var isCheck = (List<bool>)ViewBag.isCheck;
+}
+
+<style>
+    .box-question-page {
+        width: 30px;
+        color: black;
+        text-decoration-line: none;
+        height: 45px;
+        border: 1px solid black;
+        padding: 0;
+        border-radius: 5px;
+        margin: 2px 3px;
+        background-color: white;
+        cursor: pointer;
+    }
+
+    #container_question {
+        height: fit-content;
+        background-color: !important;
+    }
+
+    .box-question-page-top {
+    }
+
+    .box-question-page-bottom {
+        background-color: lightgrey;
+        border-radius: 0 0 5px 5px;
+        border-bottom: 1px solid;
+        text-align: center;
+    }
+</style>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    var my_time;
+    function setSTT(isNext, page_num) {
+        $("#stt")[0].value = page_num;
+        document.getElementById("time_count").value = my_time;
+        document.getElementById('theForm').submit();
+    }
+
+    $(document).ready(function () {
+        function startTimer(duration, display) {
+            my_time = parseInt(`@(ViewBag.timer)`);
+            var timer = duration, minutes, seconds;
+            setInterval(function () {
+                my_time = my_time - 1;
+                console.log(my_time)
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    timer = 0
+                    window.location =`@Url.Action("SubmitExam", new {id_exam = Model.id_exam})`
+                }
+
+                if (my_time < 0) {
+                    my_time = 0;
+                }
+            }, 1000);
+        }
+        display = document.querySelector('#time');
+        startTimer(@(ViewBag.timer), display);
+    });
+
+</script>
+
+<div class="row mb-3 justify-content-center" style="background-color:sandybrown">
+    <span id="time" class="py-2 d-block" style="text-align:center;font-size:20px;font-weight:bold"></span>
+</div>
+<div class="row">
+    <div id="number_of_question" class="col-lg-1 col-md-2 col-12 bg-white border border-1 py-3 border-danger" style="height:fit-content">
+        <div id="number_of_question_child" class="text-danger fw-bolder">
+            Câu @ViewBag.current_page
+        </div>
+        <div>Điểm: 1</div>
+    </div>
+
+
+    <div id="container_question" class="col-lg-7 bg-white col-md-9 col-12 mx-lg-2 mx-md-2 mx-0 px-4 py-3 mt-lg-0 mt-md-0 mt-4" style="height:fit-content">
+        <form action="StartExam" method="post" id="theForm">
+            <div>
+                <input hidden name="time_count" id="time_count" value="@ViewBag.timer"/>
+                <input hidden name="current_page" value="@ViewBag.current_page" />
+                <input hidden name="current_id_question" value="@ViewBag.current_id_question" />
+                <input hidden name="id_exam" value="@Model.id_exam" />
+                <input hidden name="stt" id="stt" value="" />
+                @if (Model.id_question_type == 3)
+                {
+                    <div><strong>@Model.question</strong></div>
+                    <div><span class="text-danger">@Model.note</span></div>
+                    <div class="mt-3">
+                        Trả lời
+                    </div>
+                    if (Model.correct != null && Model.correct != "")
+                    {
+                        <input type="text" name="correct" id="correct" class="input my-2 col-12 px-3 py-2 border-0" style="background-color:lightgray" value="@Model.correct" />
+                    }
+                    else
+                    {
+                        <input type="text" name="correct" id="correct" class="input my-2 col-12 px-3 py-2 border-0" style="background-color:lightgray" value="" />
+                    }
+                }
+                else
+                {
+                    <div><strong>@Model.question</strong></div>
+                    <div><span class="text-danger">@Model.note</span></div>
+                    <div class="mt-3">
+                        Select 1:
+                    </div>
+                    if (Model.correct == "1")
+                    {
+                        <div class="my-2">
+                            <input type="radio" name="correct" id="correct" value="1" checked /> A. @Model.answer_1
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="my-2">
+                            <input type="radio" name="correct" id="correct" value="1" /> A. @Model.answer_1
+                        </div>
+                    }
+
+                    if (Model.correct == "2")
+                    {
+                        <div class="my-2">
+                            <input type="radio" name="correct" id="correct" value="2" checked /> B. @Model.answer_2
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="my-2">
+                            <input type="radio" name="correct" id="correct" value="2" /> B. @Model.answer_2
+                        </div>
+                    }
+
+                    if (Model.answer_3 != "" && Model.answer_3 != null)
+                    {
+                        if (Model.correct == "3")
+                        {
+                            <div class="my-2">
+                                <input type="radio" name="correct" id="correct" value="3" checked /> C. @Model.answer_3
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="my-2">
+                                <input type="radio" name="correct" id="correct" value="3" /> C. @Model.answer_3
+                            </div>
+                        }
+
+                    }
+
+                    if (Model.answer_4 != "" && Model.answer_4 != null)
+                    {
+                        if (Model.correct == "4")
+                        {
+                            <div class="my-2">
+                                <input type="radio" name="correct" id="correct" value="4" checked /> D. @Model.answer_4
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="my-2">
+                                <input type="radio" name="correct" id="correct" value="4" /> D. @Model.answer_4
+                            </div>
+                        }
+                    }
+
+                }
+
+
+                @*<input type="text" class="input col-12 my-2 px-3 py-2 border-0" style="background-color:lightgray" />
+        <div>
+            <div class="mt-3 justify-content-lg-end justify-content-md-start justify-content-center row" style="margin-left:0px;margin-right:0px;">
+                <button class="btn btn-dark me-2" style="width: fit-content">Trang tiếp</button>
+                <button class="btn btn-dark ms-2" style="width: fit-content">Trang sau</button>
+            </div>
+        </div>*@
+            </div>
+        </form>
+        <div>
+            <div class="mt-3 justify-content-lg-end justify-content-md-start justify-content-center row" style="margin-left:0px;margin-right:0px;">
+                @{
+                    next_page = ViewBag.current_page + 1;
+                    pre_page = ViewBag.current_page - 1;
+
+                    if (pre_page == 0)
+                    {
+                        <button class="btn btn-dark me-2 disabled" style="width: fit-content">Trang sau</button>
+                    }
+                    else
+                    {
+                        <button onclick="setSTT(true, @pre_page)" class="btn btn-dark me-2" style="width: fit-content">Trang sau</button>
+                    }
+
+                    if (next_page > ViewBag.number_all_question)
+                    {
+                        <a href="@Url.Action("SubmitExam", new {id_exam = Model.id_exam})" class="btn btn-dark ms-2" style="width: fit-content">Nộp bài</a>
+                    }
+                    else
+                    {
+                        <button onclick="setSTT(false, @next_page)" class="btn btn-dark ms-2" style="width: fit-content">Trang tiếp</button>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-12 row mt-5 mt-lg-0 mx-0 justify-content-lg-start justify-content-center">
+        <div class="justify-content-lg-start justify-content-center row" style="width:100%;height:fit-content">
+            @{
+                for (int i = 0; i < ViewBag.number_all_question; i++)
+                {
+                    if (i + 1 != ViewBag.current_page)
+                    {
+                        //Kiểm tra đã làm chưa
+                        if (isCheck[i])
+                        {
+                            <a onclick="setSTT(true, @(i+1))" class="box-question-page">
+                                <div class="box-question-page-top" style="width: max-content; height: 20px">
+
+                                </div>
+                                <div class="box-question-page-bottom bg-success" style="width:100%;height:auto">@(i+1)</div>
+                            </a>
+                        }
+                        else
+                        {
+                            <a onclick="setSTT(true, @(i+1))" class="box-question-page">
+                                <div class="box-question-page-top" style="width: max-content; height: 20px">
+
+                                </div>
+                                <div class="box-question-page-bottom" style="width:100%;height:auto">@(i+1)</div>
+                            </a>
+                        }
+                    }
+                    else
+                    {
+                        <a onclick="setSTT(true, @(i+1))" class="box-question-page">
+                            <div class="box-question-page-top" style="width: max-content; height: 20px">
+
+                            </div>
+                            <div class="box-question-page-bottom bg-warning" style="width:100%;height:auto">@(i+1)</div>
+                        </a>
+                    }
+                }
+            }
+        </div>
+    </div>
+</div>

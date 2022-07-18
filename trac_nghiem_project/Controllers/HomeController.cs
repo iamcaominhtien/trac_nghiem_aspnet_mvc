@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using trac_nghiem_project.Common;
 
 namespace trac_nghiem_project.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : ManagersController
     {
         public ActionResult Index()
         {

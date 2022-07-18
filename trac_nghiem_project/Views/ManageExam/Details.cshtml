@@ -6,6 +6,20 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
+@section aboveAll{
+    <div class="myBox sticky-top" id="out_aboveALl">
+        <div class="stack-top opacity-100 rounded-4" id="aboveALl">
+            <button onclick="closeAboveAll()" class="btn bg-white border-1 border-dark rounded-circle">
+                <i class="fa fa-close border-0"></i>
+            </button>
+            <div class="px-4 pb-1 px-lg-5 pb-lg-5" id="containerChildAboveAll">
+                <div id="childAboveAll" class="stack-top" style="width:100%;height:95%">
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
 <div class="py-2 px-5 rounded-4" style="background-color:white">
     <dl class="dl-horizontal">
         <dt>
@@ -101,11 +115,27 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.subject.name)
+            Giảng viên
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.subject.name)
+            @ViewBag.name_teacher
+        </dd>
+
+        <dt>
+            Môn học
+        </dt>
+
+        <dd>
+            @ViewBag.name_subject
+        </dd>
+
+        <dt>
+            Lớp
+        </dt>
+
+        <dd>
+            @ViewBag.name_grade
         </dd>
     </dl>
     <p>
@@ -114,3 +144,129 @@
     </p>
 
 </div>
+
+<div class="form-group my-3">
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    @Html.Action("ListAllQuestionFrom", "Questions", new { id_exam = Model.id_exam })
+</div>
+
+<script id="childAboveAll_radio_4" type="text/html">
+    <span class="fw-bold d-block">#question</span>
+    <p class="text-danger">#note</p>
+    <p class="px-0 mx-0">Select one:</p>
+    <div class="border border-1 border-dark my-2 row mx-0">
+        <span class="btn btn-danger border-0 rounded-0 col-2 col-sm-1" style="height:auto">A.</span>
+        <span class="col-10 d-block ">#answer_1</span>
+    </div>
+    <div class="border border-1 border-dark my-2 row mx-0" style="width:100%">
+        <span class="btn btn-warning border-0 rounded-0 col-2 col-sm-1" style="height:auto">B.</span>
+        <span class="col-10 d-block ">#answer_2</span>
+    </div>
+    <div class="border border-1 border-dark my-2 row mx-0" style="width:100%">
+        <span class="btn btn-success border-0 rounded-0 col-2 col-sm-1" style="height:auto">C.</span>
+        <span class="col-10 d-block ">#answer_3</span>
+    </div>
+    <div class="border border-1 border-dark my-2 row mx-0" style="width:100%">
+        <span class="btn btn-primary border-0 rounded-0 col-2 col-sm-1" style="height:auto">D.</span>
+        <span class="col-10 d-block ">#answer_4</span>
+    </div>
+    <div class="my-2 mx-0" style="width:100%">
+        <p><strong>Đáp án:</strong> #correct</p>
+    </div>
+</script>
+
+<script id="childAboveAll_radio_3" type="text/html">
+    <span class="fw-bold d-block">#question</span>
+    <p class="text-danger">#note</p>
+    <p class="px-0 mx-0">Select one:</p>
+    <div class="border border-1 border-dark my-2 row mx-0">
+        <span class="btn btn-danger border-0 rounded-0" style="width:50px;height:100%;height:auto">A.</span>
+        <span class="col-auto d-block ">#answer_1</span>
+    </div>
+    <div class="border border-1 border-dark my-2 row mx-0" style="width:100%">
+        <span class="btn btn-warning border-0 rounded-0" style="width:50px;height:100%;height:auto">B.</span>
+        <span class="col-auto d-block ">#answer_2</span>
+    </div>
+    <div class="border border-1 border-dark my-2 row mx-0" style="width:100%">
+        <span class="btn btn-success border-0 rounded-0" style="width:50px;height:100%;height:auto">C.</span>
+        <span class="col-auto d-block ">#answer_3</span>
+    </div>
+    <div class="my-2 mx-0" style="width:100%">
+        <p><strong>Đáp án:</strong> #correct</p>
+    </div>
+</script>
+
+<script id="childAboveAll_radio_2" type="text/html">
+    <span class="fw-bold d-block">#question</span>
+    <p class="text-danger">#note</p>
+    <p class="px-0 mx-0">Select one:</p>
+    <div class="border border-1 border-dark my-2 row mx-0">
+        <span class="btn btn-danger border-0 rounded-0" style="width:50px;height:100%;height:auto">A.</span>
+        <span class="col-auto d-block ">#answer_1</span>
+    </div>
+    <div class="border border-1 border-dark my-2 row mx-0" style="width:100%">
+        <span class="btn btn-warning border-0 rounded-0" style="width:50px;height:100%;height:auto">B.</span>
+        <span class="col-auto d-block ">#answer_2</span>
+    </div>
+    <div class="my-2 mx-0" style="width:100%">
+        <p><strong>Đáp án:</strong> #correct</p>
+    </div>
+</script>
+
+<script type="text/html" id="childAboveAll_text">
+    <span class="fw-bold d-block">#question</span>
+    <p class="text-danger">#note</p>
+    <div class="my-2 mx-0" style="width:100%">
+        <p><strong>Đáp án:</strong> #correct</p>
+    </div>
+</script>
+
+@section scripts{
+    <script>
+        function onClickShowAboveAll(a, id_question, isDetail, id_question_type) {
+            //document.getElementById("out_aboveALl").style = `height: ${document.body.scrollHeight}px`;
+            if (isDetail) {
+                document.getElementById("out_aboveALl").style = "display:block";
+                getDetail(id_question, id_question_type)
+            }
+        }
+
+        function getDetail(id_question, id_question_type) {
+            $.ajax({
+                url: "/Questions/ListQuestion",
+                type: "POST",
+                data: { id_question: id_question },
+                dataType: 'json',
+                success: function (response) {
+                    console.log(response)
+                    if (response.status) {
+                        document.getElementById("childAboveAll").innerHTML = ''
+                        if (id_question_type == 3) {
+                            document.getElementById("childAboveAll").innerHTML = document.getElementById("childAboveAll_text").innerHTML.replaceAll("#question", response.question).replaceAll("#note", response.note).replaceAll("#correct", response.correct);
+                        }
+                        else {
+                            if (response.numberOfRadio == 4) {
+                                document.getElementById("childAboveAll").innerHTML = document.getElementById("childAboveAll_radio_4").innerHTML.replaceAll("#question", response.question).replaceAll("#note", response.note).replaceAll("#answer_1", response.answer_1).replaceAll("#answer_2", response.answer_2).replaceAll("#answer_3", response.answer_3).replaceAll("#answer_4", response.answer_4).replaceAll("#correct", response.correct);
+                            }
+                            else if (response.numberOfRadio == 3) {
+                                document.getElementById("childAboveAll").innerHTML = document.getElementById("childAboveAll_radio_3").innerHTML.replaceAll("#question", response.question).replaceAll("#note", response.note).replaceAll("#answer_1", response.answer_1).replaceAll("#answer_2", response.answer_2).replaceAll("#answer_3", response.answer_3).replaceAll("#correct", response.correct);
+                            }
+                            else {
+                                document.getElementById("childAboveAll").innerHTML = document.getElementById("childAboveAll_radio_2").innerHTML.replaceAll("#question", response.question).replaceAll("#note", response.note).replaceAll("#answer_1", response.answer_1).replaceAll("#answer_2", response.answer_2).replaceAll("#answer_3", response.answer_3).replaceAll("#correct", response.correct);
+                            }
+                        }
+                    }
+                    else {
+                        alert("Có lỗi xảy ra. Vui lòng thử lại sau.")
+                    }
+                },
+                error: function (e) {
+                    console.log(e);
+                    alert("Có lỗi xảy ra. Vui lòng thử lại sau.")
+                }
+            });
+        }
+
+    </script>
+    <script src="~/Assets/js/my_js/aboveAll.js"></script>
+}

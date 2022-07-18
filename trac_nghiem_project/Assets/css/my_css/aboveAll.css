@@ -1,10 +1,10 @@
 ﻿#out_aboveALl {
-    height: 120vh;
+    height: 200vh;
     position:fixed;
     width: 100%;
     cursor: context-menu;
-    padding: 50px;
-    display:none;
+    padding: 20px 10px 0px 10px;
+    display: none;
     background-color: rgba(63, 63, 63, 0.7);
 }
 

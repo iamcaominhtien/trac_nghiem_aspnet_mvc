@@ -11,57 +11,30 @@ namespace trac_nghiem_project.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class question
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public question()
         {
+            this.do_exam = new HashSet<do_exam>();
             this.exam_question = new HashSet<exam_question>();
         }
     
         public long id_question { get; set; }
         public Nullable<long> id_question_type { get; set; }
-
-        [DisplayName("Hình ?nh")]
-        [DataType(DataType.Upload)]
         public string avatar { get; set; }
-
-        [DisplayName("Câu h?i")]
-        [Required(ErrorMessage ="Không ???c ?? tr?ng")]
-        [DataType(DataType.MultilineText)]
         public string question1 { get; set; }
-
-        [DisplayName("Câu tr? l?i 1")]
-        [DataType(DataType.MultilineText)]
         public string answer_1 { get; set; }
-
-        [DisplayName("Câu tr? l?i 2")]
-        [DataType(DataType.MultilineText)]
         public string answer_2 { get; set; }
-
-        [DisplayName("Câu tr? l?i 3")]
-        [DataType(DataType.MultilineText)]
         public string answer_3 { get; set; }
-
-        [DisplayName("Câu tr? l?i 4")]
-        [DataType(DataType.MultilineText)]
         public string answer_4 { get; set; }
-
-        [DisplayName("?áp án")]
-        [DataType(DataType.MultilineText)]
         public string correct { get; set; }
-
-        [DisplayName("Ghi chú")]
-        [DataType(DataType.MultilineText)]
         public string note { get; set; }
-
-        [DisplayName("Ngày t?o")]
-        [DataType(DataType.Date)]
         public Nullable<System.DateTime> date_create { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<do_exam> do_exam { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<exam_question> exam_question { get; set; }
         public virtual question_types question_types { get; set; }

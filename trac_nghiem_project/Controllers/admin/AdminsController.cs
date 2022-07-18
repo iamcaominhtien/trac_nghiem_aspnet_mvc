@@ -6,13 +6,14 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using trac_nghiem_project.Common;
 using trac_nghiem_project.Models;
 
 namespace trac_nghiem_project.Controllers
 {
-    public class AdminsController : Controller
+    public class AdminsController : ManagersController
     {
-        private trac_nghiemEntities7 db = new trac_nghiemEntities7();
+        private trac_nghiemEntities db = new trac_nghiemEntities();
 
         // GET: Admins
         public ActionResult Index()

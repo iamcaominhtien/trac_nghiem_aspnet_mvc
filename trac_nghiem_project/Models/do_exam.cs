@@ -13,12 +13,14 @@ namespace trac_nghiem_project.Models
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
-
+    
     public partial class do_exam
     {
         [DisplayName("Điểm")]
         public Nullable<double> score { get; set; }
-
+		
+        public string chose { get; set; }
+		
         [DisplayName("Ghi chú")]
         [DataType(DataType.MultilineText)]
         public string note { get; set; }
@@ -31,10 +33,13 @@ namespace trac_nghiem_project.Models
         [DisplayName("Thời gian kết thúc")]
         [DataType(DataType.DateTime)]
         public Nullable<System.DateTime> finsh_time { get; set; }
+		
         public long id_exam { get; set; }
         public long id_student { get; set; }
-
+        public long id_question { get; set; }
+    
         public virtual exam exam { get; set; }
+        public virtual question question { get; set; }
         public virtual user user { get; set; }
     }
 }

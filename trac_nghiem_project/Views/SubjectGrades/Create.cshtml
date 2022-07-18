@@ -1,0 +1,54 @@
+﻿@model trac_nghiem_project.Models.subject_grade
+
+@{
+    ViewBag.Title = "Create";
+    ViewBag.Page = "Đăng kí lớp học mới";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="py-2 px-5 rounded-4" style="background-color:white">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group my-2">
+            @Html.LabelFor(model => model.id_subject, "Môn học", htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
+            <div class="col-md-6">
+                @Html.DropDownList("id_subject", null,"Chọn môn học", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.id_subject, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group my-2">
+            @Html.LabelFor(model => model.id_grade, "Lớp", htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
+            <div class="col-md-6">
+                @Html.DropDownList("id_grade", null,"Chọn lớp học", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.id_grade, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group my-2">
+            @Html.LabelFor(model => model.id_teacher, "Giáo viên", htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
+            <div class="col-md-6">
+                @Html.DropDownList("id_teacher", null,"Chọn giáo viên", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.id_teacher, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group my-2">
+            @Html.LabelFor(model => model.note, htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.note, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.note, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group my-2 my-3">
+            <div class="col-md-offset-2 col-md-6">
+                <input type="submit" value="Thêm" class="btn btn-success px-3" />
+                <a class="btn btn-primary ms-3 px-3" href="@Url.Action("Index")">Back</a>
+            </div>
+        </div>
+    </div>
+}

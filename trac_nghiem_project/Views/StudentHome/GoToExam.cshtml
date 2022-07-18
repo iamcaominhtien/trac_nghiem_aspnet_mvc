@@ -1,0 +1,54 @@
+﻿@model trac_nghiem_project.Models.exam
+
+@{
+    ViewBag.Title = "GoToExam";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 class="text-uppercase fw-bolder" style="text-align:center">@Model.name</h2>
+
+<div class="col-12 py-2 px-3 border border-1 border-dark">
+    <h3 class="text-danger">@Model.name</h3>
+    <div>
+        <strong>Opened: </strong>
+        @Html.FormatValue(Model.start_time, "{0:dd/MM/yyyy, hh:mm tt}")
+    </div>
+    <div>
+        <strong>Closed: </strong>
+        @Html.FormatValue(Model.end_time, "{0:dd/MM/yyyy, hh:mm tt}")
+    </div>
+    <div>
+        <strong>Ghi chú: </strong>
+        @Model.note
+    </div>
+
+    <div class="mt-5">
+        <p class="mb-0" style="text-align:center">Attempts allowed: 1</p>
+        <p class="mb-0" style="text-align:center">Thời gian làm bài: @Model.time_to_do phút</p>
+    </div>
+
+    @if (ViewBag.done == false)
+    {
+        if (ViewBag.canDo == true)
+        {
+            <div style="width:100%" class="justify-content-center row mx-0 my-4">
+                <a href="@Url.Action("StartExam", new {id_exam = Model.id_exam})" class="btn btn-primary px-4" style="margin:0 auto;width:fit-content">
+                    Bắt đầu làm bài
+                </a>
+            </div>
+        }
+        else
+        {
+            <div style="width:100%" class="justify-content-center row mx-0 my-4">
+                <a href="@Url.Action("StartExam", new {id_exam = Model.id_exam})" class="btn btn-primary px-4 disabled" style="margin:0 auto;width:fit-content">
+                    Không thể truy cập
+                </a>
+            </div>
+        }
+    }
+    else
+    {
+        <div style="width:100%;font-size:20px" class="justify-content-center row mx-0 my-4 fw-bold text-danger">Số điểm của bạn là: @Math.Round(ViewBag.score, 1)</div>
+    }
+</div>
+

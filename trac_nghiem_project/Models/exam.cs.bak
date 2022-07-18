@@ -11,9 +11,7 @@ namespace trac_nghiem_project.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class exam
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,44 +19,25 @@ namespace trac_nghiem_project.Models
         {
             this.do_exam = new HashSet<do_exam>();
             this.exam_question = new HashSet<exam_question>();
+            this.score_of_exam = new HashSet<score_of_exam>();
         }
     
         public long id_exam { get; set; }
-
-        [DisplayName("Tên bài ki?m tra")]
-        [Required(ErrorMessage ="Không ???c b? tr?ng")]
         public string name { get; set; }
-
-        [DisplayName("Th?i gian b?t ??u")]
-        [Required(ErrorMessage = "Không ???c b? tr?ng")]
-        [DataType(DataType.DateTime)]
         public Nullable<System.DateTime> start_time { get; set; }
-
-        [DisplayName("Th?i gian k?t thúc")]
-        [Required(ErrorMessage = "Không ???c b? tr?ng")]
-        [DataType(DataType.DateTime)]
         public Nullable<System.DateTime> end_time { get; set; }
-
-        [DisplayName("Th?i gian làm bài")]
-        [Required(ErrorMessage = "Không ???c b? tr?ng")]
         public Nullable<int> time_to_do { get; set; }
-
-        [DisplayName("Ngày t?o")]
-        [DataType(DataType.Date)]
         public Nullable<System.DateTime> date_create { get; set; }
-
-        [DisplayName("Ghi chú")]
-        [DataType(DataType.MultilineText)]
         public string note { get; set; }
-        public Nullable<long> id_subject { get; set; }
-
-        [DisplayName("Tr?ng thái")]
+        public Nullable<long> id_subject_grade { get; set; }
         public Nullable<bool> status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<do_exam> do_exam { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<exam_question> exam_question { get; set; }
-        public virtual subject subject { get; set; }
+        public virtual subject_grade subject_grade { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<score_of_exam> score_of_exam { get; set; }
     }
 }

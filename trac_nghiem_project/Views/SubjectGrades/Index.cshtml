@@ -1,0 +1,54 @@
+﻿@model IEnumerable<trac_nghiem_project.Models.subject_grade>
+
+@{
+    ViewBag.Title = "Index";
+    ViewBag.Page = "Đăng kí môn học";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<a href="@Url.Action("Create")" class="btn btn-success mb-3">Đăng kí lớp mới</a>
+
+<table class="table table-hover">
+    <tr class="table-dark">
+        <th>
+            @Html.DisplayNameFor(model => model.grade.name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.subject.name)
+        </th>
+        <th>
+            Giảng viên
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.grade.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.subject.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.user.name)
+            </td>
+            <td>
+                <div class="float-end">
+                    <a href="@Url.Action("Edit",
+                                new { id = item.id_subject_grade.ToString().Trim()})" class="edit-btn"><abbr title="Cập nhật dữ liệu"><img src="/images/edit.png" width="20" height="20" /></abbr></a>
+                    <a href="@Url.Action("Details",
+                                new { id = item.id_subject_grade.ToString().Trim()})" class="edit-btn"><abbr title="Xem chi tiết"><img src="/images/details.png" width="20" height="20" /></abbr></a>
+                    <a href="@Url.Action("Delete",
+                                new { id = item.id_subject_grade.ToString().Trim()})" class="edit-btn">
+                        <abbr title="Xóa dữ liệu">
+                            <img src="/images/delete.png" width="20" height="20" />
+                        </abbr>
+                    </a>
+                </div>
+            </td>
+        </tr>
+    }
+
+</table>

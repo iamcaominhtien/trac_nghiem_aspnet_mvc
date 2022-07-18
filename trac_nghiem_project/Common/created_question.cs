@@ -29,6 +29,8 @@ namespace trac_nghiem_project.Common
 
         public string question_type { get; set; }
 
+        public bool isChose { get; set; }
+
         public Nullable<System.DateTime> date_create { get; set; }
     }
 }

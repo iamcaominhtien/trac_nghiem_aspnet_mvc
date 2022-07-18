@@ -4,14 +4,18 @@
     <Key>
       <PropertyRef Name="id_exam" />
       <PropertyRef Name="id_student" />
+      <PropertyRef Name="id_question" />
     </Key>
     <Property Name="score" Type="Double" />
+    <Property Name="chose" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="note" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="statrt_time" Type="DateTime" Precision="3" />
     <Property Name="finsh_time" Type="DateTime" Precision="3" />
     <Property Name="id_exam" Type="Int64" Nullable="false" />
     <Property Name="id_student" Type="Int64" Nullable="false" />
+    <Property Name="id_question" Type="Int64" Nullable="false" />
     <NavigationProperty Name="exam" Relationship="Self.FK_do_exam_exams" FromRole="do_exam" ToRole="exams" />
+    <NavigationProperty Name="question" Relationship="Self.FK_do_exam_questions" FromRole="do_exam" ToRole="questions" />
     <NavigationProperty Name="user" Relationship="Self.FK_do_exam_users" FromRole="do_exam" ToRole="users" />
   </EntityType>
   <EntityType Name="exam_question">
@@ -37,11 +41,12 @@
     <Property Name="time_to_do" Type="Int32" />
     <Property Name="date_create" Type="DateTime" Precision="3" />
     <Property Name="note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-    <Property Name="id_subject" Type="Int64" />
+    <Property Name="id_subject_grade" Type="Int64" />
     <Property Name="status" Type="Boolean" />
     <NavigationProperty Name="do_exam" Relationship="Self.FK_do_exam_exams" FromRole="exams" ToRole="do_exam" />
     <NavigationProperty Name="exam_question" Relationship="Self.FK_exam_question_exams" FromRole="exams" ToRole="exam_question" />
-    <NavigationProperty Name="subject" Relationship="Self.FK_exams_subjects" FromRole="exams" ToRole="subjects" />
+    <NavigationProperty Name="subject_grade" Relationship="Self.FK_exams_subject_grade2" FromRole="exams" ToRole="subject_grade" />
+    <NavigationProperty Name="score_of_exam" Relationship="Self.FK_score_of_exam_exams" FromRole="exams" ToRole="score_of_exam" />
   </EntityType>
   <EntityType Name="field">
     <Key>
@@ -61,6 +66,7 @@
     <Property Name="date_create" Type="DateTime" Precision="3" />
     <Property Name="id_field" Type="Int64" />
     <NavigationProperty Name="field" Relationship="Self.FK_grades_fields" FromRole="grades" ToRole="fields" />
+    <NavigationProperty Name="subject_grade" Relationship="Self.FK_subject_grade_grades" FromRole="grades" ToRole="subject_grade" />
     <NavigationProperty Name="users" Relationship="Self.FK_users_grades" FromRole="grades" ToRole="users" />
   </EntityType>
   <EntityType Name="question_types">
@@ -88,6 +94,7 @@
     <Property Name="correct" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
     <Property Name="date_create" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="do_exam" Relationship="Self.FK_do_exam_questions" FromRole="questions" ToRole="do_exam" />
     <NavigationProperty Name="exam_question" Relationship="Self.FK_exam_question_questions" FromRole="questions" ToRole="exam_question" />
     <NavigationProperty Name="question_types" Relationship="Self.FK_questions_question_types" FromRole="questions" ToRole="question_types" />
   </EntityType>
@@ -101,27 +108,45 @@
     <Property Name="date_create" Type="DateTime" Precision="3" />
     <NavigationProperty Name="users" Relationship="Self.FK_users_rights" FromRole="rights" ToRole="users" />
   </EntityType>
-  <EntityType Name="subject_student">
+  <EntityType Name="score_of_exam">
     <Key>
-      <PropertyRef Name="id_subject" />
+      <PropertyRef Name="id_exam" />
       <PropertyRef Name="id_student" />
     </Key>
+    <Property Name="id_exam" Type="Int64" Nullable="false" />
+    <Property Name="id_student" Type="Int64" Nullable="false" />
+    <Property Name="score" Type="Double" />
+    <Property Name="note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="start_time" Type="DateTime" Precision="3" />
+    <Property Name="finish_time" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="exam" Relationship="Self.FK_score_of_exam_exams" FromRole="score_of_exam" ToRole="exams" />
+    <NavigationProperty Name="user" Relationship="Self.FK_score_of_exam_users" FromRole="score_of_exam" ToRole="users" />
+  </EntityType>
+  <EntityType Name="subject_grade">
+    <Key>
+      <PropertyRef Name="id_subject_grade" />
+    </Key>
+    <Property Name="id_subject_grade" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="id_subject" Type="Int64" Nullable="false" />
+    <Property Name="id_grade" Type="Int64" Nullable="false" />
+    <Property Name="id_teacher" Type="Int64" />
+    <Property Name="note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="exams" Relationship="Self.FK_exams_subject_grade2" FromRole="subject_grade" ToRole="exams" />
+    <NavigationProperty Name="grade" Relationship="Self.FK_subject_grade_grades" FromRole="subject_grade" ToRole="grades" />
+    <NavigationProperty Name="subject" Relationship="Self.FK_subject_grade_subjects" FromRole="subject_grade" ToRole="subjects" />
+    <NavigationProperty Name="user" Relationship="Self.FK_subject_grade_users" FromRole="subject_grade" ToRole="users" />
+    <NavigationProperty Name="subject_student" Relationship="Self.FK_subject_student_subject_grade" FromRole="subject_grade" ToRole="subject_student" />
+  </EntityType>
+  <EntityType Name="subject_student">
+    <Key>
+      <PropertyRef Name="id_subject_grade" />
+      <PropertyRef Name="id_student" />
+    </Key>
+    <Property Name="id_subject_grade" Type="Int64" Nullable="false" />
     <Property Name="id_student" Type="Int64" Nullable="false" />
     <Property Name="note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="subject" Relationship="Self.FK_subject_student_subjects" FromRole="subject_student" ToRole="subjects" />
+    <NavigationProperty Name="subject_grade" Relationship="Self.FK_subject_student_subject_grade" FromRole="subject_student" ToRole="subject_grade" />
     <NavigationProperty Name="user" Relationship="Self.FK_subject_student_users" FromRole="subject_student" ToRole="users" />
-  </EntityType>
-  <EntityType Name="subject_teacher">
-    <Key>
-      <PropertyRef Name="id_sbject" />
-      <PropertyRef Name="id_teacher" />
-    </Key>
-    <Property Name="id_sbject" Type="Int64" Nullable="false" />
-    <Property Name="id_teacher" Type="Int64" Nullable="false" />
-    <Property Name="note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="subject" Relationship="Self.FK_subject_teacher_subjects" FromRole="subject_teacher" ToRole="subjects" />
-    <NavigationProperty Name="user" Relationship="Self.FK_subject_teacher_users" FromRole="subject_teacher" ToRole="users" />
   </EntityType>
   <EntityType Name="subject">
     <Key>
@@ -130,9 +155,7 @@
     <Property Name="id_subject" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="date_create" Type="DateTime" Precision="3" />
-    <NavigationProperty Name="exams" Relationship="Self.FK_exams_subjects" FromRole="subjects" ToRole="exams" />
-    <NavigationProperty Name="subject_student" Relationship="Self.FK_subject_student_subjects" FromRole="subjects" ToRole="subject_student" />
-    <NavigationProperty Name="subject_teacher" Relationship="Self.FK_subject_teacher_subjects" FromRole="subjects" ToRole="subject_teacher" />
+    <NavigationProperty Name="subject_grade" Relationship="Self.FK_subject_grade_subjects" FromRole="subjects" ToRole="subject_grade" />
   </EntityType>
   <EntityType Name="sysdiagram">
     <Key>
@@ -162,8 +185,9 @@
     <NavigationProperty Name="do_exam" Relationship="Self.FK_do_exam_users" FromRole="users" ToRole="do_exam" />
     <NavigationProperty Name="grade" Relationship="Self.FK_users_grades" FromRole="users" ToRole="grades" />
     <NavigationProperty Name="right" Relationship="Self.FK_users_rights" FromRole="users" ToRole="rights" />
+    <NavigationProperty Name="score_of_exam" Relationship="Self.FK_score_of_exam_users" FromRole="users" ToRole="score_of_exam" />
+    <NavigationProperty Name="subject_grade" Relationship="Self.FK_subject_grade_users" FromRole="users" ToRole="subject_grade" />
     <NavigationProperty Name="subject_student" Relationship="Self.FK_subject_student_users" FromRole="users" ToRole="subject_student" />
-    <NavigationProperty Name="subject_teacher" Relationship="Self.FK_subject_teacher_users" FromRole="users" ToRole="subject_teacher" />
   </EntityType>
   <Association Name="FK_do_exam_exams">
     <End Role="exams" Type="Self.exam" Multiplicity="1">
@@ -176,6 +200,20 @@
       </Principal>
       <Dependent Role="do_exam">
         <PropertyRef Name="id_exam" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_do_exam_questions">
+    <End Role="questions" Type="Self.question" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="do_exam" Type="Self.do_exam" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="questions">
+        <PropertyRef Name="id_question" />
+      </Principal>
+      <Dependent Role="do_exam">
+        <PropertyRef Name="id_question" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -221,17 +259,29 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_exams_subjects">
-    <End Role="subjects" Type="Self.subject" Multiplicity="0..1">
-      <OnDelete Action="Cascade" />
-    </End>
+  <Association Name="FK_exams_subject_grade2">
+    <End Role="subject_grade" Type="Self.subject_grade" Multiplicity="0..1" />
     <End Role="exams" Type="Self.exam" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="subjects">
-        <PropertyRef Name="id_subject" />
+      <Principal Role="subject_grade">
+        <PropertyRef Name="id_subject_grade" />
       </Principal>
       <Dependent Role="exams">
-        <PropertyRef Name="id_subject" />
+        <PropertyRef Name="id_subject_grade" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_score_of_exam_exams">
+    <End Role="exams" Type="Self.exam" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="score_of_exam" Type="Self.score_of_exam" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="exams">
+        <PropertyRef Name="id_exam" />
+      </Principal>
+      <Dependent Role="score_of_exam">
+        <PropertyRef Name="id_exam" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -246,6 +296,20 @@
       </Principal>
       <Dependent Role="grades">
         <PropertyRef Name="id_field" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_subject_grade_grades">
+    <End Role="grades" Type="Self.grade" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="subject_grade" Type="Self.subject_grade" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="grades">
+        <PropertyRef Name="id_grade" />
+      </Principal>
+      <Dependent Role="subject_grade">
+        <PropertyRef Name="id_grade" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -291,17 +355,55 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_subject_student_subjects">
+  <Association Name="FK_score_of_exam_users">
+    <End Role="users" Type="Self.user" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="score_of_exam" Type="Self.score_of_exam" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="id_user" />
+      </Principal>
+      <Dependent Role="score_of_exam">
+        <PropertyRef Name="id_student" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_subject_grade_subjects">
     <End Role="subjects" Type="Self.subject" Multiplicity="1">
       <OnDelete Action="Cascade" />
     </End>
-    <End Role="subject_student" Type="Self.subject_student" Multiplicity="*" />
+    <End Role="subject_grade" Type="Self.subject_grade" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="subjects">
         <PropertyRef Name="id_subject" />
       </Principal>
-      <Dependent Role="subject_student">
+      <Dependent Role="subject_grade">
         <PropertyRef Name="id_subject" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_subject_grade_users">
+    <End Role="users" Type="Self.user" Multiplicity="0..1" />
+    <End Role="subject_grade" Type="Self.subject_grade" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="id_user" />
+      </Principal>
+      <Dependent Role="subject_grade">
+        <PropertyRef Name="id_teacher" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_subject_student_subject_grade">
+    <End Role="subject_grade" Type="Self.subject_grade" Multiplicity="1" />
+    <End Role="subject_student" Type="Self.subject_student" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="subject_grade">
+        <PropertyRef Name="id_subject_grade" />
+      </Principal>
+      <Dependent Role="subject_student">
+        <PropertyRef Name="id_subject_grade" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -319,35 +421,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_subject_teacher_subjects">
-    <End Role="subjects" Type="Self.subject" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="subject_teacher" Type="Self.subject_teacher" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="subjects">
-        <PropertyRef Name="id_subject" />
-      </Principal>
-      <Dependent Role="subject_teacher">
-        <PropertyRef Name="id_sbject" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_subject_teacher_users">
-    <End Role="users" Type="Self.user" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="subject_teacher" Type="Self.subject_teacher" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="users">
-        <PropertyRef Name="id_user" />
-      </Principal>
-      <Dependent Role="subject_teacher">
-        <PropertyRef Name="id_teacher" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <EntityContainer Name="trac_nghiemEntities7" annotation:LazyLoadingEnabled="true">
+  <EntityContainer Name="trac_nghiemEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="do_exam" EntityType="Self.do_exam" />
     <EntitySet Name="exam_question" EntityType="Self.exam_question" />
     <EntitySet Name="exams" EntityType="Self.exam" />
@@ -356,13 +430,18 @@
     <EntitySet Name="question_types" EntityType="Self.question_types" />
     <EntitySet Name="questions" EntityType="Self.question" />
     <EntitySet Name="rights" EntityType="Self.right" />
+    <EntitySet Name="score_of_exam" EntityType="Self.score_of_exam" />
+    <EntitySet Name="subject_grade" EntityType="Self.subject_grade" />
     <EntitySet Name="subject_student" EntityType="Self.subject_student" />
-    <EntitySet Name="subject_teacher" EntityType="Self.subject_teacher" />
     <EntitySet Name="subjects" EntityType="Self.subject" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
     <EntitySet Name="users" EntityType="Self.user" />
     <AssociationSet Name="FK_do_exam_exams" Association="Self.FK_do_exam_exams">
       <End Role="exams" EntitySet="exams" />
+      <End Role="do_exam" EntitySet="do_exam" />
+    </AssociationSet>
+    <AssociationSet Name="FK_do_exam_questions" Association="Self.FK_do_exam_questions">
+      <End Role="questions" EntitySet="questions" />
       <End Role="do_exam" EntitySet="do_exam" />
     </AssociationSet>
     <AssociationSet Name="FK_do_exam_users" Association="Self.FK_do_exam_users">
@@ -377,13 +456,21 @@
       <End Role="questions" EntitySet="questions" />
       <End Role="exam_question" EntitySet="exam_question" />
     </AssociationSet>
-    <AssociationSet Name="FK_exams_subjects" Association="Self.FK_exams_subjects">
-      <End Role="subjects" EntitySet="subjects" />
+    <AssociationSet Name="FK_exams_subject_grade2" Association="Self.FK_exams_subject_grade2">
+      <End Role="subject_grade" EntitySet="subject_grade" />
       <End Role="exams" EntitySet="exams" />
+    </AssociationSet>
+    <AssociationSet Name="FK_score_of_exam_exams" Association="Self.FK_score_of_exam_exams">
+      <End Role="exams" EntitySet="exams" />
+      <End Role="score_of_exam" EntitySet="score_of_exam" />
     </AssociationSet>
     <AssociationSet Name="FK_grades_fields" Association="Self.FK_grades_fields">
       <End Role="fields" EntitySet="fields" />
       <End Role="grades" EntitySet="grades" />
+    </AssociationSet>
+    <AssociationSet Name="FK_subject_grade_grades" Association="Self.FK_subject_grade_grades">
+      <End Role="grades" EntitySet="grades" />
+      <End Role="subject_grade" EntitySet="subject_grade" />
     </AssociationSet>
     <AssociationSet Name="FK_users_grades" Association="Self.FK_users_grades">
       <End Role="grades" EntitySet="grades" />
@@ -397,22 +484,33 @@
       <End Role="rights" EntitySet="rights" />
       <End Role="users" EntitySet="users" />
     </AssociationSet>
-    <AssociationSet Name="FK_subject_student_subjects" Association="Self.FK_subject_student_subjects">
+    <AssociationSet Name="FK_score_of_exam_users" Association="Self.FK_score_of_exam_users">
+      <End Role="users" EntitySet="users" />
+      <End Role="score_of_exam" EntitySet="score_of_exam" />
+    </AssociationSet>
+    <AssociationSet Name="FK_subject_grade_subjects" Association="Self.FK_subject_grade_subjects">
       <End Role="subjects" EntitySet="subjects" />
+      <End Role="subject_grade" EntitySet="subject_grade" />
+    </AssociationSet>
+    <AssociationSet Name="FK_subject_grade_users" Association="Self.FK_subject_grade_users">
+      <End Role="users" EntitySet="users" />
+      <End Role="subject_grade" EntitySet="subject_grade" />
+    </AssociationSet>
+    <AssociationSet Name="FK_subject_student_subject_grade" Association="Self.FK_subject_student_subject_grade">
+      <End Role="subject_grade" EntitySet="subject_grade" />
       <End Role="subject_student" EntitySet="subject_student" />
     </AssociationSet>
     <AssociationSet Name="FK_subject_student_users" Association="Self.FK_subject_student_users">
       <End Role="users" EntitySet="users" />
       <End Role="subject_student" EntitySet="subject_student" />
     </AssociationSet>
-    <AssociationSet Name="FK_subject_teacher_subjects" Association="Self.FK_subject_teacher_subjects">
-      <End Role="subjects" EntitySet="subjects" />
-      <End Role="subject_teacher" EntitySet="subject_teacher" />
-    </AssociationSet>
-    <AssociationSet Name="FK_subject_teacher_users" Association="Self.FK_subject_teacher_users">
-      <End Role="users" EntitySet="users" />
-      <End Role="subject_teacher" EntitySet="subject_teacher" />
-    </AssociationSet>
+    <FunctionImport Name="SelectAllQuestionFrom" ReturnType="Collection(trac_nghiemModel.SelectAllQuestionFrom_Result)">
+      <Parameter Name="id_exam" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="SelectOneQuestionFrom" ReturnType="Collection(trac_nghiemModel.SelectOneQuestionFrom_Result)">
+      <Parameter Name="id_exam" Mode="In" Type="Int64" />
+      <Parameter Name="stt" Mode="In" Type="Int64" />
+    </FunctionImport>
     <FunctionImport Name="sp_alterdiagram">
       <Parameter Name="diagramname" Mode="In" Type="String" />
       <Parameter Name="owner_id" Mode="In" Type="Int32" />
@@ -443,7 +541,40 @@
       <Parameter Name="new_diagramname" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="sp_upgraddiagrams" />
+    <FunctionImport Name="subject_grade_filter">
+      <Parameter Name="id_subject" Mode="In" Type="String" />
+      <Parameter Name="id_teacher" Mode="In" Type="String" />
+      <Parameter Name="id_grade" Mode="In" Type="String" />
+    </FunctionImport>
   </EntityContainer>
+  <ComplexType Name="SelectAllQuestionFrom_Result">
+    <Property Type="Int64" Name="id_exam" Nullable="false" />
+    <Property Type="Int64" Name="id_question_type" Nullable="true" />
+    <Property Type="Int64" Name="id_question" Nullable="false" />
+    <Property Type="String" Name="question" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="answer_1" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="answer_2" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="answer_3" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="answer_4" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="correct" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="note" Nullable="true" MaxLength="500" />
+    <Property Type="DateTime" Name="date_create" Nullable="true" Precision="23" />
+    <Property Type="String" Name="question_type" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="SelectOneQuestionFrom_Result">
+    <Property Type="Int64" Name="id_exam" Nullable="false" />
+    <Property Type="Int64" Name="id_question_type" Nullable="true" />
+    <Property Type="Int64" Name="id_question" Nullable="false" />
+    <Property Type="String" Name="question" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="answer_1" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="answer_2" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="answer_3" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="answer_4" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="correct" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="note" Nullable="true" MaxLength="500" />
+    <Property Type="DateTime" Name="date_create" Nullable="true" Precision="23" />
+    <Property Type="String" Name="question_type" Nullable="true" MaxLength="50" />
+  </ComplexType>
   <ComplexType Name="sp_helpdiagramdefinition_Result">
     <Property Type="Int32" Name="version" Nullable="true" />
     <Property Type="Binary" Name="definition" Nullable="true" />

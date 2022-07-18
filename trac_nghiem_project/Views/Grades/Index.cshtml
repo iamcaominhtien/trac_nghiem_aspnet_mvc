@@ -2,49 +2,203 @@
 
 @{
     ViewBag.Title = "Index";
-    ViewBag.Page = "Quản lí lớp";
+    ViewBag.Page = "Quản lí lớp học";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+<style>
+    .subject-box:hover {
+        background-color: darkslategray !important;
+        color: white !important;
+    }
 
-<p>
-    @*@Html.ActionLink("Thêm admin", "Create")*@
-    <a href="@Url.Action("Create")" class="btn btn-success">Thêm lớp</a>
-</p>
+    .subject-box {
+        text-align: left !important;
+    }
+</style>
+@section aboveAll{
+    <div class="myBox sticky-top" id="out_aboveALl">
+        <div class="stack-top opacity-100 rounded-4" id="aboveALl">
+            <button onclick="closeAboveAll()" class="btn bg-white border-1 border-dark rounded-circle">
+                <i class="fa fa-close border-0"></i>
+            </button>
+            <div class="px-4 pb-1 px-lg-5 pb-lg-5" id="containerChildAboveAll">
+                <div id="childAboveAll" class="stack-top" style="width:100%;height:95%">
+                </div>
+                <div id="childAboveAll_btn">
+                    <div class="row justify-content-center">
+                        <button id="form-btn-label" onclick="addGrade(this,true)" class="btn btn-danger col-12 m-2" style="position:static;width:fit-content">Thêm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<button onclick="onClickShowAboveAll(this,true)" class="btn btn-success mb-3">Thêm lớp học</button>
 
 <table class="table">
     <tr class="table-dark">
         <th>
-            Tên lớp
+            @Html.DisplayNameFor(model => model.name)
         </th>
         <th>
-            Ngày tạo
+            @Html.DisplayNameFor(model => model.date_create)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.field.name)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.name)
-        </td>
-        <td>
-            @Html.FormatValue(item.date_create, "{0:dd/MM/yyyy}")
-        </td>
-        <td>
-            <div class="float-end">
-                <a href="@Url.Action("Edit",
-                                new { id = item.id_grade.ToString().Trim()})" class="edit-btn"><abbr title="Cập nhật dữ liệu"><img src="/images/edit.png" width="20" height="20" /></abbr></a>
-                <a href="@Url.Action("Details",
-                                new { id = item.id_grade.ToString().Trim()})" class="edit-btn"><abbr title="Xem chi tiết"><img src="/images/details.png" width="20" height="20" /></abbr></a>
-                <a href="@Url.Action("Delete",
-                                new { id = item.id_grade.ToString().Trim()})" class="edit-btn">
-                    <abbr title="Xóa dữ liệu">
-                        <img src="/images/delete.png" width="20" height="20" />
-                    </abbr>
-                </a>
-            </div>
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date_create)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.field.name)
+            </td>
+            <td>
+                <div class="float-end">
+                    <a onclick="onClickShowAboveAll(this, false, `@item.id_field`, `@item.name`, `@item.id_grade`)" class="edit-btn"><abbr title="Cập nhật dữ liệu"><img src="/images/edit.png" width="20" height="20" /></abbr></a>
+                    <a onclick="delGrade(this, `@item.id_grade`, false)" class="edit-btn">
+                        <abbr title="Xóa dữ liệu">
+                            <img src="/images/delete.png" width="20" height="20" />
+                        </abbr>
+                    </a>
+                </div>
+            </td>
+        </tr>
+    }
 
 </table>
+
+@section scripts{
+    var t;
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script>
+        function delGrade(a, id_grade, ok) {
+            if (ok==true) {
+                console.log("here")
+                $.ajax({
+                    url: "/grades/DelGrade",
+                    type: "POST",
+                    data: { id: id_grade },
+                    dataType: 'json',
+                    success: function (response) {
+                        //console.log(response)
+                        if (response.status != 1) {
+                            alert("Có lỗi xảy ra. Vui lòng thử lại sau.")
+                        }
+                        else {
+                            closeAboveAll()
+                            window.location.reload();
+                        }
+                    },
+                    error: function (e) {
+                        console.log(e);
+                        alert("Có lỗi xảy ra. Vui lòng thử lại sau.")
+                    }
+                });
+            }
+            else {
+                document.getElementById("out_aboveALl").style = "display:block";
+                document.getElementById("form-btn-label").remove()
+                document.getElementById("childAboveAll").innerHTML = document.getElementById("form-del").innerHTML.replaceAll("#id", id_grade)
+            }
+        }
+
+        function onClickShowAboveAll(a, isAdd, id_field, name, id_grade) {
+            document.getElementById("out_aboveALl").style = "display:block";
+            if (isAdd) {
+                document.getElementById("childAboveAll").innerHTML = document.getElementById("form-create").innerHTML;
+            }
+            else {
+                document.getElementById("childAboveAll").innerHTML = document.getElementById("form-create").innerHTML.replace("addGrade(this,false)", `addGrade(this,false,${id_grade})`);
+                document.getElementById("childAboveAll_btn").innerHTML = document.getElementById("form-btn").innerHTML.replace("#func", `addGrade(this, false, ${id_grade})`)
+                document.getElementById("id_field").value = id_field
+                document.getElementById("name").value = name;
+                document.getElementById("form-btn-label").innerHTML = "Cập nhật";
+                //document.getElementById("form-btn-label").innerHTML.replaceAll("addGrade(this,true)",);
+            }
+        }
+
+        function addGrade(a, isAdd, id_grade) {
+            //create
+            if (isAdd) {
+                $.ajax({
+                    url: "/grades/AddNewGrade",
+                    type: "POST",
+                    data: { name: document.getElementById("name").value, id_field: document.getElementById("id_field").value },
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.status == 1) {
+                            alert(response.error)
+                            window.location.reload();
+                        }
+                        else {
+                            alert(response.error)
+                        }
+                    },
+                    error: function (e) {
+                        console.log(e);
+                        alert("Có lỗi xảy ra. Vui lòng thử lại sau.")
+                    }
+                });
+            }
+            else {
+                $.ajax({
+                    url: "/grades/updateGrade",
+                    type: "POST",
+                    data: { id_grade: id_grade, name: document.getElementById("name").value, id_field: document.getElementById("id_field").value },
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.status == 1) {
+                            alert(response.error)
+                            window.location.reload();
+                        }
+                        else {
+                            alert(response.error)
+                        }
+                    },
+                    error: function (e) {
+                        console.log(e);
+                        alert("Có lỗi xảy ra. Vui lòng thử lại sau.")
+                    }
+                });
+            }
+        }
+    </script>
+    <script src="~/Assets/js/my_js/aboveAll.js">
+    </script>
+}
+
+<script type="text/html" id="form-create">
+    @Html.Editor("name", new { htmlAttributes = new { @class = "form-control mb-2", @placeholder = "Tên lớp học" } })
+    @Html.DropDownList("id_field", null, "Chuyên ngành", htmlAttributes: new { @class = "form-control mb-2" })
+</script>
+
+<script type="text/html" id="form-del">
+    <div class="py-3 px-5">
+        <h3 class="text-danger" style="text-align:center">Không thể hoàn tác. Bạn có chắc muốn xóa?</h3>
+        <div class="row mt-5 justify-content-center">
+            <button onclick="delGrade(this,#id,true)" class="col-auto mx-2 py-2 px-4 btn btn-danger">
+                Xác nhận
+            </button>
+            <button onclick="closeAboveAll()" class="col-auto mx-2 py-2 px-4 btn btn-success">
+                Hủy bỏ
+            </button>
+        </div>
+    </div>
+</script>
+
+
+<script type="text/html" id="form-btn">
+    <div class="row justify-content-center">
+        <button id="form-btn-label" onclick="#func" class="btn btn-danger col-12 m-2" style="position:static;width:fit-content">Thêm</button>
+    </div>
+</script>

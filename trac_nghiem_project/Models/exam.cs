@@ -13,7 +13,7 @@ namespace trac_nghiem_project.Models
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
-
+    
     public partial class exam
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,11 +21,12 @@ namespace trac_nghiem_project.Models
         {
             this.do_exam = new HashSet<do_exam>();
             this.exam_question = new HashSet<exam_question>();
+            this.score_of_exam = new HashSet<score_of_exam>();
         }
     
         public long id_exam { get; set; }
-
-        [DisplayName("Tên bài kiểm tra")]
+        
+		[DisplayName("Tên bài kiểm tra")]
         [Required(ErrorMessage ="Không được bỏ trống")]
         public string name { get; set; }
 
@@ -54,7 +55,9 @@ namespace trac_nghiem_project.Models
         [DataType(DataType.MultilineText)]
         public string note { get; set; }
         public Nullable<long> id_subject { get; set; }
-
+		
+        public Nullable<long> id_subject_grade { get; set; }
+		
         [DisplayName("Trạng thái")]
         public Nullable<bool> status { get; set; }
     
@@ -62,6 +65,8 @@ namespace trac_nghiem_project.Models
         public virtual ICollection<do_exam> do_exam { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<exam_question> exam_question { get; set; }
-        public virtual subject subject { get; set; }
+        public virtual subject_grade subject_grade { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<score_of_exam> score_of_exam { get; set; }
     }
 }

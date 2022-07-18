@@ -10,122 +10,124 @@ using trac_nghiem_project.Models;
 
 namespace trac_nghiem_project.Controllers.admin
 {
-    public class GradesController : Controller
+    public class gradesController : Controller
     {
-        private trac_nghiemEntities7 db = new trac_nghiemEntities7();
+        private trac_nghiemEntities db = new trac_nghiemEntities();
 
-        // GET: Grades
+        // GET: grades
         public ActionResult Index()
         {
-            return View(db.grades.ToList());
+            var grades = db.grades.Include(g => g.field);
+            ViewBag.id_field = new SelectList(db.fields, "id_field", "name");
+            return View(grades.ToList());
         }
 
-        // GET: Grades/Details/5
-        public ActionResult Details(long? id)
+        // GET: grades/Create
+        public JsonResult AddNewGrade(string name, long? id_field)
         {
-            if (id == null)
+            string error = "Thêm lớp học thành công";
+            int status = 1;
+            if (name == null || name == "")
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                error = "Tên lớp học không được để trống";
+                status = -1;
             }
-            grade grade = db.grades.Find(id);
-            if (grade == null)
+            else if (id_field == null)
             {
-                return HttpNotFound();
+                error = "Vui lòng chọn một chuyên ngành";
+                status = -1;
             }
-            return View(grade);
-        }
-
-        // GET: Grades/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Grades/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_grade,name,date_create")] grade grade)
-        {
-            if (ModelState.IsValid)
+            else
             {
-                if (db.grades.Where(s => s.name == grade.name).Any())
+                var new_grade = new grade();
+                new_grade.name = name;
+                new_grade.id_field = id_field;
+                new_grade.date_create = DateTime.Now;
+
+                //Kiểm tra xem có lớp này chưa
+                var query = db.grades.Where(s => (s.id_field == id_field && s.name == name));
+                if (query.Any())
                 {
-                    ModelState.AddModelError("name", "Tên lớp đã tồn tại");
-                    return View(grade);
+                    status = 0;
+                    error = "Lớp học đã tồn tại";
                 }
-
-                grade.date_create = DateTime.Now;
-                db.grades.Add(grade);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(grade);
-        }
-
-        // GET: Grades/Edit/5
-        public ActionResult Edit(long? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            grade grade = db.grades.Find(id);
-            if (grade == null)
-            {
-                return HttpNotFound();
-            }
-            return View(grade);
-        }
-
-        // POST: Grades/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id_grade,name,date_create")] grade grade)
-        {
-            if (ModelState.IsValid)
-            {
-                if (db.grades.Where(s => s.name == grade.name).Any())
+                else
                 {
-                    ModelState.AddModelError("name", "Tên lớp đã tồn tại");
-                    return View(grade);
+                    try
+                    {
+                        db.grades.Add(new_grade);
+                        db.SaveChanges();
+                    }
+                    catch
+                    {
+                        status = -1;
+                        error = "Không thêm được. Vui lòng thử lại sau";
+                    }
                 }
+            }
 
-                db.Entry(grade).State = System.Data.Entity.EntityState.Modified;
+            return Json(new
+            {
+                status = status,
+                error = error,
+            }) ;
+        }
+
+        public JsonResult DelGrade(long? id)
+        {
+            int status = 1;
+            try
+            {
+                grade grade = db.grades.Find(id);
+                db.grades.Remove(grade);
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
-            return View(grade);
-        }
-
-        // GET: Grades/Delete/5
-        public ActionResult Delete(long? id)
-        {
-            if (id == null)
+            catch
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                status = -1;
             }
-            grade grade = db.grades.Find(id);
-            if (grade == null)
-            {
-                return HttpNotFound();
-            }
-            return View(grade);
+            return Json(new{
+                status=status
+            });
         }
-
-        // POST: Grades/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(long id)
+        // GET: grades/Edit/5
+        public JsonResult updateGrade(long id_grade, string name, long? id_field)
         {
-            grade grade = db.grades.Find(id);
-            db.grades.Remove(grade);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            string error = "Cập nhật lớp học thành công";
+            int status = 1;
+            if (name == null || name == "")
+            {
+                error = "Tên lớp học không được để trống";
+                status = -1;
+            }
+            else if (id_field == null)
+            {
+                error = "Vui lòng chọn một chuyên ngành";
+                status = -1;
+            }
+            else
+            {
+                var grade = db.grades.Find(id_grade);
+                grade.name = name;
+                grade.id_field = id_field;
+
+                try
+                {
+                    db.Entry(grade).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                }
+                catch
+                {
+                    status = -1;
+                    error = "Không cập nhật được. Vui lòng thử lại sau";
+                }
+            }
+
+            return Json(new
+            {
+                status = status,
+                error = error,
+            });
         }
 
         protected override void Dispose(bool disposing)

@@ -14,11 +14,11 @@ namespace trac_nghiem_project.Models
     
     public partial class subject_student
     {
-        public long id_subject { get; set; }
+        public long id_subject_grade { get; set; }
         public long id_student { get; set; }
         public string note { get; set; }
     
-        public virtual subject subject { get; set; }
+        public virtual subject_grade subject_grade { get; set; }
         public virtual user user { get; set; }
     }
 }

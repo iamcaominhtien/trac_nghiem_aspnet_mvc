@@ -13,26 +13,30 @@ namespace trac_nghiem_project.Models
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
-
+    
     public partial class grade
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public grade()
         {
+            this.subject_grade = new HashSet<subject_grade>();
             this.users = new HashSet<user>();
         }
     
         public long id_grade { get; set; }
-
+		
         [DisplayName("Lớp")]
         public string name { get; set; }
 
         [DisplayName("Ngày tạo")]
         [DataType(DataType.Date)]
         public Nullable<System.DateTime> date_create { get; set; }
+		
         public Nullable<long> id_field { get; set; }
     
         public virtual field field { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<subject_grade> subject_grade { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<user> users { get; set; }
     }

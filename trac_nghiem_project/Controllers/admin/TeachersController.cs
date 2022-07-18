@@ -10,9 +10,9 @@ using trac_nghiem_project.Models;
 
 namespace trac_nghiem_project.Controllers.teacher
 {
-    public class TeachersController : Controller
+    public class TeachersController : ManagersController
     {
-        private trac_nghiemEntities7 db = new trac_nghiemEntities7();
+        private trac_nghiemEntities db = new trac_nghiemEntities();
 
         // GET: Teachers
         public ActionResult Index()

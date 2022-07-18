@@ -155,7 +155,8 @@
                         $("#myForm").trigger("reset"); // to reset form input fields
                         document.getElementById("add-success").style = "display: block";
                         document.getElementById("add-error").style = "display: none";
-                        document.getElementById("list_all_question_page").innerHTML += document.getElementById("question_item").innerHTML.replaceAll("#stt", response.stt).replaceAll("#question_type", response.question_type).replaceAll("#question", response.question).replaceAll("#created_date", response.created_date).replaceAll("#id_question", response.id_question);
+                        document.getElementById("list_all_question_page").innerHTML += document.getElementById("question_item").innerHTML.replaceAll("#stt", response.stt).replaceAll("#question_type", response.question_type).replaceAll("#question", response.question).replaceAll("#created_date", response.created_date).replaceAll("#id_question_type", response.id_question_type).replaceAll("#id_question", response.id_question);
+                        $("#titleNumberOfQuestion").html(parseInt($("#titleNumberOfQuestion").html()) + 1);
                     }
                     else {
                         document.getElementById("add-success").style = "display: none";

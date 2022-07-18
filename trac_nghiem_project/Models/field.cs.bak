@@ -11,9 +11,7 @@ namespace trac_nghiem_project.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class field
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -24,11 +22,11 @@ namespace trac_nghiem_project.Models
     
         public long id_field { get; set; }
 
-        [DisplayName("Chuy�n ng�nh")]
-        [Required(ErrorMessage ="Kh�ng ???c b? tr?ng")]
+        [DisplayName("Chuyên ngành")]
+        [Required(ErrorMessage ="Không được bỏ trống")]
         public string name { get; set; }
 
-        [DisplayName("Ng�y t?o")]
+        [DisplayName("Ngày tạo")]
         [DataType(DataType.Date)]
         public Nullable<System.DateTime> date_create { get; set; }
     

@@ -19,13 +19,11 @@ namespace trac_nghiem_project.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public subject()
         {
-            this.exams = new HashSet<exam>();
-            this.subject_student = new HashSet<subject_student>();
-            this.subject_teacher = new HashSet<subject_teacher>();
+            this.subject_grade = new HashSet<subject_grade>();
         }
     
         public long id_subject { get; set; }
-
+		
         [DisplayName("Môn học")]
         [Required(ErrorMessage ="Không được để trống")]
         public string name { get; set; }
@@ -34,10 +32,6 @@ namespace trac_nghiem_project.Models
         public Nullable<System.DateTime> date_create { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<exam> exams { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<subject_student> subject_student { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<subject_teacher> subject_teacher { get; set; }
+        public virtual ICollection<subject_grade> subject_grade { get; set; }
     }
 }

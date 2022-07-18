@@ -1,0 +1,69 @@
+﻿@model trac_nghiem_project.Common.LoginSession
+
+@{
+    ViewBag.Title = "Login";
+    Layout = null;
+}
+
+<link href="~/Assets/usersession/fonts/material-icon/css/material-design-iconic-font.min.css" rel="stylesheet" />
+<!-- Main css -->
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Assets/usersession/css/style.css" rel="stylesheet" />
+<link href="~/Assets/css/font-awesome.css" rel="stylesheet" />
+
+<style>
+    select {
+        padding: 6px 12px 6px 30px !important;
+    }
+</style>
+
+<div class="flex">
+    <div class="container mt-2">
+        <div class="signup-content">
+            <div class="signup-form my-auto">
+                <h2 class="form-title">Sign up</h2>
+                <form method="POST" class="register-form" id="register-form">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                        @Html.EditorFor(model => model.name_of_user, new { htmlAttributes = new { @placeholder = "Họ và tên", @data_val = "true", @require = "required" } })
+                        @Html.ValidationMessageFor(model => model.name_of_user, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                        @Html.EditorFor(model => model.username, new { htmlAttributes = new { @placeholder = "Tên đăng nhập", @data_val = "true", @require = "required" } })
+                        @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <label for="email"><i class="zmdi zmdi-email"></i></label>
+                        @Html.EditorFor(model => model.email, new { htmlAttributes = new { @placeholder = "Email", @data_val = "true", @require = "required" } })
+                        @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                        @Html.EditorFor(model => model.password, new { htmlAttributes = new { @placeholder = "Mật khẩu", @data_val = "true", @require = "required" } })
+                        @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <div class="me-2"><label for="pass"><i class="fa fa-graduation-cap"></i></label></div>
+                        @Html.DropDownList("id_grade", null, "Lớp", htmlAttributes: new { @class = "form-control", @data_val = "true", @require = "required" })
+                        @Html.ValidationMessageFor(model => model.id_grade, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <label for="pass"><i class="fa fa-birthday-cake"></i></label>
+                        @Html.EditorFor(model => model.birthday, new { htmlAttributes = new { @placeholder = "Ngày sinh"} })
+                        @Html.ValidationMessageFor(model => model.birthday, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group form-button">
+                        <input type="submit" name="signup" id="signup" class="form-submit" value="Đăng kí" />
+                    </div>
+                </form>
+            </div>
+            <div class="signup-image">
+                <figure><img src="~/Assets/usersession/images/signup-image.jpg" alt="sing up image"></figure>
+                <a href="@Url.Action("Login")" class="signup-image-link">I am already member</a>
+            </div>
+        </div>
+    </div>
+</div>

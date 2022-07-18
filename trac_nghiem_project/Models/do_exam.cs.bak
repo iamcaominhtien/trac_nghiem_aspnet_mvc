@@ -11,30 +11,33 @@ namespace trac_nghiem_project.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class do_exam
     {
-        [DisplayName("?i?m")]
+        [DisplayName("Điểm")]
         public Nullable<double> score { get; set; }
-
-        [DisplayName("Ghi ch�")]
+		
+        public string chose { get; set; }
+		
+        [DisplayName("Ghi chú")]
         [DataType(DataType.MultilineText)]
         public string note { get; set; }
 
-        [DisplayName("Th?i gian b?t ??u")]
+        [DisplayName("Thời gian bắt đầu")]
         [DataType(DataType.DateTime)]
 
         public Nullable<System.DateTime> statrt_time { get; set; }
 
-        [DisplayName("Th?i gian k?t th�c")]
+        [DisplayName("Thời gian kết thúc")]
         [DataType(DataType.DateTime)]
         public Nullable<System.DateTime> finsh_time { get; set; }
+		
         public long id_exam { get; set; }
         public long id_student { get; set; }
-
+        public long id_question { get; set; }
+    
         public virtual exam exam { get; set; }
+        public virtual question question { get; set; }
         public virtual user user { get; set; }
     }
 }

@@ -1,15 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="trac_nghiemModelStoreContainer" CdmEntityContainer="trac_nghiemEntities7">
+  <EntityContainerMapping StorageEntityContainer="trac_nghiemModelStoreContainer" CdmEntityContainer="trac_nghiemEntities">
     <EntitySetMapping Name="do_exam">
       <EntityTypeMapping TypeName="trac_nghiemModel.do_exam">
         <MappingFragment StoreEntitySet="do_exam">
           <ScalarProperty Name="score" ColumnName="score" />
+          <ScalarProperty Name="chose" ColumnName="chose" />
           <ScalarProperty Name="note" ColumnName="note" />
           <ScalarProperty Name="statrt_time" ColumnName="statrt_time" />
           <ScalarProperty Name="finsh_time" ColumnName="finsh_time" />
           <ScalarProperty Name="id_exam" ColumnName="id_exam" />
           <ScalarProperty Name="id_student" ColumnName="id_student" />
+          <ScalarProperty Name="id_question" ColumnName="id_question" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -33,7 +35,7 @@
           <ScalarProperty Name="time_to_do" ColumnName="time_to_do" />
           <ScalarProperty Name="date_create" ColumnName="date_create" />
           <ScalarProperty Name="note" ColumnName="note" />
-          <ScalarProperty Name="id_subject" ColumnName="id_subject" />
+          <ScalarProperty Name="id_subject_grade" ColumnName="id_subject_grade" />
           <ScalarProperty Name="status" ColumnName="status" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -94,20 +96,34 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="subject_student">
-      <EntityTypeMapping TypeName="trac_nghiemModel.subject_student">
-        <MappingFragment StoreEntitySet="subject_student">
-          <ScalarProperty Name="id_subject" ColumnName="id_subject" />
+    <EntitySetMapping Name="score_of_exam">
+      <EntityTypeMapping TypeName="trac_nghiemModel.score_of_exam">
+        <MappingFragment StoreEntitySet="score_of_exam">
+          <ScalarProperty Name="id_exam" ColumnName="id_exam" />
           <ScalarProperty Name="id_student" ColumnName="id_student" />
+          <ScalarProperty Name="score" ColumnName="score" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="start_time" ColumnName="start_time" />
+          <ScalarProperty Name="finish_time" ColumnName="finish_time" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="subject_grade">
+      <EntityTypeMapping TypeName="trac_nghiemModel.subject_grade">
+        <MappingFragment StoreEntitySet="subject_grade">
+          <ScalarProperty Name="id_subject_grade" ColumnName="id_subject_grade" />
+          <ScalarProperty Name="id_subject" ColumnName="id_subject" />
+          <ScalarProperty Name="id_grade" ColumnName="id_grade" />
+          <ScalarProperty Name="id_teacher" ColumnName="id_teacher" />
           <ScalarProperty Name="note" ColumnName="note" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="subject_teacher">
-      <EntityTypeMapping TypeName="trac_nghiemModel.subject_teacher">
-        <MappingFragment StoreEntitySet="subject_teacher">
-          <ScalarProperty Name="id_sbject" ColumnName="id_sbject" />
-          <ScalarProperty Name="id_teacher" ColumnName="id_teacher" />
+    <EntitySetMapping Name="subject_student">
+      <EntityTypeMapping TypeName="trac_nghiemModel.subject_student">
+        <MappingFragment StoreEntitySet="subject_student">
+          <ScalarProperty Name="id_subject_grade" ColumnName="id_subject_grade" />
+          <ScalarProperty Name="id_student" ColumnName="id_student" />
           <ScalarProperty Name="note" ColumnName="note" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -149,6 +165,42 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SelectAllQuestionFrom" FunctionName="trac_nghiemModel.Store.SelectAllQuestionFrom">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="trac_nghiemModel.SelectAllQuestionFrom_Result">
+          <ScalarProperty Name="id_exam" ColumnName="id_exam" />
+          <ScalarProperty Name="id_question_type" ColumnName="id_question_type" />
+          <ScalarProperty Name="id_question" ColumnName="id_question" />
+          <ScalarProperty Name="question" ColumnName="question" />
+          <ScalarProperty Name="answer_1" ColumnName="answer_1" />
+          <ScalarProperty Name="answer_2" ColumnName="answer_2" />
+          <ScalarProperty Name="answer_3" ColumnName="answer_3" />
+          <ScalarProperty Name="answer_4" ColumnName="answer_4" />
+          <ScalarProperty Name="correct" ColumnName="correct" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="date_create" ColumnName="date_create" />
+          <ScalarProperty Name="question_type" ColumnName="question_type" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SelectOneQuestionFrom" FunctionName="trac_nghiemModel.Store.SelectOneQuestionFrom">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="trac_nghiemModel.SelectOneQuestionFrom_Result">
+          <ScalarProperty Name="id_exam" ColumnName="id_exam" />
+          <ScalarProperty Name="id_question_type" ColumnName="id_question_type" />
+          <ScalarProperty Name="id_question" ColumnName="id_question" />
+          <ScalarProperty Name="question" ColumnName="question" />
+          <ScalarProperty Name="answer_1" ColumnName="answer_1" />
+          <ScalarProperty Name="answer_2" ColumnName="answer_2" />
+          <ScalarProperty Name="answer_3" ColumnName="answer_3" />
+          <ScalarProperty Name="answer_4" ColumnName="answer_4" />
+          <ScalarProperty Name="correct" ColumnName="correct" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="date_create" ColumnName="date_create" />
+          <ScalarProperty Name="question_type" ColumnName="question_type" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="trac_nghiemModel.Store.sp_alterdiagram" />
     <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="trac_nghiemModel.Store.sp_creatediagram" />
     <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="trac_nghiemModel.Store.sp_dropdiagram" />
@@ -173,5 +225,6 @@
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="trac_nghiemModel.Store.sp_renamediagram" />
     <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="trac_nghiemModel.Store.sp_upgraddiagrams" />
+    <FunctionImportMapping FunctionImportName="subject_grade_filter" FunctionName="trac_nghiemModel.Store.subject_grade_filter" />
   </EntityContainerMapping>
 </Mapping>
