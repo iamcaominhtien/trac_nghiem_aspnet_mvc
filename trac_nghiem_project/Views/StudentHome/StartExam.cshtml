@@ -79,7 +79,7 @@
 </script>
 
 <div class="row mb-3 justify-content-center" style="background-color:sandybrown">
-    <span id="time" class="py-2 d-block" style="text-align:center;font-size:20px;font-weight:bold"></span>
+    <span id="time" class="py-2 d-block" style="text-align:center;font-size:20px;font-weight:bold">  </span>
 </div>
 <div class="row">
     <div id="number_of_question" class="col-lg-1 col-md-2 col-12 bg-white border border-1 py-3 border-danger" style="height:fit-content">
@@ -91,7 +91,7 @@
 
 
     <div id="container_question" class="col-lg-7 bg-white col-md-9 col-12 mx-lg-2 mx-md-2 mx-0 px-4 py-3 mt-lg-0 mt-md-0 mt-4" style="height:fit-content">
-        <form action="StartExam" method="post" id="theForm">
+        <form action="@Url.Action("StartExam")" method="post" id="theForm">
             <div>
                 <input hidden name="time_count" id="time_count" value="@ViewBag.timer"/>
                 <input hidden name="current_page" value="@ViewBag.current_page" />

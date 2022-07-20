@@ -62,6 +62,12 @@
       <HintPath>..\packages\itextsharp.xmlworker.5.5.13.3\lib\itextsharp.xmlworker.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -139,25 +145,27 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\admin\adminAreaRegistration.cs" />
+    <Compile Include="Areas\teacher\teacherAreaRegistration.cs" />
     <Compile Include="Common\add_exam.cs" />
     <Compile Include="Common\created_question.cs" />
     <Compile Include="Common\detail_do_exam.cs" />
     <Compile Include="Common\manager_controller.cs" />
     <Compile Include="Common\subject_grade_filter.cs" />
-    <Compile Include="Controllers\admin\AdminsController.cs" />
-    <Compile Include="Controllers\admin\ExamQuestionController.cs" />
-    <Compile Include="Controllers\admin\FieldsController.cs" />
-    <Compile Include="Controllers\admin\gradesController.cs" />
-    <Compile Include="Controllers\admin\ManageExamController.cs" />
-    <Compile Include="Controllers\admin\QuestionsController.cs" />
-    <Compile Include="Controllers\admin\SubjectGradesController.cs" />
-    <Compile Include="Controllers\admin\SubjectSController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\admin\StudentsController.cs" />
-    <Compile Include="Controllers\admin\TeachersController.cs" />
+    <Compile Include="Areas\admin\Controllers\AdminsController.cs" />
+    <Compile Include="Areas\admin\Controllers\ExamQuestionController.cs" />
+    <Compile Include="Areas\admin\Controllers\FieldsController.cs" />
+    <Compile Include="Areas\admin\Controllers\gradesController.cs" />
+    <Compile Include="Areas\admin\Controllers\ManageExamController.cs" />
+    <Compile Include="Areas\admin\Controllers\QuestionsController.cs" />
+    <Compile Include="Areas\admin\Controllers\SubjectGradesController.cs" />
+    <Compile Include="Areas\admin\Controllers\SubjectSController.cs" />
+    <Compile Include="Areas\admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\admin\Controllers\StudentsController.cs" />
+    <Compile Include="Areas\admin\Controllers\TeachersController.cs" />
     <Compile Include="Controllers\ManagersController.cs" />
     <Compile Include="Controllers\student\StudentHomeController.cs" />
-    <Compile Include="Controllers\teacher\TeacherHomeController.cs" />
+    <Compile Include="Areas\teacher\Controllers\TeacherHomeController.cs" />
     <Compile Include="Controllers\UserSessionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -275,10 +283,14 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\delete.png" />
+    <Content Include="Images\details.png" />
+    <Content Include="Images\edit.png" />
     <Content Include="Images\log_out.png" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -411,6 +423,8 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\admin\Views\web.config" />
+    <Content Include="Areas\teacher\Views\web.config" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -433,63 +447,65 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Admins\Create.cshtml" />
-    <Content Include="Views\Admins\Delete.cshtml" />
-    <Content Include="Views\Admins\Details.cshtml" />
-    <Content Include="Views\Admins\Edit.cshtml" />
+    <Content Include="Areas\admin\Views\Home\Index.cshtml" />
+    <Content Include="Areas\admin\Views\Admins\Create.cshtml" />
+    <Content Include="Areas\admin\Views\Admins\Delete.cshtml" />
+    <Content Include="Areas\admin\Views\Admins\Details.cshtml" />
+    <Content Include="Areas\admin\Views\Admins\Edit.cshtml" />
     <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
-    <Content Include="Views\Students\Create.cshtml" />
-    <Content Include="Views\Students\Delete.cshtml" />
-    <Content Include="Views\Students\Details.cshtml" />
-    <Content Include="Views\Students\Edit.cshtml" />
-    <Content Include="Views\Students\Index.cshtml" />
-    <Content Include="Views\Admins\Index.cshtml" />
-    <Content Include="Views\Teachers\Create.cshtml" />
-    <Content Include="Views\Teachers\Delete.cshtml" />
-    <Content Include="Views\Teachers\Details.cshtml" />
-    <Content Include="Views\Teachers\Edit.cshtml" />
-    <Content Include="Views\Teachers\Index.cshtml" />
-    <Content Include="Views\ManageExam\Delete.cshtml" />
-    <Content Include="Views\ManageExam\Details.cshtml" />
-    <Content Include="Views\ManageExam\Edit.cshtml" />
-    <Content Include="Views\ManageExam\Index.cshtml" />
-    <Content Include="Views\ManageExam\Create.cshtml" />
-    <Content Include="Views\Questions\Create.cshtml" />
-    <Content Include="Views\ExamQuestion\Create.cshtml" />
-    <Content Include="Views\ExamQuestion\Delete.cshtml" />
-    <Content Include="Views\ExamQuestion\Details.cshtml" />
-    <Content Include="Views\ExamQuestion\Edit.cshtml" />
-    <Content Include="Views\ExamQuestion\Index.cshtml" />
-    <Content Include="Views\Questions\ListQuestion.cshtml" />
-    <Content Include="Views\Questions\ListAllQuestionFrom.cshtml" />
+    <Content Include="Areas\admin\Views\Students\Create.cshtml" />
+    <Content Include="Areas\admin\Views\Students\Delete.cshtml" />
+    <Content Include="Areas\admin\Views\Students\Details.cshtml" />
+    <Content Include="Areas\admin\Views\Students\Edit.cshtml" />
+    <Content Include="Areas\admin\Views\Students\Index.cshtml" />
+    <Content Include="Areas\admin\Views\Admins\Index.cshtml" />
+    <Content Include="Areas\admin\Views\Teachers\Create.cshtml" />
+    <Content Include="Areas\admin\Views\Teachers\Delete.cshtml" />
+    <Content Include="Areas\admin\Views\Teachers\Details.cshtml" />
+    <Content Include="Areas\admin\Views\Teachers\Edit.cshtml" />
+    <Content Include="Areas\admin\Views\Teachers\Index.cshtml" />
+    <Content Include="Areas\admin\Views\ManageExam\Delete.cshtml" />
+    <Content Include="Areas\admin\Views\ManageExam\Details.cshtml" />
+    <Content Include="Areas\admin\Views\ManageExam\Edit.cshtml" />
+    <Content Include="Areas\admin\Views\ManageExam\Index.cshtml" />
+    <Content Include="Areas\admin\Views\ManageExam\Create.cshtml" />
+    <Content Include="Areas\admin\Views\Questions\Create.cshtml" />
+    <Content Include="Areas\admin\Views\ExamQuestion\Create.cshtml" />
+    <Content Include="Areas\admin\Views\ExamQuestion\Delete.cshtml" />
+    <Content Include="Areas\admin\Views\ExamQuestion\Details.cshtml" />
+    <Content Include="Areas\admin\Views\ExamQuestion\Edit.cshtml" />
+    <Content Include="Areas\admin\Views\ExamQuestion\Index.cshtml" />
+    <Content Include="Areas\admin\Views\Questions\ListQuestion.cshtml" />
+    <Content Include="Areas\admin\Views\Questions\ListAllQuestionFrom.cshtml" />
     <Content Include="Views\UserSession\Login.cshtml" />
     <Content Include="Views\UserSession\Register.cshtml" />
     <Content Include="Views\StudentHome\Index.cshtml" />
-    <Content Include="Views\TeacherHome\Index.cshtml" />
+    <Content Include="Areas\teacher\Views\TeacherHome\Index.cshtml" />
     <Content Include="Views\StudentHome\ListExam.cshtml" />
     <Content Include="Views\StudentHome\StartExam.cshtml" />
     <Content Include="Views\StudentHome\GoToExam.cshtml" />
-    <Content Include="Views\TeacherHome\Edit.cshtml" />
-    <Content Include="Views\TeacherHome\ListExam.cshtml" />
-    <Content Include="Views\SubjectS\Create.cshtml" />
-    <Content Include="Views\SubjectS\Delete.cshtml" />
-    <Content Include="Views\SubjectS\Details.cshtml" />
-    <Content Include="Views\SubjectS\Edit.cshtml" />
-    <Content Include="Views\SubjectS\Index.cshtml" />
-    <Content Include="Views\TeacherHome\Create.cshtml" />
-    <Content Include="Views\grades\Index.cshtml" />
-    <Content Include="Views\Fields\Index.cshtml" />
-    <Content Include="Views\SubjectGrades\Create.cshtml" />
-    <Content Include="Views\SubjectGrades\Delete.cshtml" />
-    <Content Include="Views\SubjectGrades\Details.cshtml" />
-    <Content Include="Views\SubjectGrades\Edit.cshtml" />
-    <Content Include="Views\SubjectGrades\Index.cshtml" />
+    <Content Include="Areas\teacher\Views\TeacherHome\Edit.cshtml" />
+    <Content Include="Areas\teacher\Views\TeacherHome\ListExam.cshtml" />
+    <Content Include="Areas\admin\Views\SubjectS\Create.cshtml" />
+    <Content Include="Areas\admin\Views\SubjectS\Delete.cshtml" />
+    <Content Include="Areas\admin\Views\SubjectS\Details.cshtml" />
+    <Content Include="Areas\admin\Views\SubjectS\Edit.cshtml" />
+    <Content Include="Areas\admin\Views\SubjectS\Index.cshtml" />
+    <Content Include="Areas\teacher\Views\TeacherHome\Create.cshtml" />
+    <Content Include="Areas\admin\Views\grades\Index.cshtml" />
+    <Content Include="Areas\admin\Views\Fields\Index.cshtml" />
+    <Content Include="Areas\admin\Views\SubjectGrades\Create.cshtml" />
+    <Content Include="Areas\admin\Views\SubjectGrades\Delete.cshtml" />
+    <Content Include="Areas\admin\Views\SubjectGrades\Details.cshtml" />
+    <Content Include="Areas\admin\Views\SubjectGrades\Edit.cshtml" />
+    <Content Include="Areas\admin\Views\SubjectGrades\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\admin\Data\" />
+    <Folder Include="Areas\admin\Views\Shared\" />
+    <Folder Include="Areas\teacher\Data\" />
+    <Folder Include="Areas\teacher\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

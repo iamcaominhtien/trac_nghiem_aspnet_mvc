@@ -12,6 +12,7 @@ namespace trac_nghiem_project
     {
         protected void Application_Start()
         {
+            RouteTable.Routes.MapMvcAttributeRoutes();
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

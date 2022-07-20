@@ -18,7 +18,7 @@ namespace trac_nghiem_project.Controllers
             {
                 //var temp2= Request.ServerVariables["SCRIPT_NAME"].ToString();
                 filterContext.Result = new RedirectToRouteResult(new
-                    System.Web.Routing.RouteValueDictionary(new { controller = "UserSession", action = "Login" }));
+                    System.Web.Routing.RouteValueDictionary(new { controller = "UserSession", action = "Login",area="" }));
             }
             base.OnActionExecuting(filterContext);
         }

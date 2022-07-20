@@ -1,0 +1,80 @@
+﻿@model IEnumerable<trac_nghiem_project.Models.user>
+
+@{
+    ViewBag.Title = "Index";
+    ViewBag.Page = "Quản lí admin";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<p>
+    @*@Html.ActionLink("Thêm admin", "Create")*@
+    <a href="@Url.Action("Create")" class="btn btn-success">Thêm admin</a>
+</p>
+<table class="table">
+    <tr class="table-dark">
+        <th>
+            UserName
+        </th>
+        <th>
+            Họ và tên
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Giới tính
+        </th>
+        <th>
+            Ngày tạo
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.username)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.email)
+            </td>
+            <td>
+                @{
+                    if (item.gender == false)
+                    {
+                        @:Nữ
+                    }
+                    else
+                    {
+                        @:Nam
+                    }
+                }
+            </td>
+            <td>
+                @Html.FormatValue(item.date_create, "{0:dd/MM/yyyy}")
+            </td>
+            <td>
+                @*@Html.ActionLink("Sửa", "Edit", new { id = item.id_user }) |
+                @Html.ActionLink("Xem chi tiết", "Details", new { id = item.id_user }) |
+                @Html.ActionLink("Xóa", "Delete", new { id = item.id_user })*@
+                <a href="@Url.Action("Edit",
+                                new { id = item.id_user.ToString().Trim()})" class="edit-btn"><abbr title="Cập nhật dữ liệu"><img src="~/Images/edit.png" width="20" height="20" /></abbr></a>
+                <a href="@Url.Action("Details",
+                                new { id = item.id_user.ToString().Trim()})" class="edit-btn"><abbr title="Xem chi tiết"><img src="~/Images/details.png" width="20" height="20" /></abbr></a>
+                <a href="@Url.Action("Delete",
+                                new { id = item.id_user.ToString().Trim()})" class="edit-btn">
+                    <abbr title="Xóa dữ liệu">
+                        <img src="~/Images/delete.png" width="20" height="20" />
+                    </abbr>
+                </a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+

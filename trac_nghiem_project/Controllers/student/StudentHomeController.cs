@@ -13,10 +13,13 @@ using trac_nghiem_project.Models;
 
 namespace trac_nghiem_project.Controllers.student
 {
+    [RoutePrefix("sinh-vien")]
     public class StudentHomeController : ManagersController
     {
         private trac_nghiemEntities db = new trac_nghiemEntities();
-        // GET: StudentHome
+
+        [Route("")]
+        [Route("danh-sach-mon-hoc")]        
         public ActionResult Index()
         {
             var student = getStudentInfo();
@@ -110,12 +113,14 @@ namespace trac_nghiem_project.Controllers.student
             }); 
         }
 
+        [Route("danh-sach-bai-kiem-tra/{id_subject_grade}")]
         public ActionResult ListExam(long id_subject_grade)
         {
             var query = db.exams.Where(s => s.id_subject_grade == id_subject_grade).ToList();
             return View(query);
         }
 
+        [Route("chi-tiet-bai-kiem-tra/{id_exam}")]
         public ActionResult GoToExam(long id_exam)
         {
             var exam = db.exams.Find(id_exam);
@@ -172,7 +177,9 @@ namespace trac_nghiem_project.Controllers.student
             return View(exam);
         }
 
-        public ActionResult StartExam(long id_exam, long? stt)
+        //[Route("kiem-tra/{id_exam}")]
+        [Route("kiem-tra/{id_exam}")]
+        public ActionResult StartExam(long id_exam, long? stt=1)
         {
             //Lưu thông tin kiểm tra
             var student = getStudentInfo();
@@ -239,32 +246,34 @@ namespace trac_nghiem_project.Controllers.student
         }
 
         [HttpPost]
-        public ActionResult StartExam(FormCollection form)
+        //[Route("kiem-tra/{id_exam}")]
+        [Route("kiem-tra/{id_exam}")]
+        public ActionResult StartExam(long id_exam, long stt, string correct, long current_id_question, long time_count)
         {
             var student = getStudentInfo();
-            var all_question = db.Database.SqlQuery<CreatedQuestion>("exec SelectAllQuestionFrom @id_exam", new SqlParameter("id_exam", form["id_exam"])).ToList();
+            var all_question = db.Database.SqlQuery<CreatedQuestion>("exec SelectAllQuestionFrom @id_exam", new SqlParameter("id_exam", id_exam)).ToList();
 
             if (all_question == null)
             {
                 return HttpNotFound();
             }
             ViewBag.number_all_question = all_question.Count;
-            ViewBag.current_page = Convert.ToInt16(form["stt"]);
+            ViewBag.current_page = Convert.ToInt16(stt);
             var question = db.Database.SqlQuery<CreatedQuestion>("exec SelectOneQuestionFrom @id_exam, @stt",
-                new SqlParameter("id_exam", form["id_exam"]),
-                new SqlParameter("stt", form["stt"])).ToList()[0];
-            Console.Write(form["correct"]);
+                new SqlParameter("id_exam", id_exam),
+                new SqlParameter("stt", stt)).ToList()[0];
+            Console.Write(correct);
             ViewBag.current_id_question = question.id_question;
 
             //Lưu vào bảng do_exam
-            if (form["correct"] != null && form["correct"] != "")
+            if (correct != null && correct != "")
             {
                 var my_do = new do_exam();
                 my_do.id_student = student.id_user;
-                my_do.id_exam = Convert.ToInt32(form["id_exam"]);
-                my_do.id_question = Convert.ToInt32(form["current_id_question"]);
+                my_do.id_exam = id_exam;
+                my_do.id_question = current_id_question;
                 my_do.finsh_time = DateTime.Now;
-                my_do.chose = form["correct"];
+                my_do.chose = correct;
 
                 //Kiểm tra đã đánh hay chưa đánh
                 var query = db.do_exam.Where(s => (s.id_exam == my_do.id_exam && s.id_question == my_do.id_question && s.id_student == my_do.id_student));
@@ -305,7 +314,7 @@ namespace trac_nghiem_project.Controllers.student
             ViewBag.isCheck = isCheck;
 
             //hiển thị thời gian làm bài
-            ViewBag.timer = Convert.ToInt32(form["time_count"]);
+            ViewBag.timer = time_count;
 
             return View(question);
         }

@@ -137,7 +137,7 @@
                         @{
                             if (right == 1)
                             {
-                                <a href="/" class="text-white text-decoration-none">
+                                <a href="@Url.Action("Index", "Home", new {area="admin"})" class="text-white text-decoration-none">
                                     <strong>Home</strong>
                                 </a>
                             }
@@ -157,7 +157,7 @@
                     </div>
                     <div>
                         <span style="color:white">Xin chào <b>@user_name</b></span>
-                        <a href="@Url.Action("Logout","UserSession")"><img src="~/Images/log_out.png" width="30" height="30" style="filter: invert(48%) sepia(13%) saturate(3207%) hue-rotate(196deg) brightness(95%) contrast(80%);" /></a>
+                        <a href="@Url.Action("Logout", "UserSession", new {area=""})"><img src="~/Images/log_out.png" width="30" height="30" style="filter: invert(48%) sepia(13%) saturate(3207%) hue-rotate(196deg) brightness(95%) contrast(80%);" /></a>
                     </div>
                 </div>
             </div>

@@ -8,9 +8,15 @@ using trac_nghiem_project.Models;
 
 namespace trac_nghiem_project.Controllers
 {
+    [RoutePrefix("quan-li-phien")]
     public class UserSessionController : Controller
     {
         private trac_nghiemEntities db = new trac_nghiemEntities();
+
+        public ActionResult RedirectToLogin()
+        {
+            return RedirectToAction("Login");
+        }
 
         // GET: UserSession
         public ActionResult Logout()
@@ -25,13 +31,14 @@ namespace trac_nghiem_project.Controllers
             return RedirectToAction("Login");
         }
 
-
+        [Route("dang-nhap")]
         public ActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
+        [Route("dang-nhap")]
         public ActionResult Login(FormCollection form)
         {
             var login = new LoginSession();
@@ -97,15 +104,16 @@ namespace trac_nghiem_project.Controllers
             if (query_2[0].id_right == 1)
             {
                 //Admin
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home", new {area="admin"});
             }
             else if (query_2[0].id_right == 2)
             {
-                return RedirectToAction("Index", "TeacherHome");
+                return RedirectToAction("Index", "TeacherHome", new {area="teacher"});
             }
             return RedirectToAction("Index", "StudentHome");
         }
 
+        [Route("dang-ki")]
         public ActionResult Register()
         {
             ViewBag.id_grade = new SelectList(db.grades, "id_grade", "name");
@@ -113,6 +121,7 @@ namespace trac_nghiem_project.Controllers
         }
 
         [HttpPost]
+        [Route("dang-ki")]
         public ActionResult Register([Bind(Include = "name_of_user, username_or_email, username, email, password, retype_password, gender, id_grade, avatar, birthday, id_right")] LoginSession user)
         {
             if (ModelState.IsValid)
