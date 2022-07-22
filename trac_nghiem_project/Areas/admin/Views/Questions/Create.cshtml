@@ -31,12 +31,12 @@
         </div>
 
         @*<div class="form-group">
-                @Html.LabelFor(model => model.avatar, htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
-                <div class="col-md-12">
-                    @Html.EditorFor(model => model.avatar, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.avatar, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
+            @Html.LabelFor(model => model.avatar, htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
+            <div class="col-md-12">
+                @Html.EditorFor(model => model.avatar, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.avatar, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
 
         <div class="form-group my-2">
             @Html.LabelFor(model => model.question1, htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
@@ -81,7 +81,18 @@
                             @Html.ValidationMessageFor(model => model.answer_4, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                </div>
+
+                    <div class="form-group my-2">
+                        <span class="fw-bold">Chọn đáp án</span>
+                        <select class="form-control" id="correct" name="correct">
+                            <option value="1">Đáp án A</option>
+                            <option value="2">Đáp án B</option>
+                            <option value="3">Đáp án C</option>
+                            <option value="4">Đáp án D</option>
+                        </select>
+                    </div>
+                    
+                </div>    
             }
             else
             {
@@ -89,14 +100,6 @@
                 </div>
             }
         }
-
-        <div class="form-group my-2">
-            @Html.LabelFor(model => model.correct, htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
-            <div class="col-md-12">
-                @Html.EditorFor(model => model.correct, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.correct, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
         <div class="form-group my-2">
             @Html.LabelFor(model => model.note, htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
@@ -134,7 +137,7 @@
             correct: document.getElementById("correct").value,
             note: document.getElementsByClassName("questionNote")[0].value,
             date_create: null,
-            id_exam: @ViewBag.id_exam,
+            id_question_bank: @ViewBag.id_question_bank,
         };
     }
 
@@ -229,7 +232,24 @@
             @Html.ValidationMessageFor(model => model.answer_4, "", new { @class = "text-danger" })
         </div>
     </div>
+
+    <div class="form-group my-2">
+        <span class="fw-bold">Chọn đáp án</span>
+        <select class="form-control" id="correct" name="correct">
+            <option value="1">Đáp án A</option>
+            <option value="2">Đáp án B</option>
+            <option value="3">Đáp án C</option>
+            <option value="4">Đáp án D</option>
+        </select>
+    </div>
 </script>
 
 <script id="text_question" type="text/html">
+    <div class="form-group my-2">
+            @Html.LabelFor(model => model.correct, htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
+            <div class="col-md-12">
+                @Html.EditorFor(model => model.correct, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.correct, "", new { @class = "text-danger" })
+            </div>
+        </div>
 </script>

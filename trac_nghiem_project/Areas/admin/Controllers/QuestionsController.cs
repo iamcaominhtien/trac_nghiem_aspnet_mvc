@@ -16,7 +16,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
 {
     public class QuestionsController : ManagersController
     {
-        private trac_nghiemEntities db = new trac_nghiemEntities();
+        private trac_nghiem_aspEntities db = new trac_nghiem_aspEntities();
 
         public JsonResult ListQuestion(long? id_question)
         {
@@ -39,7 +39,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
                 question = _question.question1,
                 answer_1 = _question.answer_1,
                 answer_2 = _question.answer_2,
-                answer_3=_question.answer_4,
+                answer_3=_question.answer_3,
                 answer_4 = _question.answer_4,
                 correct = _question.correct,
                 note = _question.note,
@@ -51,14 +51,14 @@ namespace trac_nghiem_project.Areas.admin.Controllers
             });
         }
 
-        public ActionResult ListAllQuestionFrom(long? id_exam)
+        public ActionResult ListAllQuestionFrom(long? id_question_bank)
         {
-            if (id_exam == null)
+            if (id_question_bank == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var question = db.Database.SqlQuery<CreatedQuestion>("exec SelectAllQuestionFrom @id_exam", new SqlParameter("id_exam", id_exam)).ToList();
+            var question = db.Database.SqlQuery<CreatedQuestion>("exec SelectAllQuestionFrom @id_question_bank", new SqlParameter("id_question_bank", id_question_bank)).ToList();
             Console.Write(question.Count);
 
             if (question==null)
@@ -71,11 +71,11 @@ namespace trac_nghiem_project.Areas.admin.Controllers
 
 
         [ChildActionOnly]
-        public ActionResult Create(long? id_exam)
+        public ActionResult Create(long? id_question_bank)
         {
             ViewBag.id_question_type = new SelectList(db.question_types, "id_question_type", "name");
             ViewBag.selected = "1";
-            ViewBag.id_exam = id_exam;
+            ViewBag.id_question_bank = id_question_bank;
             return PartialView();
         }
 
@@ -108,7 +108,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
                     string correct,
                     string note,
                     DateTime? date_create,
-                    long? id_exam
+                    long? id_question_bank
                     )
         {
             var _question = new question();
@@ -133,15 +133,14 @@ namespace trac_nghiem_project.Areas.admin.Controllers
                     db.questions.Add(_question);
                     db.SaveChanges();
 
-                    var _exam_question = new exam_question();
-                    _exam_question.id_exam = (long)id_exam;
-                    _exam_question.id_question = (long)_question.id_question;
-                    _exam_question.date_create = DateTime.Now;
-                    db.exam_question.Add(_exam_question);
+                    var _question_bank_questions = new question_bank_questions();
+                    _question_bank_questions.id_question_bank = (long)id_question_bank;
+                    _question_bank_questions.id_question = (long)_question.id_question;
+                    db.question_bank_questions.Add(_question_bank_questions);
                     db.SaveChanges();
 
                     _status = true;
-                    var Lquestion = db.Database.SqlQuery<CreatedQuestion>("exec SelectAllQuestionFrom @id_exam", new SqlParameter("id_exam", id_exam)).ToList();
+                    var Lquestion = db.Database.SqlQuery<CreatedQuestion>("exec SelectAllQuestionFrom @id_question_bank", new SqlParameter("id_question_bank", id_question_bank)).ToList();
                     Console.Write(Lquestion.Last().question_type);
 
                     return Json(new

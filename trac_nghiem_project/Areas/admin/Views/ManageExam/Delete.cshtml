@@ -94,7 +94,32 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.note)
+            @{
+                if (String.IsNullOrEmpty(Model.note))
+                {
+                    @: Không có
+                }
+                else
+                {
+                    <span>@Model.note</span>
+                }
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.score)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.score)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.number_of_questions)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.number_of_questions)
         </dd>
 
         <dt>

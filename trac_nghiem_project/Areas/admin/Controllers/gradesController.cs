@@ -6,15 +6,16 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using trac_nghiem_project.Controllers;
 using trac_nghiem_project.Models;
 
 namespace trac_nghiem_project.Areas.admin.Controllers
 {
     [RouteArea("admin", AreaPrefix = "quan-tri-vien")]
     [RoutePrefix("quan-li-lop-hoc")]
-    public class gradesController : Controller
+    public class gradesController : ManagersController
     {
-        private trac_nghiemEntities db = new trac_nghiemEntities();
+        private trac_nghiem_aspEntities db = new trac_nghiem_aspEntities();
 
         // GET: grades
         [Route("danh-sach-cac-lop-hoc", Order = 0)]

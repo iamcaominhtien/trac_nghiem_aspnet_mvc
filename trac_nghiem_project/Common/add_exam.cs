@@ -51,5 +51,11 @@ namespace trac_nghiem_project.Common
 
         [DisplayName("Trạng thái")]
         public Nullable<bool> status { get; set; }
+
+        [DisplayName("Tổng điểm")]
+        public Nullable<double> score { get; set; }
+
+        [DisplayName("Số câu hỏi")]
+        public Nullable<int> number_of_questions { get; set; }
     }
 }

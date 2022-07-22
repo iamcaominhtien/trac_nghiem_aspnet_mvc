@@ -20,7 +20,7 @@ namespace trac_nghiem_project.Models
         public grade()
         {
             this.subject_grade = new HashSet<subject_grade>();
-            this.users = new HashSet<user>();
+            this.students_user = new HashSet<students_user>();
         }
     
         public long id_grade { get; set; }
@@ -38,6 +38,6 @@ namespace trac_nghiem_project.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<subject_grade> subject_grade { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<user> users { get; set; }
+        public virtual ICollection<students_user> students_user { get; set; }
     }
 }

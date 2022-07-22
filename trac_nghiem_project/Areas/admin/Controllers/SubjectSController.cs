@@ -6,15 +6,16 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using trac_nghiem_project.Controllers;
 using trac_nghiem_project.Models;
 
 namespace trac_nghiem_project.Areas.admin.Controllers
 {
     [RouteArea("admin", AreaPrefix = "quan-tri-vien")]
     [RoutePrefix("quan-li-mon-hoc")]
-    public class SubjectSController : Controller
+    public class SubjectSController : ManagersController
     {
-        private trac_nghiemEntities db = new trac_nghiemEntities();
+        private trac_nghiem_aspEntities db = new trac_nghiem_aspEntities();
 
         // GET: SubjectS
         [Route("danh-sach-mon-hoc", Order = 1)]
@@ -44,6 +45,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         [Route("them-mon-hoc-moi")]
         public ActionResult Create()
         {
+            ViewBag.id_field = new SelectList(db.fields, "id_field", "name");
             return View();
         }
 
@@ -53,7 +55,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         [HttpPost]
         [Route("them-mon-hoc-moi")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_subject,name,date_create")] subject subject)
+        public ActionResult Create([Bind(Include = "id_subject,name,date_create,id_field")] subject subject)
         {
             if (ModelState.IsValid)
             {
@@ -63,6 +65,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.id_field = new SelectList(db.fields, "id_field", "name");
             return View(subject);
         }
 
@@ -75,6 +78,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             subject subject = db.subjects.Find(id);
+            ViewBag.id_field = new SelectList(db.fields, "id_field", "name",subject.id_field);
             if (subject == null)
             {
                 return HttpNotFound();
@@ -88,7 +92,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         [HttpPost]
         [Route("cap-nhat-thong-tin-mon-hoc/{id}")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id_subject,name,date_create")] subject subject)
+        public ActionResult Edit([Bind(Include = "id_subject,name,date_create,id_field")] subject subject)
         {
             if (ModelState.IsValid)
             {
@@ -96,6 +100,8 @@ namespace trac_nghiem_project.Areas.admin.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
+            ViewBag.id_field = new SelectList(db.fields, "id_field", "name", subject.id_field);
             return View(subject);
         }
 

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<trac_nghiem_project.Models.user>
+﻿@model IEnumerable<trac_nghiem_project.Models.teachers_user>
 
 @{
     ViewBag.Title = "Index";
@@ -62,11 +62,11 @@
             @Html.ActionLink("Xem chi tiết", "Details", new { id = item.id_user }) |
             @Html.ActionLink("Xóa", "Delete", new { id = item.id_user })*@
                 <a href="@Url.Action("Edit",
-                                new { id = item.id_user.ToString().Trim()})" class="edit-btn"><abbr title="Cập nhật dữ liệu"><img src="~/Images/edit.png" width="20" height="20" /></abbr></a>
+                                new { id = item.id_teacher.ToString().Trim()})" class="edit-btn"><abbr title="Cập nhật dữ liệu"><img src="~/Images/edit.png" width="20" height="20" /></abbr></a>
                 <a href="@Url.Action("Details",
-                                new { id = item.id_user.ToString().Trim()})" class="edit-btn"><abbr title="Xem chi tiết"><img src="~/Images/details.png" width="20" height="20" /></abbr></a>
+                                new { id = item.id_teacher.ToString().Trim()})" class="edit-btn"><abbr title="Xem chi tiết"><img src="~/Images/details.png" width="20" height="20" /></abbr></a>
                 <a href="@Url.Action("Delete",
-                                new { id = item.id_user.ToString().Trim()})" class="edit-btn">
+                                new { id = item.id_teacher.ToString().Trim()})" class="edit-btn">
                     <abbr title="Xóa dữ liệu">
                         <img src="~/Images/delete.png" width="20" height="20" />
                     </abbr>

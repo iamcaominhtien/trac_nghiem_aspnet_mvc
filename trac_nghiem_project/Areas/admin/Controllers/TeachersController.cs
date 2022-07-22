@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using trac_nghiem_project.Common;
 using trac_nghiem_project.Controllers;
 using trac_nghiem_project.Models;
 
@@ -15,14 +16,14 @@ namespace trac_nghiem_project.Areas.admin.Controllers
     [RoutePrefix("quan-li-giang-vien")]
     public class TeachersController : ManagersController
     {
-        private trac_nghiemEntities db = new trac_nghiemEntities();
+        private trac_nghiem_aspEntities db = new trac_nghiem_aspEntities();
 
         // GET: Teachers
         [Route("danh-sach-giang-vien", Order = 0)]
         [Route("", Order = 1)]
         public ActionResult Index()
         {
-            var users = db.users.Include(u => u.grade).Include(u => u.right).Where(s=>s.id_right==2);
+            var users = db.teachers_user.Include(u => u.right);
             return View(users.ToList());
         }
 
@@ -34,7 +35,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            user user = db.users.Find(id);
+            teachers_user user = db.teachers_user.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -57,18 +58,18 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         [HttpPost]
         [Route("them-giang-vien-moi")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_user,username,name,password,email,avatar,gender,birthday,date_create,id_right,id_grade")] user user)
+        public ActionResult Create([Bind(Include = "id_teacher,username,name,password,email,phone,avatar,gender,birthday,date_create,id_right")] teachers_user user)
         {
             if (ModelState.IsValid)
             {
                 user.date_create = DateTime.Now;
+                user.password= LoginSession.MD5Hash(user.password);
                 user.id_right = 2;
-                db.users.Add(user);
+                db.teachers_user.Add(user);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.id_grade = new SelectList(db.grades, "id_grade", "name", user.id_grade);
             ViewBag.id_right = new SelectList(db.rights, "id_right", "name", user.id_right);
             return View(user);
         }
@@ -81,13 +82,12 @@ namespace trac_nghiem_project.Areas.admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            user user = db.users.Find(id);
+            teachers_user user = db.teachers_user.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
             }
 
-            ViewBag.id_grade = new SelectList(db.grades, "id_grade", "name", user.id_grade);
             ViewBag.id_right = new SelectList(db.rights, "id_right", "name", user.id_right);
             return View(user);
         }
@@ -98,7 +98,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         [HttpPost]
         [Route("cap-nhat-thong-tin-giang-vien/{id}")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id_user,username,name,password,email,avatar,gender,birthday,date_create,id_right,id_grade")] user user)
+        public ActionResult Edit([Bind(Include = "id_teacher,username,name,password,email,phone,avatar,gender,birthday,date_create,id_right")] teachers_user user)
         {
             if (ModelState.IsValid)
             {
@@ -107,7 +107,6 @@ namespace trac_nghiem_project.Areas.admin.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.id_grade = new SelectList(db.grades, "id_grade", "name", user.id_grade);
             ViewBag.id_right = new SelectList(db.rights, "id_right", "name", user.id_right);
             return View(user);
         }
@@ -120,7 +119,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            user user = db.users.Find(id);
+            teachers_user user = db.teachers_user.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -134,8 +133,8 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long id)
         {
-            user user = db.users.Find(id);
-            db.users.Remove(user);
+            teachers_user user = db.teachers_user.Find(id);
+            db.teachers_user.Remove(user);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

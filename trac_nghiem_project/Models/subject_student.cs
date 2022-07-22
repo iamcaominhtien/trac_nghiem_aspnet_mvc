@@ -18,7 +18,7 @@ namespace trac_nghiem_project.Models
         public long id_student { get; set; }
         public string note { get; set; }
     
+        public virtual students_user students_user { get; set; }
         public virtual subject_grade subject_grade { get; set; }
-        public virtual user user { get; set; }
     }
 }

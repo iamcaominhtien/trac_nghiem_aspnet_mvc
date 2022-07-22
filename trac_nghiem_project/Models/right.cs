@@ -17,7 +17,9 @@ namespace trac_nghiem_project.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public right()
         {
-            this.users = new HashSet<user>();
+            this.managers = new HashSet<manager>();
+            this.teachers_user = new HashSet<teachers_user>();
+            this.students_user = new HashSet<students_user>();
         }
     
         public long id_right { get; set; }
@@ -26,6 +28,10 @@ namespace trac_nghiem_project.Models
         public Nullable<System.DateTime> date_create { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<user> users { get; set; }
+        public virtual ICollection<manager> managers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<teachers_user> teachers_user { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<students_user> students_user { get; set; }
     }
 }

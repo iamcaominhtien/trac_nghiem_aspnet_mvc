@@ -21,7 +21,6 @@ namespace trac_nghiem_project.Models
         public string answer_2 { get; set; }
         public string answer_3 { get; set; }
         public string answer_4 { get; set; }
-        public string correct { get; set; }
         public string note { get; set; }
         public Nullable<System.DateTime> date_create { get; set; }
         public string question_type { get; set; }

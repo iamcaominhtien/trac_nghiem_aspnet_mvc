@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using trac_nghiem_project.Common;
 using trac_nghiem_project.Controllers;
 using trac_nghiem_project.Models;
 
@@ -15,14 +16,14 @@ namespace trac_nghiem_project.Areas.admin.Controllers
     [RoutePrefix("quan-li-sinh-vien")]
     public class StudentsController : ManagersController
     {
-        private trac_nghiemEntities db = new trac_nghiemEntities();
+        private trac_nghiem_aspEntities db = new trac_nghiem_aspEntities();
 
         // GET: Students
         [Route("danh-sach-sinh-vien", Order = 0)]
         [Route("", Order = 1)]
         public ActionResult Index()
         {
-            var users = db.users.Include(u => u.grade).Include(u => u.right).Where(s=>s.id_right==3);
+            var users = db.students_user.Include(u => u.grade).Include(u => u.right);
             return View(users.ToList());
         }
 
@@ -34,8 +35,8 @@ namespace trac_nghiem_project.Areas.admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            user user = db.users.Find(id);
-            var l_field = from u in db.users
+            students_user user = db.students_user.Find(id);
+            var l_field = from u in db.students_user
                             join g in db.grades on u.id_grade equals g.id_grade
                           join f in db.fields
                           on g.id_field equals f.id_field
@@ -79,13 +80,14 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         [HttpPost]
         [Route("them-sinh-vien-moi")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_user,username,name,password,email,avatar,gender,birthday,date_create,id_right,id_grade")] user user)
+        public ActionResult Create([Bind(Include = "id_user,username,name,password,email,avatar,gender,birthday,date_create,id_right,id_grade")] students_user user)
         {
             if (ModelState.IsValid)
             {
                 user.date_create = DateTime.Now;
                 user.id_right = 3;
-                db.users.Add(user);
+                user.password = LoginSession.MD5Hash(user.password);
+                db.students_user.Add(user);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -103,7 +105,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            user user = db.users.Find(id);
+            students_user user = db.students_user.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -119,7 +121,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         [HttpPost]
         [Route("cap-nhat-thong-tin-sinh-vien/{id}")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id_user,username,name,password,email,avatar,gender,birthday,date_create,id_right,id_grade")] user user)
+        public ActionResult Edit([Bind(Include = "id_user,username,name,password,email,avatar,gender,birthday,date_create,id_right,id_grade")] students_user user)
         {
             if (ModelState.IsValid)
             {
@@ -141,7 +143,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            user user = db.users.Find(id);
+            students_user user = db.students_user.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -155,8 +157,8 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long id)
         {
-            user user = db.users.Find(id);
-            db.users.Remove(user);
+            students_user user = db.students_user.Find(id);
+            db.students_user.Remove(user);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -13,7 +13,7 @@ namespace trac_nghiem_project.Models
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
-
+    
     public partial class subject
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -24,13 +24,18 @@ namespace trac_nghiem_project.Models
     
         public long id_subject { get; set; }
 		
-        [DisplayName("Môn học")]
+		[DisplayName("Môn học")]
         [Required(ErrorMessage ="Không được để trống")]
         public string name { get; set; }
 
         [DataType(DataType.Date)]
         public Nullable<System.DateTime> date_create { get; set; }
+		
+		[DisplayName("Chuyên ngành")]
+		[Required(ErrorMessage ="Không được để trống")]
+        public Nullable<long> id_field { get; set; }
     
+        public virtual field field { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<subject_grade> subject_grade { get; set; }
     }

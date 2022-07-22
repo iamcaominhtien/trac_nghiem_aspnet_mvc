@@ -22,6 +22,6 @@ namespace trac_nghiem_project.Models
         public Nullable<System.DateTime> finish_time { get; set; }
     
         public virtual exam exam { get; set; }
-        public virtual user user { get; set; }
+        public virtual students_user students_user { get; set; }
     }
 }

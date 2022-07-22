@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "ListExam";
-    ViewBag.Page = "Danh sách bài kiểm tra";
+    //ViewBag.Page = "/*Danh sách bài kiểm tra*/";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
@@ -16,10 +16,16 @@
         text-align: left !important;
     }
 </style>
+<div class="py-3">
+    <h2 class="text-uppercase fw-bold">Danh sách bài kiểm tra</h2>
+    <small>Lớp: @ViewBag.name_grade</small><br />
+    <small>Môn: @ViewBag.name_subject</small>
+</div>
 
 <p>
     @*@Html.ActionLink("Thêm bài kiểm tra", "Create")*@
-    <a href="@Url.Action("Create")" class="btn btn-success">Thêm bài kiểm tra</a>
+    <a href="@Url.Action("Create", new {id_subject_grade=ViewBag.id_subject_grade})" class="btn btn-success mt-2">Thêm bài kiểm tra</a>
+    <a href="@Url.Action("UpdateQuestionBank", new {id_question_bank=ViewBag.id_question_bank})" class="btn btn-danger mt-2">Cập nhật ngân hàng câu hỏi</a>
 </p>
 
 <div>

@@ -14,51 +14,24 @@ namespace trac_nghiem_project.Models
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     
-    public partial class user
+    public partial class students_user
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public user()
+        public students_user()
         {
             this.do_exam = new HashSet<do_exam>();
             this.score_of_exam = new HashSet<score_of_exam>();
-            this.subject_grade = new HashSet<subject_grade>();
             this.subject_student = new HashSet<subject_student>();
         }
-
+    
         public long id_user { get; set; }
-
-        [DisplayName("UserName")]
-        [Required(ErrorMessage ="Không được bỏ trống")]
         public string username { get; set; }
-
-        [DisplayName("Họ và tên")]
-        [Required(ErrorMessage = "Không được bỏ trống")]
         public string name { get; set; }
-
-        [DisplayName("Mật khẩu")]
-        [Required(ErrorMessage = "Không được bỏ trống")]
-        [DataType(DataType.Password)]
         public string password { get; set; }
-
-        [DisplayName("Email")]
-        [Required(ErrorMessage = "Không được bỏ trống")]
-        [DataType(DataType.EmailAddress,ErrorMessage ="Email không đúng định dạng")]
         public string email { get; set; }
-
-        [DisplayName("Avatar")]
-        [DataType(DataType.Upload)]
         public string avatar { get; set; }
-
-        [DisplayName("Giới tính")]
         public Nullable<bool> gender { get; set; }
-
-        [DisplayName("Ngày sinh")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> birthday { get; set; }
-
-        [DisplayName("Ngày tạo")]
-        [DataType(DataType.Date)]
         public Nullable<System.DateTime> date_create { get; set; }
         public Nullable<long> id_right { get; set; }
         public Nullable<long> id_grade { get; set; }
@@ -69,8 +42,6 @@ namespace trac_nghiem_project.Models
         public virtual right right { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<score_of_exam> score_of_exam { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<subject_grade> subject_grade { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<subject_student> subject_student { get; set; }
     }

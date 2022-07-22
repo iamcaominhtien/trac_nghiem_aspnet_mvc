@@ -18,7 +18,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
     [RoutePrefix("quan-li-bai-kiem-tra")]
     public class ManageExamController : ManagersController
     {
-        private trac_nghiemEntities db = new trac_nghiemEntities();
+        private trac_nghiem_aspEntities db = new trac_nghiem_aspEntities();
 
         // GET: ManageExam
         [Route("danh-sach-cac-bai-kiem-tra", Order = 0)]
@@ -86,14 +86,30 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         [HttpPost]
         [Route("them-bai-kiem-tra-moi")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_exam,name,start_time,end_time,time_to_do,date_create,note,id_subject,id_subject_grade,status")] exam exam)
+        public ActionResult Create([Bind(Include = "id_exam,name,start_time,end_time,time_to_do,date_create,note,id_subject_grade,status,score,number_of_questions")] exam exam)
         {
             if (ModelState.IsValid)
             {
-                exam.date_create = DateTime.Now;
-                db.exams.Add(exam);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (exam.start_time >= exam.end_time)
+                {
+                    ModelState.AddModelError("start_time", "Cài đặt thời gian không hợp lệ");
+                    ModelState.AddModelError("end_time", "Cài đặt thời gian không hợp lệ");
+                }
+                else
+                {
+                    exam.date_create = DateTime.Now;
+                    if (exam.score == null)
+                    {
+                        exam.score = 10.0;
+                    }
+                    if (exam.number_of_questions == null)
+                    {
+                        exam.number_of_questions = Convert.ToInt32(exam.score);
+                    }
+                    db.exams.Add(exam);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
 
             var query = subjectGradeFilter(null, null, null);
@@ -126,13 +142,29 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         [HttpPost]
         [Route("cap-nhat-bai-kiem-tra/{id}")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id_exam,name,start_time,end_time,time_to_do,date_create,note,id_subject_grade,status")] exam exam)
+        public ActionResult Edit([Bind(Include = "id_exam,name,start_time,end_time,time_to_do,date_create,note,id_subject_grade,status,score,number_of_questions")] exam exam)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(exam).State = System.Data.Entity.EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (exam.start_time >= exam.end_time)
+                {
+                    ModelState.AddModelError("start_time", "Cài đặt thời gian không hợp lệ");
+                    ModelState.AddModelError("end_time", "Cài đặt thời gian không hợp lệ");
+                }
+                else
+                {
+                    if (exam.score == null)
+                    {
+                        exam.score = 10.0;
+                    }
+                    if (exam.number_of_questions == null)
+                    {
+                        exam.number_of_questions = Convert.ToInt32(exam.score);
+                    }
+                    db.Entry(exam).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
             var query = subjectGradeFilter(null, null, null);
             ViewBag.id_subject_grade = new SelectList(query, "id_subject_grade", "name_subject_grade", exam.id_subject_grade);
@@ -214,6 +246,8 @@ namespace trac_nghiem_project.Areas.admin.Controllers
             re.status = s.status;
             re.date_create = s.date_create;
             re.id_exam = s.id_exam;
+            re.score = s.score;
+            re.number_of_questions = s.number_of_questions;
 
             return re;
         }

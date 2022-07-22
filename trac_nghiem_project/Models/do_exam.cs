@@ -40,6 +40,6 @@ namespace trac_nghiem_project.Models
     
         public virtual exam exam { get; set; }
         public virtual question question { get; set; }
-        public virtual user user { get; set; }
+        public virtual students_user students_user { get; set; }
     }
 }

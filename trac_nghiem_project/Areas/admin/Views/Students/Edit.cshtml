@@ -1,4 +1,4 @@
-﻿@model trac_nghiem_project.Models.user
+﻿@model trac_nghiem_project.Models.students_user
 
 @{
     ViewBag.Title = "Edit";
@@ -16,6 +16,7 @@
     @Html.HiddenFor(model => model.password)
     @Html.HiddenFor(model => model.id_right)
     @Html.HiddenFor(model => model.avatar)
+    @Html.HiddenFor(model => model.date_create)
 
     <div class="form-group my-2">
         @Html.LabelFor(model => model.username, "UserName", htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })

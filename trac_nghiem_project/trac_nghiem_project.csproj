@@ -146,11 +146,14 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\admin\adminAreaRegistration.cs" />
+    <Compile Include="Areas\admin\Controllers\QuestionBankController.cs" />
     <Compile Include="Areas\teacher\teacherAreaRegistration.cs" />
     <Compile Include="Common\add_exam.cs" />
+    <Compile Include="Common\add_question_bank_question.cs" />
     <Compile Include="Common\created_question.cs" />
     <Compile Include="Common\detail_do_exam.cs" />
     <Compile Include="Common\manager_controller.cs" />
+    <Compile Include="Common\my_question_bank.cs" />
     <Compile Include="Common\subject_grade_filter.cs" />
     <Compile Include="Areas\admin\Controllers\AdminsController.cs" />
     <Compile Include="Areas\admin\Controllers\ExamQuestionController.cs" />
@@ -170,6 +173,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CheckDoExam_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\do_exam.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -182,7 +188,13 @@
     <Compile Include="Models\field.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\getDetailDoExam_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\grade.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\manager.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Model1.Context.cs">
@@ -201,6 +213,12 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\question.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\question_bank.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\question_bank_questions.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\question_types.cs">
@@ -224,6 +242,9 @@
     <Compile Include="Models\sp_helpdiagrams_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\students_user.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\subject.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -236,7 +257,7 @@
     <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\user.cs">
+    <Compile Include="Models\teachers_user.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -416,6 +437,10 @@
     <Content Include="Assets\usersession\scss\layouts\main.scss" />
     <Content Include="Assets\usersession\scss\layouts\responsive.scss" />
     <Content Include="Assets\usersession\scss\style.scss" />
+    <Content Include="Areas\admin\Views\web.config" />
+    <Content Include="Areas\teacher\Views\web.config" />
+    <Content Include="Areas\admin\Views\QuestionBank\Index.cshtml" />
+    <Content Include="Areas\admin\Views\QuestionBank\Create.cshtml" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -423,8 +448,8 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\admin\Views\web.config" />
-    <Content Include="Areas\teacher\Views\web.config" />
+    <Content Include="Areas\admin\Views\QuestionBank\Edit.cshtml" />
+    <Content Include="Areas\teacher\Views\TeacherHome\UpdateQuestionBank.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -499,6 +524,7 @@
     <Content Include="Areas\admin\Views\SubjectGrades\Details.cshtml" />
     <Content Include="Areas\admin\Views\SubjectGrades\Edit.cshtml" />
     <Content Include="Areas\admin\Views\SubjectGrades\Index.cshtml" />
+    <Content Include="Views\StudentHome\ReviewQuestion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

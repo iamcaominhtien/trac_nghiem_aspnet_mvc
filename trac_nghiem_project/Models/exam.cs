@@ -25,7 +25,7 @@ namespace trac_nghiem_project.Models
         }
     
         public long id_exam { get; set; }
-        
+		
 		[DisplayName("Tên bài kiểm tra")]
         [Required(ErrorMessage ="Không được bỏ trống")]
         public string name { get; set; }
@@ -54,12 +54,17 @@ namespace trac_nghiem_project.Models
         [DisplayName("Ghi chú")]
         [DataType(DataType.MultilineText)]
         public string note { get; set; }
-        public Nullable<long> id_subject { get; set; }
 		
         public Nullable<long> id_subject_grade { get; set; }
 		
-        [DisplayName("Trạng thái")]
+		[DisplayName("Trạng thái")]
         public Nullable<bool> status { get; set; }
+		
+		[DisplayName("Tổng điểm")]
+        public Nullable<double> score { get; set; }
+		
+		[DisplayName("Số câu hỏi")]
+        public Nullable<int> number_of_questions { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<do_exam> do_exam { get; set; }

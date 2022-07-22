@@ -1,0 +1,232 @@
+﻿@model trac_nghiem_project.Common.AddExam
+
+@{
+    ViewBag.Title = "Ngân hàng câu hỏi";
+    ViewBag.Page = "Cập nhật ngân hàng câu hỏi";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section aboveAll{
+    <div class="myBox sticky-top" id="out_aboveALl">
+        <div class="stack-top opacity-100 rounded-4" id="aboveALl">
+            <button onclick="closeAboveAll()" class="btn bg-white border-1 border-dark rounded-circle">
+                <i class="fa fa-close border-0"></i>
+            </button>
+            <div class="px-4 pb-1 px-lg-5 pb-lg-5" id="containerChildAboveAll">
+                <div id="childAboveAll" class="stack-top" style="width:100%;height:95%">
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts{
+    <script src="~/Assets/js/my_js/aboveAll.js"></script>
+    <script src="~/Assets/js/my_js/listAllQuestionOnExam.js"></script>
+}
+
+<a href="@Url.Action("Index")" class="btn btn-primary px-4">Back</a>
+
+<input type="hidden" value="@ViewBag.id_question_bank" name="id_question_bank" id="id_question_bank"/>
+
+<div class="form-group my-3">
+    @Html.Action("ListAllQuestionFrom", "Questions", new { id_question_bank = ViewBag.id_question_bank })
+</div>
+
+<div class="form-group my-3">
+    @Html.Action("Create", "Questions", new { id_question_bank = ViewBag.id_question_bank })
+</div>
+
+<script id="childAboveAll_radio_4" type="text/html">
+    <span class="fw-bold d-block">#question</span>
+    <p class="text-danger">#note</p>
+    <p class="px-0 mx-0">Select one:</p>
+    <div class="border border-1 border-dark my-2 row mx-0">
+        <span class="btn btn-danger border-0 rounded-0 col-2 col-sm-1" style="height:auto">A.</span>
+        <span class="col-10 d-block ">#answer_1</span>
+    </div>
+    <div class="border border-1 border-dark my-2 row mx-0" style="width:100%">
+        <span class="btn btn-warning border-0 rounded-0 col-2 col-sm-1" style="height:auto">B.</span>
+        <span class="col-10 d-block ">#answer_2</span>
+    </div>
+    <div class="border border-1 border-dark my-2 row mx-0" style="width:100%">
+        <span class="btn btn-success border-0 rounded-0 col-2 col-sm-1" style="height:auto">C.</span>
+        <span class="col-10 d-block ">#answer_3</span>
+    </div>
+    <div class="border border-1 border-dark my-2 row mx-0" style="width:100%">
+        <span class="btn btn-primary border-0 rounded-0 col-2 col-sm-1" style="height:auto">D.</span>
+        <span class="col-10 d-block ">#answer_4</span>
+    </div>
+    <div class="my-2 mx-0" style="width:100%">
+        <p><strong>Đáp án:</strong> #correct</p>
+    </div>
+</script>
+
+<script id="childAboveAll_radio_3" type="text/html">
+    <span class="fw-bold d-block">#question</span>
+    <p class="text-danger">#note</p>
+    <p class="px-0 mx-0">Select one:</p>
+    <div class="border border-1 border-dark my-2 row mx-0">
+        <span class="btn btn-danger border-0 rounded-0" style="width:50px;height:100%;height:auto">A.</span>
+        <span class="col-auto d-block ">#answer_1</span>
+    </div>
+    <div class="border border-1 border-dark my-2 row mx-0" style="width:100%">
+        <span class="btn btn-warning border-0 rounded-0" style="width:50px;height:100%;height:auto">B.</span>
+        <span class="col-auto d-block ">#answer_2</span>
+    </div>
+    <div class="border border-1 border-dark my-2 row mx-0" style="width:100%">
+        <span class="btn btn-success border-0 rounded-0" style="width:50px;height:100%;height:auto">C.</span>
+        <span class="col-auto d-block ">#answer_3</span>
+    </div>
+    <div class="my-2 mx-0" style="width:100%">
+        <p><strong>Đáp án:</strong> #correct</p>
+    </div>
+</script>
+
+<script id="childAboveAll_radio_2" type="text/html">
+    <span class="fw-bold d-block">#question</span>
+    <p class="text-danger">#note</p>
+    <p class="px-0 mx-0">Select one:</p>
+    <div class="border border-1 border-dark my-2 row mx-0">
+        <span class="btn btn-danger border-0 rounded-0" style="width:50px;height:100%;height:auto">A.</span>
+        <span class="col-auto d-block ">#answer_1</span>
+    </div>
+    <div class="border border-1 border-dark my-2 row mx-0" style="width:100%">
+        <span class="btn btn-warning border-0 rounded-0" style="width:50px;height:100%;height:auto">B.</span>
+        <span class="col-auto d-block ">#answer_2</span>
+    </div>
+    <div class="my-2 mx-0" style="width:100%">
+        <p><strong>Đáp án:</strong> #correct</p>
+    </div>
+</script>
+
+<script type="text/html" id="childAboveAll_text">
+    <span class="fw-bold d-block">#question</span>
+    <p class="text-danger">#note</p>
+    <div class="my-2 mx-0" style="width:100%">
+        <p><strong>Đáp án:</strong> #correct</p>
+    </div>
+</script>
+
+<script id="childAboveAll_edit_radio" type="text/html">
+    <form onSubmit="return false">
+        <div>
+            <input data-val="true" data-val-number="The field id_question must be a number." data-val-required="The id_question field is required." id="id_question_edit" name="id_question_edit" type="hidden" value="#id_question">
+            <input data-val="true" data-val-date="The field Ngày tạo must be a date." id="date_create_edit" name="date_create_edit" type="hidden" value="#date_create">
+            <input data-val="true" id="id_question_type_edit" name="id_question_type_edit" type="hidden" value="#id_question_type">
+            <input id="avatar_edit" name="avatar_edit" type="hidden" value="#avatar">
+
+            <div class="form-group my-2">
+                <label class="control-label col-12 fw-bold" for="question">Câu hỏi</label>
+                <div class="col-12">
+                    <input class="form-control text-box single-line" data-val="true" data-val-required="Không được bỏ trống" id="question_edit" name="question_edit" type="text" value="#question">
+                    <span class="field-validation-valid text-danger" data-valmsg-for="question" data-valmsg-replace="true"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group my-2 col-sm-12 col-md-6 col-lg-6 col-12">
+                    <label class="control-label col-12 fw-bold" for="answer_1">Câu trả lời 1</label>
+                    <div class="col-12">
+                        <input class="form-control text-box single-line" data-val="true" id="answer_1_edit" name="answer_1_edit" type="text" value="#answer_1">
+                        <span class="field-validation-valid text-danger" data-valmsg-for="answer_1" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+
+                <div class="form-group my-2 col-sm-12 col-md-6 col-lg-6 col-12">
+                    <label class="control-label col-12 fw-bold" for="answer_2">Câu trả lời 2</label>
+                    <div class="col-12">
+                        <input class="form-control text-box single-line" data-val="true" id="answer_2_edit" name="answer_2_edit" type="text" value="#answer_2">
+                        <span class="field-validation-valid text-danger" data-valmsg-for="answer_2" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group my-2 col-sm-12 col-md-6 col-lg-6 col-12">
+                    <label class="control-label col-12 fw-bold" for="answer_3">Câu trả lời 3</label>
+                    <div class="col-12">
+                        <input class="form-control text-box single-line" data-val="true" id="answer_3_edit" name="answer_3_edit" type="text" value="#answer_3">
+                        <span class="field-validation-valid text-danger" data-valmsg-for="answer_3" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+
+                <div class="form-group my-2 col-sm-12 col-md-6 col-lg-6 col-12">
+                    <label class="control-label col-12 fw-bold" for="answer_4">Câu trả lời 4</label>
+                    <div class="col-12">
+                        <input class="form-control text-box single-line" data-val="true_edit" id="answer_4" name="answer_4_edit" type="text" value="#answer_4">
+                        <span class="field-validation-valid text-danger" data-valmsg-for="answer_4" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group my-2">
+                <label class="control-label col-12 fw-bold" for="correct">Đáp án</label>
+                <div class="col-12">
+                    <input class="form-control text-box single-line" data-val="true" data-val-required="Không được bỏ trống" id="correct_edit" name="correct_edit" type="text" value="#correct">
+                    <span class="field-validation-valid text-danger" data-valmsg-for="correct" data-valmsg-replace="true"></span>
+                </div>
+            </div>
+
+            <div class="form-group my-2">
+                <label class="control-label col-12 fw-bold" for="note">Ghi chú</label>
+                <div class="col-12">
+                    <input class="form-control text-box single-line" data-val="true" id="note_edit" name="note_edit" type="text" value="#note">
+                    <span class="field-validation-valid text-danger" data-valmsg-for="note" data-valmsg-replace="true"></span>
+                </div>
+            </div>
+
+            <div class="form-group my-3">
+                <div class="col-md-offset-2 col-md-5">
+                    <button onclick="updateQuestion()" class="btn btn-success position-static">Cập nhật</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</script>
+
+<script id="childAboveAll_edit_text" type="text/html">
+    <form onSubmit="return false">
+        <div>
+            <input data-val="true" data-val-number="The field id_question must be a number." data-val-required="The id_question field is required." id="id_question_edit" name="id_question_edit" type="hidden" value="#id_question">
+            <input data-val="true" data-val-date="The field Ngày tạo must be a date." id="date_create_edit" name="date_create_edit" type="hidden" value="#date_create">
+            <input data-val="true" id="id_question_type_edit" name="id_question_type_edit" type="hidden" value="#id_question_type">
+            <input data-val="true" id="answer_1_edit" name="answer_1_edit" type="hidden" value="#answer_1">
+            <input data-val="true" id="answer_2_edit" name="answer_2_edit" type="hidden" value="#answer_2">
+            <input data-val="true" id="answer_3_edit" name="answer_3_edit" type="hidden" value="#answer_3">
+            <input data-val="true" id="answer_4_edit" name="answer_4_edit" type="hidden" value="#answer_4">
+            <input id="avatar_edit" name="avatar_edit" type="hidden" value="#avatar">
+
+            <div class="form-group my-2">
+                <label class="control-label col-12 fw-bold" for="question">Câu hỏi</label>
+                <div class="col-12">
+                    <input class="form-control text-box single-line" data-val="true" data-val-required="Không được bỏ trống" id="question_edit" name="question_edit" type="text" value="#question">
+                    <span class="field-validation-valid text-danger" data-valmsg-for="question" data-valmsg-replace="true"></span>
+                </div>
+            </div>
+
+            <div class="form-group my-2">
+                <label class="control-label col-12 fw-bold" for="correct">Đáp án</label>
+                <div class="col-12">
+                    <input class="form-control text-box single-line" data-val="true" data-val-required="Không được bỏ trống" id="correct_edit" name="correct_edit" type="text" value="#correct">
+                    <span class="field-validation-valid text-danger" data-valmsg-for="correct" data-valmsg-replace="true"></span>
+                </div>
+            </div>
+
+            <div class="form-group my-2">
+                <label class="control-label col-12 fw-bold" for="note">Ghi chú</label>
+                <div class="col-12">
+                    <input class="form-control text-box single-line" data-val="true" id="note_edit" name="note_edit" type="text" value="#note">
+                    <span class="field-validation-valid text-danger" data-valmsg-for="note" data-valmsg-replace="true"></span>
+                </div>
+            </div>
+
+            <div class="form-group my-3">
+                <div class="col-md-offset-2 col-md-5">
+                    @*<input type="submit" value="Cập nhật" class="btn btn-success px-3">*@
+                    <button onclick="updateQuestion()" class="btn btn-success px-3 position-static">Cập nhật</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</script>

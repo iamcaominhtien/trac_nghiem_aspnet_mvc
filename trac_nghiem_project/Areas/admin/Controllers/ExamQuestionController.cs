@@ -13,7 +13,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
 {
     public class ExamQuestionController : ManagersController
     {
-        private trac_nghiemEntities db = new trac_nghiemEntities();
+        private trac_nghiem_aspEntities db = new trac_nghiem_aspEntities();
 
         // GET: ExamQuestion
         public ActionResult Index()

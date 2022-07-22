@@ -44,6 +44,10 @@ function getDetailForUpdate(id_question, id_question_type) {
                     replaceAll("#correct", response.correct).
                     replaceAll("#note", response.note);
                 document.getElementById("aboveALl").style = "width: 100%";
+
+                if (id_question_type == 1) {
+                    document.getElementById("correct_edit").value = response.correct
+                }
             }
             else {
                 alert("Có lỗi xảy ra. Vui lòng thử lại sau.")

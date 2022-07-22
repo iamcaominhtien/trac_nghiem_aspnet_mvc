@@ -1,4 +1,4 @@
-﻿@model trac_nghiem_project.Models.user
+﻿@model trac_nghiem_project.Models.students_user
 
 @{
     ViewBag.Title = "Create";
@@ -78,7 +78,7 @@
     <div class="form-group my-2">
         @Html.LabelFor(model => model.id_grade, "Lớp", htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
         <div class="col-md-5">
-            @Html.DropDownList("id_grade", null, htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownList("id_grade", null,"Chọn lớp", htmlAttributes: new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.id_grade, "", new { @class = "text-danger" })
         </div>
     </div>

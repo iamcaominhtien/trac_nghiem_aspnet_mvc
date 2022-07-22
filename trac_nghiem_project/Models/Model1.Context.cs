@@ -15,10 +15,10 @@ namespace trac_nghiem_project.Models
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class trac_nghiemEntities : DbContext
+    public partial class trac_nghiem_aspEntities : DbContext
     {
-        public trac_nghiemEntities()
-            : base("name=trac_nghiemEntities")
+        public trac_nghiem_aspEntities()
+            : base("name=trac_nghiem_aspEntities")
         {
         }
     
@@ -32,15 +32,49 @@ namespace trac_nghiem_project.Models
         public virtual DbSet<exam> exams { get; set; }
         public virtual DbSet<field> fields { get; set; }
         public virtual DbSet<grade> grades { get; set; }
+        public virtual DbSet<manager> managers { get; set; }
+        public virtual DbSet<question_bank> question_bank { get; set; }
+        public virtual DbSet<question_bank_questions> question_bank_questions { get; set; }
         public virtual DbSet<question_types> question_types { get; set; }
         public virtual DbSet<question> questions { get; set; }
         public virtual DbSet<right> rights { get; set; }
         public virtual DbSet<score_of_exam> score_of_exam { get; set; }
+        public virtual DbSet<students_user> students_user { get; set; }
         public virtual DbSet<subject_grade> subject_grade { get; set; }
         public virtual DbSet<subject_student> subject_student { get; set; }
         public virtual DbSet<subject> subjects { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
-        public virtual DbSet<user> users { get; set; }
+        public virtual DbSet<teachers_user> teachers_user { get; set; }
+    
+        public virtual ObjectResult<CheckDoExam_Result> CheckDoExam(Nullable<long> id_exam, Nullable<long> id_question, Nullable<long> id_student)
+        {
+            var id_examParameter = id_exam.HasValue ?
+                new ObjectParameter("id_exam", id_exam) :
+                new ObjectParameter("id_exam", typeof(long));
+    
+            var id_questionParameter = id_question.HasValue ?
+                new ObjectParameter("id_question", id_question) :
+                new ObjectParameter("id_question", typeof(long));
+    
+            var id_studentParameter = id_student.HasValue ?
+                new ObjectParameter("id_student", id_student) :
+                new ObjectParameter("id_student", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CheckDoExam_Result>("CheckDoExam", id_examParameter, id_questionParameter, id_studentParameter);
+        }
+    
+        public virtual ObjectResult<getDetailDoExam_Result> getDetailDoExam(Nullable<long> id_exam, Nullable<long> id_user)
+        {
+            var id_examParameter = id_exam.HasValue ?
+                new ObjectParameter("id_exam", id_exam) :
+                new ObjectParameter("id_exam", typeof(long));
+    
+            var id_userParameter = id_user.HasValue ?
+                new ObjectParameter("id_user", id_user) :
+                new ObjectParameter("id_user", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getDetailDoExam_Result>("getDetailDoExam", id_examParameter, id_userParameter);
+        }
     
         public virtual ObjectResult<SelectAllQuestionFrom_Result> SelectAllQuestionFrom(Nullable<long> id_exam)
         {

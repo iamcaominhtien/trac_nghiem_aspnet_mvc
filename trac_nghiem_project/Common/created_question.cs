@@ -8,6 +8,7 @@ namespace trac_nghiem_project.Common
     public class CreatedQuestion
     {
         public long id_exam { get; set; }
+        public long id_question_bank { get; set; }
 
         public long id_question { get; set; }
 

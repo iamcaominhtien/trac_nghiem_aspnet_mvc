@@ -1,4 +1,4 @@
-﻿@model trac_nghiem_project.Models.user
+﻿@model trac_nghiem_project.Models.manager
 
 @{
     ViewBag.Title = "Delete";
@@ -33,52 +33,18 @@
         </dd>
 
         <dt>
-            Giới tính
+            Ghi chú
         </dt>
 
         <dd>
             @{
-                if (Model.gender == false)
+                if (String.IsNullOrEmpty(Model.note))
                 {
-                    @: Nữ
+                    @: Không có
                 }
                 else
                 {
-                    @: Nam
-                }
-            }
-        </dd>
-
-        <dt>
-            Ngày sinh
-        </dt>
-
-        <dd>
-            @{
-                if (Model.birthday.HasValue == false)
-                {
-                    @: Unknown
-                }
-                else
-                {
-                    <span>@Html.FormatValue(Model.birthday, "{0:dd/MM/yyyy}")</span>
-                }
-            }
-        </dd>
-
-        <dt>
-            Ngày tạo
-        </dt>
-
-        <dd>
-            @{
-                if (Model.date_create.HasValue == false)
-                {
-                    @: Unknown
-                }
-                else
-                {
-                    <span>@Html.FormatValue(Model.date_create, "{0:dd/MM/yyyy}")</span>
+                    <span>@Model.note</span>
                 }
             }
         </dd>

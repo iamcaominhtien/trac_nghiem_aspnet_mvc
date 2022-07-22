@@ -6,22 +6,23 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using trac_nghiem_project.Controllers;
 using trac_nghiem_project.Models;
 
 namespace trac_nghiem_project.Areas.admin.Controllers
 {
     [RouteArea("admin", AreaPrefix = "quan-tri-vien")]
     [RoutePrefix("quan-li-dang-ki-lop-hoc")]
-    public class SubjectGradesController : Controller
+    public class SubjectGradesController : ManagersController
     {
-        private trac_nghiemEntities db = new trac_nghiemEntities();
+        private trac_nghiem_aspEntities db = new trac_nghiem_aspEntities();
 
         // GET: SubjectGrades
         [Route("danh-sach-cac-lop-dang-ki", Order = 0)]
         [Route("", Order = 1)]
         public ActionResult Index()
         {
-            var subject_grade = db.subject_grade.Include(s => s.grade).Include(s => s.subject).Include(s => s.user);
+            var subject_grade = db.subject_grade.Include(s => s.grade).Include(s => s.subject).Include(s => s.teachers_user);
             return View(subject_grade.ToList());
         }
 
@@ -47,7 +48,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         {
             ViewBag.id_grade = new SelectList(db.grades, "id_grade", "name");
             ViewBag.id_subject = new SelectList(db.subjects, "id_subject", "name");
-            ViewBag.id_teacher = new SelectList(db.users.Where(s=>s.id_right==2), "id_user", "name");
+            ViewBag.id_teacher = new SelectList(db.teachers_user, "id_teacher", "name");
             return View();
         }
 
@@ -59,16 +60,24 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id_subject_grade,id_subject,id_grade,id_teacher,note")] subject_grade subject_grade)
         {
+            var query = db.subject_grade.Where(s => (s.id_teacher == subject_grade.id_teacher && s.id_grade == subject_grade.id_grade));
             if (ModelState.IsValid)
             {
-                db.subject_grade.Add(subject_grade);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (query.Any())
+                {
+                    ModelState.AddModelError("", "Lớp học này đã tồn tại");
+                }
+                else
+                {
+                    db.subject_grade.Add(subject_grade);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
 
             ViewBag.id_grade = new SelectList(db.grades, "id_grade", "name", subject_grade.id_grade);
             ViewBag.id_subject = new SelectList(db.subjects, "id_subject", "name", subject_grade.id_subject);
-            ViewBag.id_teacher = new SelectList(db.users.Where(s => s.id_right == 2), "id_user", "name", subject_grade.id_teacher);
+            ViewBag.id_teacher = new SelectList(db.teachers_user, "id_teacher", "name", subject_grade.id_teacher);
             return View(subject_grade);
         }
 
@@ -87,7 +96,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
             }
             ViewBag.id_grade = new SelectList(db.grades, "id_grade", "name", subject_grade.id_grade);
             ViewBag.id_subject = new SelectList(db.subjects, "id_subject", "name", subject_grade.id_subject);
-            ViewBag.id_teacher = new SelectList(db.users.Where(s => s.id_right == 2), "id_user", "name", subject_grade.id_teacher);
+            ViewBag.id_teacher = new SelectList(db.teachers_user, "id_teacher", "name", subject_grade.id_teacher);
             return View(subject_grade);
         }
 
@@ -99,15 +108,23 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_subject_grade,id_subject,id_grade,id_teacher,note")] subject_grade subject_grade)
         {
+            var query = db.subject_grade.Where(s=>s.id_subject_grade!=subject_grade.id_subject_grade).Where(s => (s.id_teacher == subject_grade.id_teacher && s.id_grade == subject_grade.id_grade));
             if (ModelState.IsValid)
             {
-                db.Entry(subject_grade).State = System.Data.Entity.EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (query.Any())
+                {
+                    ModelState.AddModelError("", "Lớp học này đã tồn tại");
+                }
+                else
+                {
+                    db.Entry(subject_grade).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
             ViewBag.id_grade = new SelectList(db.grades, "id_grade", "name", subject_grade.id_grade);
             ViewBag.id_subject = new SelectList(db.subjects, "id_subject", "name", subject_grade.id_subject);
-            ViewBag.id_teacher = new SelectList(db.users.Where(s => s.id_right == 2), "id_user", "name", subject_grade.id_teacher);
+            ViewBag.id_teacher = new SelectList(db.teachers_user, "id_teacher", "name", subject_grade.id_teacher);
             return View(subject_grade);
         }
 

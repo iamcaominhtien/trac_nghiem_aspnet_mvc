@@ -14,17 +14,22 @@ using trac_nghiem_project.Models;
 
 namespace trac_nghiem_project.Areas.teacher.Controller
 {
+    [RouteArea("teacher", AreaPrefix = "giang-vien")]
+    [RoutePrefix("trang-quan-ly")]
     public class TeacherHomeController : ManagersController
     {
-        private trac_nghiemEntities db = new trac_nghiemEntities();
+        private trac_nghiem_aspEntities db = new trac_nghiem_aspEntities();
 
-        private user getTeacherInfo()
+        private teachers_user getTeacherInfo()
         {
             var session = (LoginSession)Session["login"];
-            var user = db.users.Find(session.id_user);
+            var user = db.teachers_user.Find(session.id_user);
             return user;
         }
 
+        //Danh sách các lớp học
+        [Route("danh-sach-lop-hoc",Order =0)]
+        [Route("",Order =1)]
         public ActionResult Index()
         {
             //var users = db.users.Include(u => u.grade).Include(u => u.right).Where(s=>s.id_right==2);
@@ -32,7 +37,7 @@ namespace trac_nghiem_project.Areas.teacher.Controller
             var teacher = getTeacherInfo();
 
             //Lấy ra id_subject từ bảng subject_student
-            var query_1 = db.subject_grade.Where(s => s.id_teacher == teacher.id_user).ToList();
+            var query_1 = db.subject_grade.Where(s => s.id_teacher == teacher.id_teacher).ToList();
             List<SubjectGradeFilter> all_query = new List<SubjectGradeFilter>();
 
             foreach (var subject in query_1)
@@ -60,24 +65,41 @@ namespace trac_nghiem_project.Areas.teacher.Controller
             return View();
         }
 
-        public ActionResult Create()
+        [Route("them-bai-kiem-tra")]
+        public ActionResult Create(long id_subject_grade)
         {
             var query = subjectGradeFilter(null, null, null);
-            ViewBag.id_subject_grade = new SelectList(query, "id_subject_grade", "name_subject_grade");
+            ViewBag.id_subject_grade = new SelectList(query, "id_subject_grade", "name_subject_grade", id_subject_grade);
 
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_exam,name,start_time,end_time,time_to_do,date_create,note,id_subject,id_subject_grade,status")] exam exam)
+        public ActionResult Create([Bind(Include = "id_exam,name,start_time,end_time,time_to_do,date_create,note,id_subject,id_subject_grade,status,score,number_of_questions")] exam exam)
         {
             if (ModelState.IsValid)
             {
-                exam.date_create = DateTime.Now;
-                db.exams.Add(exam);
-                db.SaveChanges();
-                return RedirectToAction("ListExam", new { id_subject_grade =exam.id_subject_grade});
+                if (exam.start_time >= exam.end_time)
+                {
+                    ModelState.AddModelError("start_time", "Cài đặt thời gian không hợp lệ");
+                    ModelState.AddModelError("end_time", "Cài đặt thời gian không hợp lệ");
+                }
+                else
+                {
+                    if (exam.score == null)
+                    {
+                        exam.score = 10.0;
+                    }
+                    if (exam.number_of_questions == null)
+                    {
+                        exam.number_of_questions = Convert.ToInt32(exam.score);
+                    }
+                    exam.date_create = DateTime.Now;
+                    db.exams.Add(exam);
+                    db.SaveChanges();
+                    return RedirectToAction("ListExam", new { id_subject_grade = exam.id_subject_grade });
+                }
             }
 
             var query = subjectGradeFilter(null, null, null);
@@ -85,12 +107,22 @@ namespace trac_nghiem_project.Areas.teacher.Controller
             return View(convertExamToAddExam(exam));
         }
 
+        [Route("danh-sach-bai-kiem-tra/{id_subject_grade}")]
         public ActionResult ListExam(long id_subject_grade)
         {
             var query = db.exams.Where(s => s.id_subject_grade == id_subject_grade).ToList();
+            ViewBag.id_subject_grade = id_subject_grade;
+            ViewBag.id_question_bank = db.question_bank.Where(s => s.id_subject_grade == id_subject_grade).ToList()[0].id_question_bank;
+
+            //get grade name
+            //get subject name
+            var query_2 = db.subject_grade.Find(id_subject_grade);
+            ViewBag.name_grade = db.grades.Find(query_2.id_grade).name;
+            ViewBag.name_subject = db.subjects.Find(query_2.id_subject).name;
             return View(query);
         }
 
+        [Route("cap-nhat-bai-kiem-tra/{id_exam}")]
         public ActionResult Edit(long? id_exam)
         {
             if (id_exam == null)
@@ -109,8 +141,9 @@ namespace trac_nghiem_project.Areas.teacher.Controller
         }
 
         [HttpPost]
+        [Route("cap-nhat-bai-kiem-tra/{id_exam}")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id_exam,name,start_time,end_time,time_to_do,date_create,note,id_subject_grade,status")] exam exam)
+        public ActionResult Edit([Bind(Include = "id_exam,name,start_time,end_time,time_to_do,date_create,note,id_subject_grade,status,score,number_of_questions")] exam exam)
         {
             if (ModelState.IsValid)
             {
@@ -131,6 +164,15 @@ namespace trac_nghiem_project.Areas.teacher.Controller
                     return View(convertExamToAddExam(exam));
                 }
 
+                if (exam.score == null)
+                {
+                    exam.score = 10.0;
+                }
+                if (exam.number_of_questions == null)
+                {
+                    exam.number_of_questions = Convert.ToInt32(exam.score);
+                }
+
                 db.Entry(exam).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("ListExam", new { id_subject_grade = exam.id_subject_grade });
@@ -138,6 +180,26 @@ namespace trac_nghiem_project.Areas.teacher.Controller
             var query = subjectGradeFilter(null, null, null);
             ViewBag.id_subject_grade = new SelectList(query, "id_subject_grade", "name_subject_grade", exam.id_subject_grade);
             return View(convertExamToAddExam(exam));
+        }
+
+        [Route("cap-nhat-ngan-hang-cau-hoi/{id_question_bank}")]
+        public ActionResult UpdateQuestionBank(long? id_question_bank)
+        {
+            if (id_question_bank == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            ViewBag.id_question_bank = id_question_bank;
+            ViewBag.id_subject_grade = db.question_bank.Find(id_question_bank).id_subject_grade;
+            
+            //get grade name
+            //get subject name
+            var query_2 = db.subject_grade.Find(ViewBag.id_subject_grade);
+            ViewBag.name_grade = db.grades.Find(query_2.id_grade).name;
+            ViewBag.name_subject = db.subjects.Find(query_2.id_subject).name;
+
+            return View();
         }
 
         private List<SubjectGradeFilter> subjectGradeFilter(long? id_subject, long? id_teacher, long? id_grade)
@@ -159,6 +221,8 @@ namespace trac_nghiem_project.Areas.teacher.Controller
             re.status = s.status;
             re.date_create = s.date_create;
             re.id_exam = s.id_exam;
+            re.score = s.score;
+            re.number_of_questions = s.number_of_questions;
 
             return re;
         }
