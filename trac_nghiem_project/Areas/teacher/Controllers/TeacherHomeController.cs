@@ -30,6 +30,7 @@ namespace trac_nghiem_project.Areas.teacher.Controller
         //Danh sách các lớp học
         [Route("danh-sach-lop-hoc",Order =0)]
         [Route("",Order =1)]
+        [HasRole(RoleID = "2")]
         public ActionResult Index()
         {
             //var users = db.users.Include(u => u.grade).Include(u => u.right).Where(s=>s.id_right==2);
@@ -66,6 +67,7 @@ namespace trac_nghiem_project.Areas.teacher.Controller
         }
 
         [Route("them-bai-kiem-tra")]
+        [HasRole(RoleID = "2")]
         public ActionResult Create(long id_subject_grade)
         {
             var query = subjectGradeFilter(null, null, null);
@@ -75,7 +77,9 @@ namespace trac_nghiem_project.Areas.teacher.Controller
         }
 
         [HttpPost]
+        [Route("them-bai-kiem-tra")]
         [ValidateAntiForgeryToken]
+        [HasRole(RoleID = "2")]
         public ActionResult Create([Bind(Include = "id_exam,name,start_time,end_time,time_to_do,date_create,note,id_subject,id_subject_grade,status,score,number_of_questions")] exam exam)
         {
             if (ModelState.IsValid)
@@ -108,6 +112,7 @@ namespace trac_nghiem_project.Areas.teacher.Controller
         }
 
         [Route("danh-sach-bai-kiem-tra/{id_subject_grade}")]
+        [HasRole(RoleID = "2")]
         public ActionResult ListExam(long id_subject_grade)
         {
             var query = db.exams.Where(s => s.id_subject_grade == id_subject_grade).ToList();
@@ -123,6 +128,7 @@ namespace trac_nghiem_project.Areas.teacher.Controller
         }
 
         [Route("cap-nhat-bai-kiem-tra/{id_exam}")]
+        [HasRole(RoleID = "2")]
         public ActionResult Edit(long? id_exam)
         {
             if (id_exam == null)
@@ -142,6 +148,7 @@ namespace trac_nghiem_project.Areas.teacher.Controller
 
         [HttpPost]
         [Route("cap-nhat-bai-kiem-tra/{id_exam}")]
+        [HasRole(RoleID = "2")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_exam,name,start_time,end_time,time_to_do,date_create,note,id_subject_grade,status,score,number_of_questions")] exam exam)
         {
@@ -183,6 +190,7 @@ namespace trac_nghiem_project.Areas.teacher.Controller
         }
 
         [Route("cap-nhat-ngan-hang-cau-hoi/{id_question_bank}")]
+        [HasRole(RoleID = "2")]
         public ActionResult UpdateQuestionBank(long? id_question_bank)
         {
             if (id_question_bank == null)

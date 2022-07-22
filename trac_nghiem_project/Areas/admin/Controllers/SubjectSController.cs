@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using trac_nghiem_project.Common;
 using trac_nghiem_project.Controllers;
 using trac_nghiem_project.Models;
 
@@ -20,6 +21,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         // GET: SubjectS
         [Route("danh-sach-mon-hoc", Order = 1)]
         [Route("", Order = 1)]
+        [HasRole(RoleID = "1")]
         public ActionResult Index()
         {
             return View(db.subjects.ToList());
@@ -27,6 +29,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
 
         // GET: SubjectS/Details/5
         [Route("thong-tin-mon-hoc/{id}")]
+        [HasRole(RoleID = "1")]
         public ActionResult Details(long? id)
         {
             if (id == null)
@@ -43,6 +46,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
 
         // GET: SubjectS/Create
         [Route("them-mon-hoc-moi")]
+        [HasRole(RoleID = "1")]
         public ActionResult Create()
         {
             ViewBag.id_field = new SelectList(db.fields, "id_field", "name");
@@ -54,6 +58,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Route("them-mon-hoc-moi")]
+        [HasRole(RoleID = "1")]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id_subject,name,date_create,id_field")] subject subject)
         {
@@ -71,6 +76,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
 
         // GET: SubjectS/Edit/5
         [Route("cap-nhat-thong-tin-mon-hoc/{id}")]
+        [HasRole(RoleID = "1")]
         public ActionResult Edit(long? id)
         {
             if (id == null)
@@ -91,6 +97,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Route("cap-nhat-thong-tin-mon-hoc/{id}")]
+        [HasRole(RoleID = "1")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_subject,name,date_create,id_field")] subject subject)
         {
@@ -107,6 +114,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
 
         // GET: SubjectS/Delete/5
         [Route("xoa-mon-hoc/{id}")]
+        [HasRole(RoleID = "1")]
         public ActionResult Delete(long? id)
         {
             if (id == null)
@@ -124,6 +132,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         // POST: SubjectS/Delete/5
         [HttpPost, ActionName("Delete")]
         [Route("xoa-mon-hoc/{id}")]
+        [HasRole(RoleID = "1")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long id)
         {

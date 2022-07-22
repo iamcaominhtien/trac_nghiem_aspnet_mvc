@@ -18,8 +18,11 @@ namespace trac_nghiem_project.Areas.admin.Controllers
     {
         private trac_nghiem_aspEntities db = new trac_nghiem_aspEntities();
 
+        [HasRole(RoleID = "1,2")]
         public JsonResult ListQuestion(long? id_question)
         {
+            Console.Write(Request.Url.PathAndQuery);
+            Console.Write(Request.Url.AbsolutePath);
             question _question = db.questions.Find(id_question);
             if (_question == null)
             {
@@ -51,6 +54,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
             });
         }
 
+        [HasRole(RoleID = "1,2")]
         public ActionResult ListAllQuestionFrom(long? id_question_bank)
         {
             if (id_question_bank == null)
@@ -71,6 +75,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
 
 
         [ChildActionOnly]
+        [HasRole(RoleID = "1,2")]
         public ActionResult Create(long? id_question_bank)
         {
             ViewBag.id_question_type = new SelectList(db.question_types, "id_question_type", "name");
@@ -97,7 +102,8 @@ namespace trac_nghiem_project.Areas.admin.Controllers
             }
             return true;
         }
-
+        
+        [HasRole(RoleID = "1,2")]
         public JsonResult CreateAQuestion(long? id_question, long? id_question_type,
                     string avatar,
                     string question,
@@ -173,6 +179,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
             });
         }
 
+        [HasRole(RoleID = "1,2")]
         public JsonResult UpdateQuestion(long? id_question, long? id_question_type,
                     string avatar,
                     string question,
@@ -219,6 +226,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
             }); ;
         }
 
+        [HasRole(RoleID = "1,2")]
         public JsonResult DeleteQuestion(long? id_question)
         {
             bool _status = false;

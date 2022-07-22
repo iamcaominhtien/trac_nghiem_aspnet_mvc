@@ -1,0 +1,107 @@
+﻿@model trac_nghiem_project.Models.students_user
+
+@{
+    ViewBag.Title = "Details";
+    ViewBag.Page = "Chi tiết sinh viên";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="py-2 px-5 rounded-4" style="background-color:white">
+    <dl class="dl-horizontal">
+        <dt>
+            UserName
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.username)
+        </dd>
+
+        <dt>
+            Họ và tên
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            Email
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.email)
+        </dd>
+
+        <dt>
+            Giới tính
+        </dt>
+
+        <dd>
+            @{
+                if (Model.gender == false)
+                {
+                    @: Nữ
+                }
+                else
+                {
+                    @: Nam
+                }
+            }
+        </dd>
+
+        <dt>
+            Ngày sinh
+        </dt>
+
+        <dd>
+            @{
+                if (Model.birthday.HasValue == false)
+                {
+                    @: Unknown
+                }
+                else
+                {
+                    <span>@Html.FormatValue(Model.birthday, "{0:dd/MM/yyyy}")</span>
+                }
+            }
+        </dd>
+
+        <dt>
+            Ngày tạo
+        </dt>
+
+        <dd>
+            @{
+                if (Model.date_create.HasValue == false)
+                {
+                    @: Unknown
+                }
+                else
+                {
+                    <span>@Html.FormatValue(Model.date_create, "{0:dd/MM/yyyy}")</span>
+                }
+            }
+        </dd>
+
+        <dt>
+            Chuyên ngành
+        </dt>
+
+        <dd>
+            @ViewBag.field
+        </dd>
+
+        <dt>
+            Lớp
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.grade.name)
+        </dd>
+    </dl>
+    <p>
+        <a href="@Url.Action("Edit", new { id = Model.id_user })" class="btn btn-success px-3">Sửa</a>
+        <a class="btn btn-primary ms-3 px-3" href="@Url.Action("Index")">Back</a>
+    </p>
+
+</div>

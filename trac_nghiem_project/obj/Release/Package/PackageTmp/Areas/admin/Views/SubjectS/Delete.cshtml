@@ -1,0 +1,38 @@
+﻿@model trac_nghiem_project.Models.subject
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h3>Bạn có chắc muốn xóa môn học: </h3>
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            Ngày tạo
+        </dt>
+
+        <dd>
+            @Html.FormatValue(Model.date_create, "{0:dd/MM/yyyy}")
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Xóa" class="btn btn-success px-3" />
+            <a class="btn btn-primary ms-3 px-3" href="@Url.Action("Index")">Back</a>
+        </div>
+    }
+</div>

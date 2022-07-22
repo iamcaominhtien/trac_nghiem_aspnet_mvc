@@ -1,0 +1,81 @@
+﻿@model IEnumerable<trac_nghiem_project.Models.exam>
+@using trac_nghiem_project.Common;
+@{
+    ViewBag.Title = "Index";
+    ViewBag.Page = "Quản lí bài kiểm tra";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var list_name_teacher = (List<string>)ViewBag.name_teachers;
+    int count = 0;
+}
+
+<p>
+    @*@Html.ActionLink("Thêm admin", "Create")*@
+    <a href="@Url.Action("Create")" class="btn btn-success">Thêm bài kiểm tra</a>
+</p>
+<table class="table">
+    <tr class="table-dark">
+        <th>
+            @Html.DisplayNameFor(model => model.name)
+        </th>
+        <th class="d-none d-sm-none d-md-table-cell">
+            @Html.DisplayNameFor(model => model.time_to_do)
+        </th>
+        <th class="d-none d-sm-none d-md-table-cell">
+            @Html.DisplayNameFor(model => model.date_create)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.status)
+        </th>
+        <th>
+            Giảng viên
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td class="d-none d-sm-none d-md-table-cell">
+                @Html.DisplayFor(modelItem => item.time_to_do) phút
+            </td>
+            <td class="d-none d-sm-none d-md-table-cell">
+                @Html.FormatValue(item.date_create, "{0:dd/MM/yyyy}")
+            </td>
+            <td>
+                @{
+                    if (item.status == true)
+                    {
+                        @:Mở
+                    }
+                    else
+                    {
+                        @:Khóa
+                    }
+                }
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.subject_grade.id_subject)*@
+                @list_name_teacher[count]
+                @{ count += 1;}
+            </td>
+            <td>
+                <div class="float-end">
+                    <a href="@Url.Action("Edit",
+                                new { id = item.id_exam.ToString().Trim()})" class="edit-btn"><abbr title="Cập nhật dữ liệu"><img src="~/Images/edit.png" width="20" height="20" /></abbr></a>
+                    <a href="@Url.Action("Details",
+                                new { id = item.id_exam.ToString().Trim()})" class="edit-btn"><abbr title="Xem chi tiết"><img src="~/Images/details.png" width="20" height="20" /></abbr></a>
+                    <a href="@Url.Action("Delete",
+                                new { id = item.id_exam.ToString().Trim()})" class="edit-btn">
+                        <abbr title="Xóa dữ liệu">
+                            <img src="~/Images/delete.png" width="20" height="20" />
+                        </abbr>
+                    </a>
+                </div>
+            </td>
+        </tr>
+    }
+
+</table>

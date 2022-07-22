@@ -1,0 +1,162 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Page = "Danh sách lớp học";
+
+    var name_subjects = (List<string>)ViewBag.name_subjects;
+    var name_classes = (List<string>)ViewBag.name_classes;
+    var id_subject_grades = (List<long>)ViewBag.id_subject_grades;
+}
+
+<style>
+    .subject-box:hover {
+        background-color: darkslategray !important;
+        color: white !important;
+    }
+
+    .subject-box {
+        text-align: left !important;
+    }
+</style>
+@section aboveAll{
+    <div class="myBox sticky-top" id="out_aboveALl">
+        <div class="stack-top opacity-100 rounded-4" id="aboveALl">
+            <button onclick="closeAboveAll()" class="btn bg-white border-1 border-dark rounded-circle">
+                <i class="fa fa-close border-0"></i>
+            </button>
+            <div class="px-4 pb-1 px-lg-5 pb-lg-5" id="containerChildAboveAll">
+                <div id="childAboveAll" class="stack-top" style="width:100%;height:95%">
+                </div>
+                <div class="row justify-content-center">
+                    <button onclick="addSubject(this)" class="btn btn-danger mt-4" style="position:static;width:fit-content">Thêm môn học này</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+<div>
+    @*<button onclick="onClickShowAboveAll(this)" class="btn btn-success mb-3">Thêm lớp học</button>*@
+    @{
+        if (name_subjects.Count() > 0)
+        {
+            for (int i = 0; i < name_subjects.Count(); i++)
+            {
+                <div class="col-12 btn bg-white px-4 py-3 my-2 border border-1 rounded-0 border-dark pointer-event subject-box">
+                    <div><strong>Môn:</strong> @name_subjects[i]</div>
+                    <div><strong>Lớp:</strong> @name_classes[i]</div>
+                    <div class="col-12">
+                        <a href="@Url.Action("ListExam", new { id_subject_grade = id_subject_grades[i] })" class="btn btn-primary mt-3 me-2">Xem</a>
+                        @*<div onclick="deleteSubject(this,@id_subject_grades[i])" href="#" class="btn btn-danger mt-3">Hủy đăng kí</div>*@
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12 bg-danger py-3 px-4 my-2 border border-1 border-dark hoverable pointer-event justify-content-center" style="height:fit-content;">
+                <p class="text-white" style="text-align:center;margin-bottom:0">Bạn hiện chưa có lớp học nào</p>
+            </div>
+        }
+    }
+</div>
+
+@section scripts{
+    var t;
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script>
+        function deleteSubject(a, id_subject_grade) {
+            $.ajax({
+                url: "/StudentHome/DeleteSubject",
+                type: "POST",
+                data: { id_subject_grade: id_subject_grade },
+                dataType: 'json',
+                success: function (response) {
+                    //console.log(response)
+                    if (response.status == 1) {
+                        alert("Hủy đăng kí thành công")
+                        $(a).parent().parent().remove()
+                    }
+                    else {
+                        alert("Có lỗi xảy ra. Vui lòng thử lại sau.")
+                    }
+                },
+                error: function (e) {
+                    console.log(e);
+                    alert("Có lỗi xảy ra. Vui lòng thử lại sau.")
+                }
+            });
+        }
+
+        function onClickShowAboveAll(a, id_question, isDetail, id_question_type) {
+            document.getElementById("out_aboveALl").style = "display:block";
+        }
+
+        function addSubject() {
+            $.ajax({
+                url: "/StudentHome/AddNewSubject",
+                type: "POST",
+                data: { id_subject_grade: document.getElementById("id_subject_grade").value },
+                dataType: 'json',
+                success: function (response) {
+                    console.log(response)
+                    if (response.status == 1) {
+                        alert("Thêm môn học thành công")
+                        window.location.reload();
+                    }
+                    else if (response.status == -1) {
+                        alert("Có lỗi xảy ra. Vui lòng thử lại sau.")
+                    }
+                    else {
+                        alert("Môn học đã tồn tại")
+                    }
+                },
+                error: function (e) {
+                    console.log(e);
+                    alert("Có lỗi xảy ra. Vui lòng thử lại sau.")
+                }
+            });
+        }
+
+        function getDetail(id_question, id_question_type) {
+            $.ajax({
+                url: "/Questions/ListQuestion",
+                type: "POST",
+                data: { id_question: id_question },
+                dataType: 'json',
+                success: function (response) {
+                    console.log(response)
+                    if (response.status) {
+                        document.getElementById("childAboveAll").innerHTML = ''
+                        if (id_question_type == 3) {
+                            document.getElementById("childAboveAll").innerHTML = document.getElementById("childAboveAll_text").innerHTML.replaceAll("#question", response.question).replaceAll("#note", response.note).replaceAll("#correct", response.correct);
+                        }
+                        else {
+                            if (response.numberOfRadio == 4) {
+                                document.getElementById("childAboveAll").innerHTML = document.getElementById("childAboveAll_radio_4").innerHTML.replaceAll("#question", response.question).replaceAll("#note", response.note).replaceAll("#answer_1", response.answer_1).replaceAll("#answer_2", response.answer_2).replaceAll("#answer_3", response.answer_3).replaceAll("#answer_4", response.answer_4).replaceAll("#correct", response.correct);
+                            }
+                            else if (response.numberOfRadio == 3) {
+                                document.getElementById("childAboveAll").innerHTML = document.getElementById("childAboveAll_radio_3").innerHTML.replaceAll("#question", response.question).replaceAll("#note", response.note).replaceAll("#answer_1", response.answer_1).replaceAll("#answer_2", response.answer_2).replaceAll("#answer_3", response.answer_3).replaceAll("#correct", response.correct);
+                            }
+                            else {
+                                document.getElementById("childAboveAll").innerHTML = document.getElementById("childAboveAll_radio_2").innerHTML.replaceAll("#question", response.question).replaceAll("#note", response.note).replaceAll("#answer_1", response.answer_1).replaceAll("#answer_2", response.answer_2).replaceAll("#answer_3", response.answer_3).replaceAll("#correct", response.correct);
+                            }
+                        }
+                    }
+                    else {
+                        alert("Có lỗi xảy ra. Vui lòng thử lại sau.")
+                    }
+                },
+                error: function (e) {
+                    console.log(e);
+                    alert("Có lỗi xảy ra. Vui lòng thử lại sau.")
+                }
+            });
+        }
+
+    </script>
+    <script src="~/Assets/js/my_js/aboveAll.js"></script>
+}
+

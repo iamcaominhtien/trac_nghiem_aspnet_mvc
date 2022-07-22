@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using trac_nghiem_project.Common;
 using trac_nghiem_project.Controllers;
 using trac_nghiem_project.Models;
 
@@ -18,11 +19,14 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         private trac_nghiem_aspEntities db = new trac_nghiem_aspEntities();
         // GET: Fields
         [Route("danh-sach-chuyen-nganh", Order = 0)]
+        [HasRole(RoleID = "1")]
         [Route("", Order = 1)]
         public ActionResult Index()
         {
             return View(db.fields.ToList());
         }
+
+        [HasRole(RoleID = "1")]
         public JsonResult Create(string name)
         {
             string error = "Thêm chuyên ngành thành công";
@@ -66,6 +70,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
             });
         }
 
+        [HasRole(RoleID = "1")]
         public JsonResult Delete(long? id)
         {
             int status = 1;
@@ -85,6 +90,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
             });
         }
 
+        [HasRole(RoleID = "1")]
         public JsonResult Edit(long? id_field, string name)
         {
             string error = "Cập nhật lớp học thành công";

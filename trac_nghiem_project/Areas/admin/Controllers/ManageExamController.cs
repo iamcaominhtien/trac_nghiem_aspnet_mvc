@@ -23,6 +23,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         // GET: ManageExam
         [Route("danh-sach-cac-bai-kiem-tra", Order = 0)]
         [Route("", Order = 1)]
+        [HasRole(RoleID = "1")]
         public ActionResult Index()
         {
             var exams = db.exams.Include(e => e.subject_grade).ToList();
@@ -72,6 +73,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
 
         // GET: ManageExam/Create
         [Route("them-bai-kiem-tra-moi")]
+        [HasRole(RoleID = "1")]
         public ActionResult Create()
         {
             var query = subjectGradeFilter(null,null,null);
@@ -85,6 +87,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Route("them-bai-kiem-tra-moi")]
+        [HasRole(RoleID = "1")]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id_exam,name,start_time,end_time,time_to_do,date_create,note,id_subject_grade,status,score,number_of_questions")] exam exam)
         {
@@ -119,6 +122,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
 
         // GET: ManageExam/Edit/5
         [Route("cap-nhat-bai-kiem-tra/{id}")]
+        [HasRole(RoleID = "1")]
         public ActionResult Edit(long? id)
         {
             if (id == null)
@@ -141,6 +145,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Route("cap-nhat-bai-kiem-tra/{id}")]
+        [HasRole(RoleID = "1")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_exam,name,start_time,end_time,time_to_do,date_create,note,id_subject_grade,status,score,number_of_questions")] exam exam)
         {
@@ -173,6 +178,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
 
         // GET: ManageExam/Delete/5
         [Route("xoa-bai-kiem-tra/{id}")]
+        [HasRole(RoleID = "1")]
         public ActionResult Delete(long? id)
         {
             if (id == null)
@@ -209,6 +215,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         // POST: ManageExam/Delete/5
         [HttpPost, ActionName("Delete")]
         [Route("xoa-bai-kiem-tra/{id}")]
+        [HasRole(RoleID = "1")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long id)
         {

@@ -1,0 +1,201 @@
+﻿@model IEnumerable<trac_nghiem_project.Common.MyQuestionBank>
+
+@{
+    ViewBag.Title = "Danh sách ngân hàng câu hỏi";
+    ViewBag.Page = "Ngân hàng câu hỏi";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var count_question =(List<int>) ViewBag.count_question;
+    var index_cq = 0;
+}
+
+<style>
+    .subject-box:hover {
+        background-color: darkslategray !important;
+        color: white !important;
+    }
+
+    .subject-box {
+        text-align: left !important;
+    }
+</style>
+@section aboveAll{
+    <div class="myBox sticky-top" id="out_aboveALl">
+        <div class="stack-top opacity-100 rounded-4" id="aboveALl">
+            <button onclick="closeAboveAll()" class="btn bg-white border-1 border-dark rounded-circle">
+                <i class="fa fa-close border-0"></i>
+            </button>
+            <div class="px-4 pb-1 px-lg-5 pb-lg-5" id="containerChildAboveAll">
+                <div id="childAboveAll" class="stack-top" style="width:100%;height:95%">
+                </div>
+                <div id="childAboveAll_btn">
+                    <div class="row justify-content-center">
+                        <button id="form-btn-label" onclick="createNew()" class="btn btn-danger col-12 m-2" style="position:static;width:fit-content">Thêm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<button onclick="onClickShowAboveAll(this,true)" class="btn btn-success mb-3">Thêm lớp học</button>
+
+<table class="table">
+    <tr class="table-dark">
+        <th>
+            Lớp
+        </th>
+        <th>
+            Môn học
+        </th>
+        <th>
+            Giảng viên
+        </th>
+        <th>Số câu hỏi</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.grade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.subject)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.teacher)
+            </td>
+            <td>
+                @{ 
+                    <span>@count_question[index_cq]</span>
+                    index_cq++;
+                }
+            </td>
+            <td>
+                <div class="float-end">
+                    <a href="@Url.Action("Edit", new {id_question_bank=item.id_question_bank})" class="edit-btn"><abbr title="Cập nhật ngân hàng câu hỏi"><img src="~/Images/edit.png" width="20" height="20" /></abbr></a>
+                    <a onclick="onClickShowAboveAll(this, false, `@item.id_question_bank`)" class="edit-btn">
+                        <abbr title="Xóa dữ liệu">
+                            <img src="~/Images/delete.png" width="20" height="20" />
+                        </abbr>
+                    </a>
+                </div>
+            </td>
+        </tr>
+    }
+
+</table>
+
+@section scripts{
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script>
+        //function delGrade(a, id_grade, ok) {
+        //    if (ok == true) {
+        //        console.log("here")
+        //        $.ajax({
+        //            url: "/grades/DelGrade",
+        //            type: "POST",
+        //            data: { id: id_grade },
+        //            dataType: 'json',
+        //            success: function (response) {
+        //                //console.log(response)
+        //                if (response.status != 1) {
+        //                    alert("Có lỗi xảy ra. Vui lòng thử lại sau.")
+        //                }
+        //                else {
+        //                    closeAboveAll()
+        //                    window.location.reload();
+        //                }
+        //            },
+        //            error: function (e) {
+        //                console.log(e);
+        //                alert("Có lỗi xảy ra. Vui lòng thử lại sau.")
+        //            }
+        //        });
+        //    }
+        //    else {
+        //        document.getElementById("out_aboveALl").style = "display:block";
+        //        document.getElementById("form-btn-label").remove()
+        //        document.getElementById("childAboveAll").innerHTML = document.getElementById("form-del").innerHTML.replaceAll("#id", id_grade)
+        //    }
+        //}
+
+        function onClickShowAboveAll(a, isAdd, id_subject_grade) {
+            document.getElementById("out_aboveALl").style = "display:block";
+            if (isAdd) {
+                //document.getElementById("childAboveAll").innerHTML = document.getElementById("form-create").innerHTML;
+                document.getElementById("childAboveAll").innerHTML = document.getElementById("form-create").innerHTML;
+            }
+            else {
+                document.getElementById("out_aboveALl").style = "display:block";
+                document.getElementById("form-btn-label").remove()
+                document.getElementById("childAboveAll").innerHTML = document.getElementById("form-del").innerHTML.replace("#id", id_subject_grade);
+            }
+        }
+
+        function createNew() {
+            $.ajax({
+                url: "/QuestionBank/Create",
+                type: "POST",
+                data: { id_subject_grade: document.getElementById("id_subject_grade").value, note: document.getElementById("note").value },
+                dataType: 'json',
+                success: function (response) {
+                    if (response.status == 1) {
+                        //alert(response.error)
+                        window.location.reload();
+                    }
+                    else {
+                        alert(response.error)
+                    }
+                },
+                error: function (e) {
+                    //console.log(e);
+                    alert("Có lỗi xảy ra. Vui lòng thử lại sau.")
+                }
+            });
+        }
+
+        function del(id) {
+            $.ajax({
+                url: "/QuestionBank/Delete",
+                type: "POST",
+                data: { id_question_bank: id },
+                dataType: 'json',
+                success: function (response) {
+                    if (response.status == 1) {
+                        window.location.reload();
+                    }
+                    else {
+                        alert(response.error)
+                    }
+                },
+                error: function (e) {
+                    //console.log(e);
+                    alert("Có lỗi xảy ra. Vui lòng thử lại sau.")
+                }
+            });
+        }
+
+    </script>
+    <script src="~/Assets/js/my_js/aboveAll.js">
+    </script>
+}
+
+<script type="text/html" id="form-create">
+    @Html.DropDownList("id_subject_grade", null, "Chọn 1 lớp học", htmlAttributes: new { @class = "form-control mb-2" })
+    <textarea name="note" id="note" class="form-control mb-2" placeholder="Ghi chú"></textarea>
+</script>
+
+<script type="text/html" id="form-del">
+    <div class="py-3 px-5">
+        <h3 class="text-danger" style="text-align:center">Không thể hoàn tác. Bạn có chắc muốn xóa?</h3>
+        <div class="row mt-5 justify-content-center">
+            <button onclick="del(#id)" class="col-auto mx-2 py-2 px-4 btn btn-danger">
+                Xác nhận
+            </button>
+            <button onclick="closeAboveAll()" class="col-auto mx-2 py-2 px-4 btn btn-success">
+                Hủy bỏ
+            </button>
+        </div>
+    </div>
+</script>

@@ -1,0 +1,202 @@
+﻿@model IEnumerable<trac_nghiem_project.Models.field>
+
+@{
+    ViewBag.Title = "Index";
+    ViewBag.Page = "Quản lí chuyên ngành";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<script>
+    function onClickShowAboveAll(type, id, name) {
+        document.getElementById("out_aboveALl").style = "display:block";
+        console.log(type)
+        if (type == 'create') {
+            console.log("create")
+            document.getElementById("childAboveAll").innerHTML = document.getElementById("form-create").innerHTML;
+        }
+        else if (type == 'edit') {
+            console.log("edit")
+            document.getElementById("childAboveAll").innerHTML = document.getElementById("form-create").innerHTML;
+            document.getElementById("childAboveAll_btn").innerHTML = document.getElementById("edit-btn").innerHTML.replace("#id", id)
+            document.getElementById("name").value = name
+        }
+        else {
+            console.log("del")
+            document.getElementById("childAboveAll").innerHTML = document.getElementById("form-del").innerHTML.replace("#id", id);
+            document.getElementById("form-btn-label").remove()
+        }
+    }
+</script>
+
+<style>
+    .subject-box:hover {
+        background-color: darkslategray !important;
+        color: white !important;
+    }
+
+    .subject-box {
+        text-align: left !important;
+    }
+</style>
+
+<script>
+    function add() {
+        $.ajax({
+            url: "/Fields/Create",
+            type: "POST",
+            data: { name: document.getElementById("name").value },
+            dataType: 'json',
+            success: function (response) {
+                if (response.status == 1) {
+                    //alert(response.error)
+                    window.location.reload();
+                }
+                else {
+                    alert(response.error)
+                }
+            },
+            error: function (e) {
+                console.log(e);
+                alert("Có lỗi xảy ra. Vui lòng thử lại sau.")
+            }
+        });
+    }
+</script>
+
+<script>
+    function edit(id) {
+        console.log("vào đây")
+        $.ajax({
+            url: "/Fields/Edit",
+            type: "POST",
+            data: { id_field: id, name: document.getElementById("name").value },
+            dataType: 'json',
+            success: function (response) {
+                //console.log(response)
+                if (response.status != 1) {
+                    alert("Có lỗi xảy ra. Vui lòng thử lại sau.")
+                }
+                else {
+                    //closeAboveAll()
+                    window.location.reload();
+                }
+            },
+            error: function (e) {
+                console.log(e);
+                alert("Có lỗi xảy ra. Vui lòng thử lại sau.")
+            }
+        });
+    }
+</script>
+
+@section aboveAll{
+    <div class="myBox sticky-top" id="out_aboveALl">
+        <div class="stack-top opacity-100 rounded-4" id="aboveALl">
+            <button onclick="closeAboveAll()" class="btn bg-white border-1 border-dark rounded-circle">
+                <i class="fa fa-close border-0"></i>
+            </button>
+            <div class="px-4 pb-1 px-lg-5 pb-lg-5" id="containerChildAboveAll">
+                <div id="childAboveAll" class="stack-top" style="width:100%;height:95%">
+                </div>
+                <div id="childAboveAll_btn">
+                    <div class="row justify-content-center">
+                        <button id="form-btn-label" onclick="add()" class="btn btn-danger col-12 m-2" style="position:static;width:fit-content">Thêm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<button onclick="onClickShowAboveAll('create')" class="btn btn-success mb-3">Thêm chuyên ngành</button>
+
+<table class="table">
+    <tr class="table-dark">
+        <th>
+            @Html.DisplayNameFor(model => model.name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.date_create)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date_create)
+            </td>
+            <td>
+                <div class="float-end">
+                    <a onclick="onClickShowAboveAll(`edit`, `@item.id_field`, `@item.name`)" class="edit-btn"><abbr title="Cập nhật dữ liệu"><img src="~/Images/edit.png" width="20" height="20" /></abbr></a>
+                    <a onclick="onClickShowAboveAll(`delete`, `@item.id_field`)" class="edit-btn">
+                        <abbr title="Xóa dữ liệu">
+                            <img src="~/Images/delete.png" width="20" height="20" />
+                        </abbr>
+                    </a>
+                </div>
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@section scripts{
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script>
+        function del(id) {
+            console.log(id)
+            $.ajax({
+                url: "/Fields/Delete",
+                type: "POST",
+                data: { id: id },
+                dataType: 'json',
+                success: function (response) {
+                    //console.log(response)
+                    if (response.status != 1) {
+                        alert("Có lỗi xảy ra. Vui lòng thử lại sau.")
+                    }
+                    else {
+                        closeAboveAll()
+                        window.location.reload();
+                    }
+                },
+                error: function (e) {
+                    console.log(e);
+                    alert("Có lỗi xảy ra. Vui lòng thử lại sau.")
+                }
+            });
+        }
+    </script>
+    <script src="~/Assets/js/my_js/aboveAll.js">
+    </script>
+}
+
+<script type="text/html" id="form-create">
+    @Html.Editor("name", new { htmlAttributes = new { @class = "form-control mb-2", @placeholder = "Nhập tên chuyên ngành" } })
+</script>
+
+<script type="text/html" id="form-del">
+    <div class="py-3 px-5">
+        <h3 class="text-danger" style="text-align:center">Không thể hoàn tác. Bạn có chắc muốn xóa?</h3>
+        <div class="row mt-5 justify-content-center">
+            <button onclick="del(#id)" class="col-auto mx-2 py-2 px-4 btn btn-danger">
+                Xác nhận
+            </button>
+            <button onclick="closeAboveAll()" class="col-auto mx-2 py-2 px-4 btn btn-success">
+                Hủy bỏ
+            </button>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="edit-btn">
+    <div class="row justify-content-center">
+        <button id="form-btn-label" onclick="edit(#id)" class="btn btn-danger col-12 m-2" style="position:static;width:fit-content">Cập nhật</button>
+    </div>
+</script>

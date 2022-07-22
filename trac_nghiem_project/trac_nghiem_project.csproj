@@ -152,6 +152,7 @@
     <Compile Include="Common\add_question_bank_question.cs" />
     <Compile Include="Common\created_question.cs" />
     <Compile Include="Common\detail_do_exam.cs" />
+    <Compile Include="Common\has_role.cs" />
     <Compile Include="Common\manager_controller.cs" />
     <Compile Include="Common\my_question_bank.cs" />
     <Compile Include="Common\subject_grade_filter.cs" />
@@ -450,6 +451,7 @@
     </Content>
     <Content Include="Areas\admin\Views\QuestionBank\Edit.cshtml" />
     <Content Include="Areas\teacher\Views\TeacherHome\UpdateQuestionBank.cshtml" />
+    <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

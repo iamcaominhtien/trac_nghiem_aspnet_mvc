@@ -34,6 +34,16 @@ namespace trac_nghiem_project.Controllers
         [Route("dang-nhap")]
         public ActionResult Login()
         {
+            var session = (LoginSession)Session["login"];
+            if (session != null)
+            {
+                if (session.id_right==1)
+                    return RedirectToAction("Index", "Home", new { area = "admin" });
+                else if (session.id_right==2)
+                    return RedirectToAction("Index", "TeacherHome", new { area = "teacher" });
+                else if (session.id_right==3)
+                    return RedirectToAction("Index", "StudentHome");
+            }
             return View();
         }
 
@@ -139,6 +149,7 @@ namespace trac_nghiem_project.Controllers
         {
             var login = new LoginSession();
             login.name_of_user = query[0].name;
+            login.username = query[0].username;
             login.id_right = query[0].id_right;
             if (login.id_right==1)
                 login.id_user = query[0].id_manager;

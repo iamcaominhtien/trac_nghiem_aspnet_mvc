@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using trac_nghiem_project.Common;
 using trac_nghiem_project.Controllers;
 using trac_nghiem_project.Models;
 
@@ -20,6 +21,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         // GET: SubjectGrades
         [Route("danh-sach-cac-lop-dang-ki", Order = 0)]
         [Route("", Order = 1)]
+        [HasRole(RoleID = "1")]
         public ActionResult Index()
         {
             var subject_grade = db.subject_grade.Include(s => s.grade).Include(s => s.subject).Include(s => s.teachers_user);
@@ -28,6 +30,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
 
         // GET: SubjectGrades/Details/5
         [Route("thong-tin-chi-tiet-lop-hoc/{id}")]
+        [HasRole(RoleID = "1")]
         public ActionResult Details(long? id)
         {
             if (id == null)
@@ -44,6 +47,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
 
         // GET: SubjectGrades/Create
         [Route("dang-li-lop-hoc-moi")]
+        [HasRole(RoleID = "1")]
         public ActionResult Create()
         {
             ViewBag.id_grade = new SelectList(db.grades, "id_grade", "name");
@@ -57,6 +61,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Route("dang-li-lop-hoc-moi")]
+        [HasRole(RoleID = "1")]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id_subject_grade,id_subject,id_grade,id_teacher,note")] subject_grade subject_grade)
         {
@@ -83,6 +88,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
 
         // GET: SubjectGrades/Edit/5
         [Route("cap-nhat-thong-tin-lop-hoc/{id}")]
+        [HasRole(RoleID = "1")]
         public ActionResult Edit(long? id)
         {
             if (id == null)
@@ -105,6 +111,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Route("cap-nhat-thong-tin-lop-hoc/{id}")]
+        [HasRole(RoleID = "1")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_subject_grade,id_subject,id_grade,id_teacher,note")] subject_grade subject_grade)
         {
@@ -130,6 +137,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
 
         // GET: SubjectGrades/Delete/5
         [Route("xoa-lop-hoc/{id}")]
+        [HasRole(RoleID = "1")]
         public ActionResult Delete(long? id)
         {
             if (id == null)
@@ -147,6 +155,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         // POST: SubjectGrades/Delete/5
         [HttpPost, ActionName("Delete")]
         [Route("xoa-lop-hoc/{id}")]
+        [HasRole(RoleID = "1")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long id)
         {

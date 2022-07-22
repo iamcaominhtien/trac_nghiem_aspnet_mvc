@@ -1,0 +1,51 @@
+﻿@model trac_nghiem_project.Models.exam_question
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>exam_question</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.note)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.note)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.date_create)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.date_create)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.exam.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.exam.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.question.avatar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.question.avatar)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

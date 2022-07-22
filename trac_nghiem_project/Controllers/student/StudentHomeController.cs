@@ -17,11 +17,12 @@ namespace trac_nghiem_project.Controllers.student
     public class StudentHomeController : ManagersController
     {
         static List<CreatedQuestion> list_questions = new List<CreatedQuestion>();
-
+        static long current_id_subject_grade=-1;
         private trac_nghiem_aspEntities db = new trac_nghiem_aspEntities();
 
         [Route("")]
-        [Route("danh-sach-mon-hoc")]        
+        [Route("danh-sach-mon-hoc")]
+        [HasRole(RoleID = "3")]
         public ActionResult Index()
         {
             var student = getStudentInfo();
@@ -62,6 +63,7 @@ namespace trac_nghiem_project.Controllers.student
             return View();
         }
 
+        [HasRole(RoleID = "3")]
         public JsonResult DeleteSubject(long id_subject_grade)
         {
             var status = true;
@@ -83,6 +85,7 @@ namespace trac_nghiem_project.Controllers.student
             }); ;
         }
 
+        [HasRole(RoleID = "3")]
         public JsonResult AddNewSubject(long id_subject_grade) 
         {
             int status = -1;
@@ -116,13 +119,17 @@ namespace trac_nghiem_project.Controllers.student
         }
 
         [Route("danh-sach-bai-kiem-tra/{id_subject_grade}")]
+
+        [HasRole(RoleID = "3")]
         public ActionResult ListExam(long id_subject_grade)
         {
             var query = db.exams.Where(s => s.id_subject_grade == id_subject_grade).ToList();
+            current_id_subject_grade = id_subject_grade;
             return View(query);
         }
 
         [Route("chi-tiet-bai-kiem-tra/{id_exam}")]
+        [HasRole(RoleID = "3")]
         public ActionResult GoToExam(long id_exam)
         {
             var exam = db.exams.Find(id_exam);
@@ -184,11 +191,14 @@ namespace trac_nghiem_project.Controllers.student
             ViewBag.done = done;
             ViewBag.score = score;
             ViewBag.canDo = canDo;
+            ViewBag.score_of_exam = exam.score;
+            ViewBag.current_id_subject_grade = current_id_subject_grade;
             return View(exam);
         }
 
         //[Route("kiem-tra/{id_exam}")]
         [Route("kiem-tra/{id_exam}")]
+        [HasRole(RoleID = "3")]
         public ActionResult StartExam(long id_exam, long? stt=1)
         {
             //Lưu thông tin kiểm tra
@@ -219,9 +229,12 @@ namespace trac_nghiem_project.Controllers.student
                 stt = 1;
 
                 //Lấy số lượng câu hỏi
-            list_questions = db.Database.SqlQuery<CreatedQuestion>("exec SelectRandomQuestionFrom @id_question_bank, @number_of_question", 
+            if (list_questions == null || list_questions.Count == 0)
+            {
+                list_questions = db.Database.SqlQuery<CreatedQuestion>("exec SelectRandomQuestionFrom @id_question_bank, @number_of_question",
                 new SqlParameter("id_question_bank", id_question_bank),
                 new SqlParameter("number_of_question", exam.number_of_questions)).ToList();
+            }
 
             if (list_questions == null)
             {
@@ -266,6 +279,7 @@ namespace trac_nghiem_project.Controllers.student
         [HttpPost]
         //[Route("kiem-tra/{id_exam}")]
         [Route("kiem-tra/{id_exam}")]
+        [HasRole(RoleID = "3")]
         public ActionResult StartExam(long id_exam, long stt, string correct, long current_id_question, long time_count, int finish=0)
         {
             var student = getStudentInfo();
@@ -362,7 +376,8 @@ namespace trac_nghiem_project.Controllers.student
                 return RedirectToAction("SubmitExam", new { id_exam = id_exam });
             }
         }
-  
+
+        [HasRole(RoleID = "3")]
         public ActionResult SubmitExam(long id_exam)
         {
             var student = getStudentInfo();
@@ -386,6 +401,7 @@ namespace trac_nghiem_project.Controllers.student
             }
             db.Entry(my_exam).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
+            list_questions.Clear();
 
             return RedirectToAction("GoToExam", new {id_exam=id_exam});
         }

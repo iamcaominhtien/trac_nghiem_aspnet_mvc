@@ -21,6 +21,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         // GET: Students
         [Route("danh-sach-sinh-vien", Order = 0)]
         [Route("", Order = 1)]
+        [HasRole(RoleID = "1")]
         public ActionResult Index()
         {
             var users = db.students_user.Include(u => u.grade).Include(u => u.right);
@@ -29,6 +30,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
 
         // GET: Students/Details/5
         [Route("chi-tiet-sinh-vien/{id}")]
+        [HasRole(RoleID = "1")]
         public ActionResult Details(long? id)
         {
             if (id == null)
@@ -67,6 +69,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
 
         // GET: Students/Create
         [Route("them-sinh-vien-moi")]
+        [HasRole(RoleID = "1")]
         public ActionResult Create()
         {
             ViewBag.id_grade = new SelectList(db.grades, "id_grade", "name");
@@ -79,6 +82,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Route("them-sinh-vien-moi")]
+        [HasRole(RoleID = "1")]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id_user,username,name,password,email,avatar,gender,birthday,date_create,id_right,id_grade")] students_user user)
         {
@@ -99,6 +103,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
 
         // GET: Students/Edit/5
         [Route("cap-nhat-thong-tin-sinh-vien/{id}")]
+        [HasRole(RoleID = "1")]
         public ActionResult Edit(long? id)
         {
             if (id == null)
@@ -120,6 +125,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Route("cap-nhat-thong-tin-sinh-vien/{id}")]
+        [HasRole(RoleID = "1")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_user,username,name,password,email,avatar,gender,birthday,date_create,id_right,id_grade")] students_user user)
         {
@@ -137,6 +143,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
 
         // GET: Students/Delete/5
         [Route("xoa-sinh-vien/{id}")]
+        [HasRole(RoleID = "1")]
         public ActionResult Delete(long? id)
         {
             if (id == null)
@@ -154,6 +161,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         // POST: Students/Delete/5
         [HttpPost, ActionName("Delete")]
         [Route("xoa-sinh-vien/{id}")]
+        [HasRole(RoleID = "1")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long id)
         {

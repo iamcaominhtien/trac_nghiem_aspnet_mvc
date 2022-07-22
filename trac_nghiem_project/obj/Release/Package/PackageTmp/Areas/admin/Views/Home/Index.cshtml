@@ -1,0 +1,153 @@
+﻿@using trac_nghiem_project.Common;
+
+@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var session = (LoginSession)Session["login"];
+    long id_right = 3;
+    try
+    {
+        id_right = (long)session.id_right;
+    }
+    catch
+    {
+        id_right = 3;
+    }
+}
+@if (id_right == 1)
+{
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+        <a href="@Url.Action("Index", "Admins")" class="col text-decoration-none btn border-0">
+            <div class="card shadow-sm">
+                <div class="btn card-body" style="text-align:left;">
+                    <div style="color:black;text-decoration-line:none">
+                        <i class="fa fa-user fa-2x"></i>
+                        <p class="card-text">Quản trị viên</p>
+                        <div class="d-flex justify-content-between align-items-center">
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <a class="col text-decoration-none btn border-0" href="@Url.Action("Index", "Teachers")">
+            <div class="card shadow-sm">
+                <div class="btn card-body" style="text-align:left;">
+                    <div style="color:black;text-decoration-line:none">
+                        <i class="fa fa-user fa-2x"></i>
+                        <p class="card-text">Giảng viên</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            @*<div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                            </div>*@
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <a class="col text-decoration-none btn border-0" href="@Url.Action("Index", "Students")">
+            <div class="card shadow-sm">
+                <div class="btn card-body" style="text-align:left;">
+                    <div style="color:black;text-decoration-line:none">
+                        <i class="fa fa-user fa-2x"></i>
+                        <p class="card-text">Sinh viên</p>
+                        <div class="d-flex justify-content-between align-items-center">
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <a class="col text-decoration-none btn border-0" href="@Url.Action("Index","grades")">
+            <div class="card shadow-sm">
+                <div class="btn card-body" style="text-align:left;">
+                    <div style="color:black;text-decoration-line:none">
+                        <i class="fa fa-archive fa-2x"></i>
+                        <p class="card-text">Lớp</p>
+                        <div class="d-flex justify-content-between align-items-center">
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <a class="col text-decoration-none btn border-0" href="@Url.Action("Index","Fields")">
+            <div class="card shadow-sm">
+                <div class="btn card-body" style="text-align:left;">
+                    <div style="color:black;text-decoration-line:none">
+                        <i class="fa fa-book fa-2x"></i>
+                        <p class="card-text">Chuyên ngành</p>
+                        <div class="d-flex justify-content-between align-items-center">
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <a class="col text-decoration-none btn border-0" href="@Url.Action("Index", "SubjectS")">
+            <div class="card shadow-sm">
+                <div class="btn card-body" style="text-align:left;">
+                    <div style="color:black;text-decoration-line:none">
+                        <i class="fa fa-book fa-2x"></i>
+                        <p class="card-text">Môn học</p>
+                        <div class="d-flex justify-content-between align-items-center">
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <a class="col text-decoration-none btn border-0" href="@Url.Action("Index", "ManageExam")">
+            <div class="card shadow-sm">
+                <div class="btn card-body" style="text-align:left;">
+                    <div style="color:black;text-decoration-line:none">
+                        <i class="fa fa-hourglass fa-2x"></i>
+                        <p class="card-text">Bài kiểm tra</p>
+                        <div class="d-flex justify-content-between align-items-center">
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <a class="col text-decoration-none btn border-0" href="@Url.Action("Index", "SubjectGrades")">
+            <div class="card shadow-sm">
+                <div class="btn card-body" style="text-align:left;">
+                    <div style="color:black;text-decoration-line:none">
+                        <i class="fa fa-graduation-cap fa-2x"></i>
+                        <p class="card-text">Đăng kí lớp học</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <a class="col text-decoration-none btn border-0" href="@Url.Action("Index", "QuestionBank")">
+            <div class="card shadow-sm">
+                <div class="btn card-body" style="text-align:left;">
+                    <div style="color:black;text-decoration-line:none">
+                        <i class="fa fa-bank fa-2x"></i>
+                        <p class="card-text">Ngân hàng câu hỏi</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+}
+else
+{
+    <h2>Bạn không có quyền hạn để truy cập trang này</h2>
+}

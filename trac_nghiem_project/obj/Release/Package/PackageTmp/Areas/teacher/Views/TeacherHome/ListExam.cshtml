@@ -1,0 +1,63 @@
+﻿@model IEnumerable<trac_nghiem_project.Models.exam>
+
+@{
+    ViewBag.Title = "ListExam";
+    //ViewBag.Page = "/*Danh sách bài kiểm tra*/";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<style>
+    .subject-box:hover {
+        background-color: darkslategray !important;
+        color: white !important;
+    }
+
+    .subject-box {
+        text-align: left !important;
+    }
+</style>
+<div class="py-3">
+    <h2 class="text-uppercase fw-bold">Danh sách bài kiểm tra</h2>
+    <small>Lớp: @ViewBag.name_grade</small><br />
+    <small>Môn: @ViewBag.name_subject</small>
+</div>
+
+<p>
+    @*@Html.ActionLink("Thêm bài kiểm tra", "Create")*@
+    <a href="@Url.Action("Create", new {id_subject_grade=ViewBag.id_subject_grade})" class="btn btn-success mt-2">Thêm bài kiểm tra</a>
+    <a href="@Url.Action("UpdateQuestionBank", new {id_question_bank=ViewBag.id_question_bank})" class="btn btn-danger mt-2">Cập nhật ngân hàng câu hỏi</a>
+</p>
+
+<div>
+    @{
+        if (Model.Count() > 0)
+        {
+            foreach (var item in Model)
+            {
+                <a href="@Url.Action("Edit", new {id_exam = item.id_exam})" class="col-12 btn bg-white px-4 py-3 my-2 border border-1 rounded-0 border-dark pointer-event subject-box">
+                    <div><strong>Tên bài kiểm tra:</strong> @item.name</div>
+                    <div><strong>Thời gian làm bài:</strong> @item.time_to_do</div>
+                    <div>
+                        <strong>Trạng thái: </strong>@{
+                            if (item.status == true)
+                            {
+                                @:Mở
+                            }
+                            else
+                            {
+                                @:Khóa
+                            }
+                        }
+                    </div>
+                </a>
+            }
+        }
+        else
+        {
+            <div class="col-12 bg-primary py-3 px-4 my-2 border border-1 border-dark hoverable pointer-event justify-content-center" style="height:fit-content;">
+                <p class="text-white" style="text-align:center;margin-bottom:0">Môn học này chưa có bài kiểm tra nào. <a class="text-white text-decoration-none fw-bold" href="@Url.Action("Index")">Trở về</a></p>
+            </div>
+        }
+    }
+</div>
+

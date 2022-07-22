@@ -1,0 +1,304 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="trac_nghiem_aspModelStoreContainer" CdmEntityContainer="trac_nghiem_aspEntities">
+    <EntitySetMapping Name="do_exam">
+      <EntityTypeMapping TypeName="trac_nghiem_aspModel.do_exam">
+        <MappingFragment StoreEntitySet="do_exam">
+          <ScalarProperty Name="score" ColumnName="score" />
+          <ScalarProperty Name="chose" ColumnName="chose" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="statrt_time" ColumnName="statrt_time" />
+          <ScalarProperty Name="finsh_time" ColumnName="finsh_time" />
+          <ScalarProperty Name="id_exam" ColumnName="id_exam" />
+          <ScalarProperty Name="id_student" ColumnName="id_student" />
+          <ScalarProperty Name="id_question" ColumnName="id_question" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="exam_question">
+      <EntityTypeMapping TypeName="trac_nghiem_aspModel.exam_question">
+        <MappingFragment StoreEntitySet="exam_question">
+          <ScalarProperty Name="id_exam" ColumnName="id_exam" />
+          <ScalarProperty Name="id_question" ColumnName="id_question" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="date_create" ColumnName="date_create" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="exams">
+      <EntityTypeMapping TypeName="trac_nghiem_aspModel.exam">
+        <MappingFragment StoreEntitySet="exams">
+          <ScalarProperty Name="id_exam" ColumnName="id_exam" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="start_time" ColumnName="start_time" />
+          <ScalarProperty Name="end_time" ColumnName="end_time" />
+          <ScalarProperty Name="time_to_do" ColumnName="time_to_do" />
+          <ScalarProperty Name="date_create" ColumnName="date_create" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="id_subject_grade" ColumnName="id_subject_grade" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="score" ColumnName="score" />
+          <ScalarProperty Name="number_of_questions" ColumnName="number_of_questions" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="fields">
+      <EntityTypeMapping TypeName="trac_nghiem_aspModel.field">
+        <MappingFragment StoreEntitySet="fields">
+          <ScalarProperty Name="id_field" ColumnName="id_field" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="date_create" ColumnName="date_create" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="grades">
+      <EntityTypeMapping TypeName="trac_nghiem_aspModel.grade">
+        <MappingFragment StoreEntitySet="grades">
+          <ScalarProperty Name="id_grade" ColumnName="id_grade" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="date_create" ColumnName="date_create" />
+          <ScalarProperty Name="id_field" ColumnName="id_field" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="managers">
+      <EntityTypeMapping TypeName="trac_nghiem_aspModel.manager">
+        <MappingFragment StoreEntitySet="managers">
+          <ScalarProperty Name="id_manager" ColumnName="id_manager" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="id_right" ColumnName="id_right" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="note" ColumnName="note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="question_bank">
+      <EntityTypeMapping TypeName="trac_nghiem_aspModel.question_bank">
+        <MappingFragment StoreEntitySet="question_bank">
+          <ScalarProperty Name="id_question_bank" ColumnName="id_question_bank" />
+          <ScalarProperty Name="id_subject_grade" ColumnName="id_subject_grade" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="date_create" ColumnName="date_create" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="question_bank_questions">
+      <EntityTypeMapping TypeName="trac_nghiem_aspModel.question_bank_questions">
+        <MappingFragment StoreEntitySet="question_bank_questions">
+          <ScalarProperty Name="id_question_bank" ColumnName="id_question_bank" />
+          <ScalarProperty Name="id_question" ColumnName="id_question" />
+          <ScalarProperty Name="note" ColumnName="note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="question_types">
+      <EntityTypeMapping TypeName="trac_nghiem_aspModel.question_types">
+        <MappingFragment StoreEntitySet="question_types">
+          <ScalarProperty Name="id_question_type" ColumnName="id_question_type" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="date_create" ColumnName="date_create" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="questions">
+      <EntityTypeMapping TypeName="trac_nghiem_aspModel.question">
+        <MappingFragment StoreEntitySet="questions">
+          <ScalarProperty Name="id_question" ColumnName="id_question" />
+          <ScalarProperty Name="id_question_type" ColumnName="id_question_type" />
+          <ScalarProperty Name="avatar" ColumnName="avatar" />
+          <ScalarProperty Name="question1" ColumnName="question" />
+          <ScalarProperty Name="answer_1" ColumnName="answer_1" />
+          <ScalarProperty Name="answer_2" ColumnName="answer_2" />
+          <ScalarProperty Name="answer_3" ColumnName="answer_3" />
+          <ScalarProperty Name="answer_4" ColumnName="answer_4" />
+          <ScalarProperty Name="correct" ColumnName="correct" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="date_create" ColumnName="date_create" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="rights">
+      <EntityTypeMapping TypeName="trac_nghiem_aspModel.right">
+        <MappingFragment StoreEntitySet="rights">
+          <ScalarProperty Name="id_right" ColumnName="id_right" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="date_create" ColumnName="date_create" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="score_of_exam">
+      <EntityTypeMapping TypeName="trac_nghiem_aspModel.score_of_exam">
+        <MappingFragment StoreEntitySet="score_of_exam">
+          <ScalarProperty Name="id_exam" ColumnName="id_exam" />
+          <ScalarProperty Name="id_student" ColumnName="id_student" />
+          <ScalarProperty Name="score" ColumnName="score" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="start_time" ColumnName="start_time" />
+          <ScalarProperty Name="finish_time" ColumnName="finish_time" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="students_user">
+      <EntityTypeMapping TypeName="trac_nghiem_aspModel.students_user">
+        <MappingFragment StoreEntitySet="students_user">
+          <ScalarProperty Name="id_user" ColumnName="id_user" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="avatar" ColumnName="avatar" />
+          <ScalarProperty Name="gender" ColumnName="gender" />
+          <ScalarProperty Name="birthday" ColumnName="birthday" />
+          <ScalarProperty Name="date_create" ColumnName="date_create" />
+          <ScalarProperty Name="id_right" ColumnName="id_right" />
+          <ScalarProperty Name="id_grade" ColumnName="id_grade" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="subject_grade">
+      <EntityTypeMapping TypeName="trac_nghiem_aspModel.subject_grade">
+        <MappingFragment StoreEntitySet="subject_grade">
+          <ScalarProperty Name="id_subject_grade" ColumnName="id_subject_grade" />
+          <ScalarProperty Name="id_subject" ColumnName="id_subject" />
+          <ScalarProperty Name="id_grade" ColumnName="id_grade" />
+          <ScalarProperty Name="id_teacher" ColumnName="id_teacher" />
+          <ScalarProperty Name="note" ColumnName="note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="subject_student">
+      <EntityTypeMapping TypeName="trac_nghiem_aspModel.subject_student">
+        <MappingFragment StoreEntitySet="subject_student">
+          <ScalarProperty Name="id_subject_grade" ColumnName="id_subject_grade" />
+          <ScalarProperty Name="id_student" ColumnName="id_student" />
+          <ScalarProperty Name="note" ColumnName="note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="subjects">
+      <EntityTypeMapping TypeName="trac_nghiem_aspModel.subject">
+        <MappingFragment StoreEntitySet="subjects">
+          <ScalarProperty Name="id_subject" ColumnName="id_subject" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="date_create" ColumnName="date_create" />
+          <ScalarProperty Name="id_field" ColumnName="id_field" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="trac_nghiem_aspModel.sysdiagram">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="teachers_user">
+      <EntityTypeMapping TypeName="trac_nghiem_aspModel.teachers_user">
+        <MappingFragment StoreEntitySet="teachers_user">
+          <ScalarProperty Name="id_teacher" ColumnName="id_teacher" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="phone" ColumnName="phone" />
+          <ScalarProperty Name="avatar" ColumnName="avatar" />
+          <ScalarProperty Name="gender" ColumnName="gender" />
+          <ScalarProperty Name="birthday" ColumnName="birthday" />
+          <ScalarProperty Name="date_create" ColumnName="date_create" />
+          <ScalarProperty Name="id_right" ColumnName="id_right" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="CheckDoExam" FunctionName="trac_nghiem_aspModel.Store.CheckDoExam">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="trac_nghiem_aspModel.CheckDoExam_Result">
+          <ScalarProperty Name="score" ColumnName="score" />
+          <ScalarProperty Name="chose" ColumnName="chose" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="statrt_time" ColumnName="statrt_time" />
+          <ScalarProperty Name="finsh_time" ColumnName="finsh_time" />
+          <ScalarProperty Name="id_exam" ColumnName="id_exam" />
+          <ScalarProperty Name="id_student" ColumnName="id_student" />
+          <ScalarProperty Name="id_question" ColumnName="id_question" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="getDetailDoExam" FunctionName="trac_nghiem_aspModel.Store.getDetailDoExam">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="trac_nghiem_aspModel.getDetailDoExam_Result">
+          <ScalarProperty Name="chose" ColumnName="chose" />
+          <ScalarProperty Name="correct" ColumnName="correct" />
+          <ScalarProperty Name="status" ColumnName="status" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SelectAllQuestionFrom" FunctionName="trac_nghiem_aspModel.Store.SelectAllQuestionFrom">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="trac_nghiem_aspModel.SelectAllQuestionFrom_Result">
+          <ScalarProperty Name="id_exam" ColumnName="id_exam" />
+          <ScalarProperty Name="id_question_type" ColumnName="id_question_type" />
+          <ScalarProperty Name="id_question" ColumnName="id_question" />
+          <ScalarProperty Name="question" ColumnName="question" />
+          <ScalarProperty Name="answer_1" ColumnName="answer_1" />
+          <ScalarProperty Name="answer_2" ColumnName="answer_2" />
+          <ScalarProperty Name="answer_3" ColumnName="answer_3" />
+          <ScalarProperty Name="answer_4" ColumnName="answer_4" />
+          <ScalarProperty Name="correct" ColumnName="correct" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="date_create" ColumnName="date_create" />
+          <ScalarProperty Name="question_type" ColumnName="question_type" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SelectOneQuestionFrom" FunctionName="trac_nghiem_aspModel.Store.SelectOneQuestionFrom">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="trac_nghiem_aspModel.SelectOneQuestionFrom_Result">
+          <ScalarProperty Name="id_exam" ColumnName="id_exam" />
+          <ScalarProperty Name="id_question_type" ColumnName="id_question_type" />
+          <ScalarProperty Name="id_question" ColumnName="id_question" />
+          <ScalarProperty Name="question" ColumnName="question" />
+          <ScalarProperty Name="answer_1" ColumnName="answer_1" />
+          <ScalarProperty Name="answer_2" ColumnName="answer_2" />
+          <ScalarProperty Name="answer_3" ColumnName="answer_3" />
+          <ScalarProperty Name="answer_4" ColumnName="answer_4" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="date_create" ColumnName="date_create" />
+          <ScalarProperty Name="question_type" ColumnName="question_type" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="trac_nghiem_aspModel.Store.sp_alterdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="trac_nghiem_aspModel.Store.sp_creatediagram" />
+    <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="trac_nghiem_aspModel.Store.sp_dropdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="trac_nghiem_aspModel.Store.sp_helpdiagramdefinition">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="trac_nghiem_aspModel.sp_helpdiagramdefinition_Result">
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="trac_nghiem_aspModel.Store.sp_helpdiagrams">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="trac_nghiem_aspModel.sp_helpdiagrams_Result">
+          <ScalarProperty Name="Database" ColumnName="Database" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Owner" ColumnName="Owner" />
+          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="trac_nghiem_aspModel.Store.sp_renamediagram" />
+    <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="trac_nghiem_aspModel.Store.sp_upgraddiagrams" />
+    <FunctionImportMapping FunctionImportName="subject_grade_filter" FunctionName="trac_nghiem_aspModel.Store.subject_grade_filter" />
+  </EntityContainerMapping>
+</Mapping>

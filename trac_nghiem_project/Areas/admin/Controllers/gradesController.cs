@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using trac_nghiem_project.Common;
 using trac_nghiem_project.Controllers;
 using trac_nghiem_project.Models;
 
@@ -20,6 +21,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         // GET: grades
         [Route("danh-sach-cac-lop-hoc", Order = 0)]
         [Route("", Order = 1)]
+        [HasRole(RoleID = "1")]
         public ActionResult Index()
         {
             var grades = db.grades.Include(g => g.field);
@@ -28,6 +30,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         }
 
         // GET: grades/Create
+        [HasRole(RoleID = "1")]
         public JsonResult AddNewGrade(string name, long? id_field)
         {
             string error = "Thêm lớp học thành công";
@@ -78,6 +81,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
             }) ;
         }
 
+        [HasRole(RoleID = "1")]
         public JsonResult DelGrade(long? id)
         {
             int status = 1;
@@ -95,7 +99,8 @@ namespace trac_nghiem_project.Areas.admin.Controllers
                 status=status
             });
         }
-        // GET: grades/Edit/5
+
+        [HasRole(RoleID = "1")]
         public JsonResult updateGrade(long id_grade, string name, long? id_field)
         {
             string error = "Cập nhật lớp học thành công";

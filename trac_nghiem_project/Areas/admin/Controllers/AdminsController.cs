@@ -21,6 +21,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         // GET: Admins
         [Route("danh-sach",Order = 0)]
         [Route("",Order=1)]
+        [HasRole(RoleID = "1")]
         public ActionResult Index()
         {
             var users = db.managers.Include(u => u.right);
@@ -29,6 +30,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
 
         // GET: Admins/Details/5
         [Route("chi-tiet-quan-tri-vien/{id}")]
+        [HasRole(RoleID = "1")]
         public ActionResult Details(long? id)
         {
             if (id == null)
@@ -45,6 +47,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
 
         // GET: Admins/Create
         [Route("them-quan-tri-vien")]
+        [HasRole(RoleID = "1")]
         public ActionResult Create()
         {
             ViewBag.id_grade = new SelectList(db.grades, "id_grade", "name");
@@ -57,6 +60,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Route("them-quan-tri-vien")]
+        [HasRole(RoleID = "1")]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id_manager,email,username,name,id_right,password,note")] manager user)
         {
@@ -74,6 +78,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
 
         // GET: Admins/Edit/5
         [Route("cap-nhat-quan-tri-vien/{id}")]
+        [HasRole(RoleID = "1")]
         public ActionResult Edit(long? id)
         {
             if (id == null)
@@ -94,6 +99,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Route("cap-nhat-quan-tri-vien/{id}")]
+        [HasRole(RoleID = "1")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_manager,email,username,name,id_right,password,note")] manager user)
         {
@@ -109,6 +115,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
 
         // GET: Admins/Delete/5
         [Route("xoa-quan-tri-vien/{id}")]
+        [HasRole(RoleID = "1")]
         public ActionResult Delete(long? id)
         {
             if (id == null)
@@ -126,6 +133,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         // POST: Admins/Delete/5
         [HttpPost, ActionName("Delete")]
         [Route("xoa-quan-tri-vien/{id}")]
+        [HasRole(RoleID = "1")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long id)
         {

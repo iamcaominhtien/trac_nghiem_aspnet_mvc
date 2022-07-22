@@ -21,6 +21,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         // GET: admin/QuestionBank
         [Route("danh-sach-mon-hoc", Order = 0)]
         [Route("", Order = 1)]
+        [HasRole(RoleID = "1")]
         public ActionResult Index()
         {
             var query = (from b in db.question_bank
@@ -52,6 +53,8 @@ namespace trac_nghiem_project.Areas.admin.Controllers
 
             return View(query.ToList());
         }
+
+        [HasRole(RoleID = "1")]
         public JsonResult Create(long? id_subject_grade, string note)
         {
             int status = 1;
@@ -96,6 +99,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
             });
         }
 
+        [HasRole(RoleID = "1")]
         public JsonResult Delete(long? id_question_bank)
         {
             int status = 1;
@@ -116,6 +120,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         }
 
         [Route("cap-nhat-ngan-hang-cau-hoi-cho-lop-hoc-{id_question_bank}")]
+        [HasRole(RoleID = "1")]
         public ActionResult Edit(long? id_question_bank)
         {
             if (id_question_bank == null)

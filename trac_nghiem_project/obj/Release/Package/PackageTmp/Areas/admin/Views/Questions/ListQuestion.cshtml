@@ -1,0 +1,232 @@
+﻿@model trac_nghiem_project.Models.question
+
+@{
+    ViewBag.Title = "Cập nhật câu hỏi";
+    //Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+<form id="myForm" onSubmit="return false">
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.avatar)
+
+    <div class="py-2 px-5 rounded-4" style="background-color:white">
+        <p class="bg-danger col-12 py-2 px-3 mt-3 text-white fw-bold" id="add-error" style="display:none;">
+            <i class="fa fa-exclamation-circle me-2" style="font-size:17px"></i>
+            <span>Có lỗi xảy ra. Vui lòng kiểm tra lại các trường nhập </span>
+        </p>
+        <p class="bg-success col-12 py-2 px-3 mt-3 text-white fw-bold" id="add-success" style="display:none;">
+            <i class="fa fa-check-circle me-2" style="font-size:17px"></i>
+            <span>Thêm câu hỏi thành công </span>
+        </p>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group row">
+            <p class="col-auto fw-bold align-content-center" style="line-height:35px;text-align:left">Chọn: </p>
+            <div class="col-md-5">
+                @Html.DropDownList("id_question_type", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.id_question_type, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group my-2">
+            @Html.LabelFor(model => model.question1, htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
+            <div class="col-12">
+                @Html.EditorFor(model => model.question1, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.question1, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @{
+            if (ViewBag.selected == "1")
+            {
+                <div id="question">
+                    <div class="form-group my-2">
+                        @Html.LabelFor(model => model.answer_1, htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.answer_1, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.answer_1, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group my-2">
+                        @Html.LabelFor(model => model.answer_2, htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.answer_2, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.answer_2, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group my-2">
+                        @Html.LabelFor(model => model.answer_3, htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.answer_3, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.answer_3, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group my-2">
+                        @Html.LabelFor(model => model.answer_4, htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.answer_4, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.answer_4, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div id="question">
+                </div>
+            }
+        }
+
+        <div class="form-group my-2">
+            @Html.LabelFor(model => model.correct, htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
+            <div class="col-md-12">
+                @Html.EditorFor(model => model.correct, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.correct, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group my-2">
+            @Html.LabelFor(model => model.note, htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
+            <div class="col-md-12">
+                @Html.EditorFor(model => model.note, new { htmlAttributes = new { @class = "form-control questionNote" } })
+                @Html.ValidationMessageFor(model => model.note, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group my-2">
+            <div class="col-md-offset-2 col-md-12">
+                @*<button onclick="submitForm()" class="btn btn-danger px-4 rounded-4">Thêm</button>*@
+                <input type="submit" value="Thêm" class="btn btn-danger px-4 rounded-4" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    function getFormValue() {
+        var answer_1, answer_2, answer_3, answer_4;
+        if (document.getElementById("answer_1")) answer_1 = document.getElementById("answer_1").value;
+        if (document.getElementById("answer_2")) answer_2 = document.getElementById("answer_2").value;
+        if (document.getElementById("answer_3")) answer_3 = document.getElementById("answer_3").value;
+        if (document.getElementById("answer_4")) answer_4 = document.getElementById("answer_4").value;
+        return {
+            id_question: null,
+            id_question_type: document.getElementById("id_question_type").value,
+            avatar: null,
+            question: document.getElementById("question1").value,
+            answer_1: answer_1,
+            answer_2: answer_2,
+            answer_3: answer_3,
+            answer_4: answer_4,
+            correct: document.getElementById("correct").value,
+            note: document.getElementsByClassName("questionNote")[0].value,
+            date_create: null,
+        };
+    }
+
+    $(document).ready(function () {
+        $("#myForm").on('submit', (function (e) {
+            console.log("hellow")
+            var formEl = document.forms.myForm;
+            //e.preventDefault();
+            $.ajax({
+                url: "/Questions/CreateAQuestion",
+                type: "POST",
+                data: getFormValue(),
+                dataType: 'json',
+                success: function (response) {
+                    console.log(response.status)
+                    var currentTypeQuestion = document.getElementById("id_question_type").value;
+                    if (response.status) {
+                        $("#myForm").trigger("reset"); // to reset form input fields
+                        document.getElementById("add-success").style = "display: block";
+                        document.getElementById("add-error").style = "display: none";
+                    }
+                    else {
+                        document.getElementById("add-success").style = "display: none";
+                        document.getElementById("add-error").style = "display: block";
+                    }
+                    document.getElementById("id_question_type").value = currentTypeQuestion;
+
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            });
+        }));
+    });
+</script>
+
+<script>
+            var card = document.getElementById("id_question_type").onchange = function () {
+                var card = document.getElementById("id_question_type")['value'];
+                if (card == '3') {
+                    @{ ViewBag.selected = "3";}
+                    console.log("text field @ViewBag.selected");
+                    document.getElementById("question").innerHTML = ""
+                    document.getElementById("question").innerHTML = document.getElementById('text_question').innerHTML;
+                }
+                else {
+                    //var selectedText = card.options[card.selectedIndex].text;
+                    //alert(selectedText);
+                    @{
+                        ViewBag.selected = "1";
+                    }
+                    console.log('select 1 or more answer @ViewBag.selected');
+                    //document.getElementById("question").html
+                    //text_question
+                    document.getElementById("question").innerHTML = "";
+                    document.getElementById("question").innerHTML = document.getElementById('radio_question').innerHTML;
+                }
+            };
+</script>
+
+<script id="radio_question" type="text/html">
+    <div class="form-group my-2">
+        @Html.LabelFor(model => model.answer_1, htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
+        <div class="col-md-12">
+            @Html.EditorFor(model => model.answer_1, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.answer_1, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group my-2">
+        @Html.LabelFor(model => model.answer_2, htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
+        <div class="col-md-12">
+            @Html.EditorFor(model => model.answer_2, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.answer_2, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group my-2">
+        @Html.LabelFor(model => model.answer_3, htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
+        <div class="col-md-12">
+            @Html.EditorFor(model => model.answer_3, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.answer_3, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group my-2">
+        @Html.LabelFor(model => model.answer_4, htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
+        <div class="col-md-12">
+            @Html.EditorFor(model => model.answer_4, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.answer_4, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</script>
+
+<script id="text_question" type="text/html">
+</script>
+
+
+@*<div class="form-group">
+        @Html.LabelFor(model => model.avatar, htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
+        <div class="col-md-12">
+            @Html.EditorFor(model => model.avatar, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.avatar, "", new { @class = "text-danger" })
+        </div>
+    </div>*@

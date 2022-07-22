@@ -13,6 +13,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
     {
         [Route("quan-li-he-thong", Order = 0)]
         [Route("", Order = 1)]
+        [HasRole(RoleID = "1")]
         public ActionResult Index()
         {
             return View();
