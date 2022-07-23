@@ -13,7 +13,7 @@ namespace trac_nghiem_project.Models
     
     public partial class SelectAllQuestionFrom_Result
     {
-        public long id_exam { get; set; }
+        public long id_question_bank { get; set; }
         public Nullable<long> id_question_type { get; set; }
         public long id_question { get; set; }
         public string question { get; set; }

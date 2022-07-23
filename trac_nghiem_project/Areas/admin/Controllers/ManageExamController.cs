@@ -89,7 +89,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         [Route("them-bai-kiem-tra-moi")]
         [HasRole(RoleID = "1")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_exam,name,start_time,end_time,time_to_do,date_create,note,id_subject_grade,status,score,number_of_questions")] exam exam)
+        public ActionResult Create([Bind(Include = "id_exam,name,start_time,end_time,time_to_do,date_create,note,id_subject_grade,status,score,number_of_questions,number_of_redo")] exam exam)
         {
             if (ModelState.IsValid)
             {
@@ -109,6 +109,8 @@ namespace trac_nghiem_project.Areas.admin.Controllers
                     {
                         exam.number_of_questions = Convert.ToInt32(exam.score);
                     }
+                    if (exam.number_of_redo == null)
+                        exam.number_of_redo = 1;
                     db.exams.Add(exam);
                     db.SaveChanges();
                     return RedirectToAction("Index");
@@ -147,7 +149,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         [Route("cap-nhat-bai-kiem-tra/{id}")]
         [HasRole(RoleID = "1")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id_exam,name,start_time,end_time,time_to_do,date_create,note,id_subject_grade,status,score,number_of_questions")] exam exam)
+        public ActionResult Edit([Bind(Include = "id_exam,name,start_time,end_time,time_to_do,date_create,note,id_subject_grade,status,score,number_of_questions,number_of_redo")] exam exam)
         {
             if (ModelState.IsValid)
             {
@@ -166,6 +168,8 @@ namespace trac_nghiem_project.Areas.admin.Controllers
                     {
                         exam.number_of_questions = Convert.ToInt32(exam.score);
                     }
+                    if (exam.number_of_redo == null)
+                        exam.number_of_redo = 1;
                     db.Entry(exam).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
                     return RedirectToAction("Index");
@@ -255,6 +259,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
             re.id_exam = s.id_exam;
             re.score = s.score;
             re.number_of_questions = s.number_of_questions;
+            re.number_of_redo = s.number_of_redo;
 
             return re;
         }

@@ -2,6 +2,7 @@
 <Schema Namespace="trac_nghiem_aspModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityType Name="do_exam">
     <Key>
+      <PropertyRef Name="id_redo" />
       <PropertyRef Name="id_exam" />
       <PropertyRef Name="id_student" />
       <PropertyRef Name="id_question" />
@@ -11,6 +12,7 @@
     <Property Name="note" Type="text" />
     <Property Name="statrt_time" Type="datetime" />
     <Property Name="finsh_time" Type="datetime" />
+    <Property Name="id_redo" Type="int" Nullable="false" />
     <Property Name="id_exam" Type="bigint" Nullable="false" />
     <Property Name="id_student" Type="bigint" Nullable="false" />
     <Property Name="id_question" Type="bigint" Nullable="false" />
@@ -40,6 +42,7 @@
     <Property Name="status" Type="bit" />
     <Property Name="score" Type="float" />
     <Property Name="number_of_questions" Type="int" />
+    <Property Name="number_of_redo" Type="int" />
   </EntityType>
   <EntityType Name="fields">
     <Key>
@@ -126,9 +129,11 @@
     <Key>
       <PropertyRef Name="id_exam" />
       <PropertyRef Name="id_student" />
+      <PropertyRef Name="id_redo" />
     </Key>
     <Property Name="id_exam" Type="bigint" Nullable="false" />
     <Property Name="id_student" Type="bigint" Nullable="false" />
+    <Property Name="id_redo" Type="int" Nullable="false" />
     <Property Name="score" Type="float" />
     <Property Name="note" Type="nvarchar" MaxLength="500" />
     <Property Name="start_time" Type="datetime" />
@@ -531,11 +536,15 @@
     <Parameter Name="id_user" Type="bigint" Mode="In" />
   </Function>
   <Function Name="SelectAllQuestionFrom" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="id_exam" Type="bigint" Mode="In" />
+    <Parameter Name="id_question_bank" Type="bigint" Mode="In" />
   </Function>
   <Function Name="SelectOneQuestionFrom" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="id_exam" Type="bigint" Mode="In" />
     <Parameter Name="stt" Type="bigint" Mode="In" />
+  </Function>
+  <Function Name="SelectRandomQuestionFrom" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id_question_bank" Type="bigint" Mode="In" />
+    <Parameter Name="number_of_question" Type="int" Mode="In" />
   </Function>
   <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="diagramname" Type="nvarchar" Mode="In" />

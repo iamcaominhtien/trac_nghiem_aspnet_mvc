@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "GoToExam";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var scores = (List<double>)ViewBag.scores;
 }
 
 <h2 class="text-uppercase fw-bolder" style="text-align:center">@Model.name</h2>
@@ -24,12 +25,11 @@
     </div>
 
     <div class="mt-5">
-        <p class="mb-0" style="text-align:center">Attempts allowed: 1</p>
+        <p class="mb-0" style="text-align:center">Attempts allowed: @Model.number_of_redo</p>
         <p class="mb-0" style="text-align:center">Thời gian làm bài: @Model.time_to_do phút</p>
     </div>
 
-    @if (ViewBag.done == false)
-    {
+    @{
         if (ViewBag.canDo == true)
         {
             <div style="width:100%" class="justify-content-center row mx-0 my-4">
@@ -47,9 +47,30 @@
             </div>
         }
     }
-    else
-    {
-        <div style="width:100%;font-size:20px" class="justify-content-center row mx-0 my-4 fw-bold text-danger">Số điểm của bạn là: @Math.Round(ViewBag.score, 1)/@ViewBag.score_of_exam</div>
+
+    @{ 
+        if (scores.Any())
+            {
+                <h3>Kết quả các lần làm bài của bạn</h3>
+                <table class="table table-hover">
+                    <tr class="table table-dark">
+                        <th>
+                            Lần làm
+                        </th>
+                        <th>Điểm / @Model.score</th>
+                        <th>Xem lại</th>
+                    </tr>
+
+                    @for(int i = 0; i < ViewBag.number_of_done; i++)
+                {
+                    <tr>
+                        <td>@(i+1)</td>
+                        <td>@Math.Round(scores[i],2)</td>
+                        <td><a href="@Url.Action("Review", new {id_exam=Model.id_exam,id_redo=(i+1)})">Xem lại</a></td>
+                    </tr>
+                }
+                </table>
+            }
     }
 </div>
 

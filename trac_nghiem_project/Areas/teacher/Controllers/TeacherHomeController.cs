@@ -80,7 +80,7 @@ namespace trac_nghiem_project.Areas.teacher.Controller
         [Route("them-bai-kiem-tra")]
         [ValidateAntiForgeryToken]
         [HasRole(RoleID = "2")]
-        public ActionResult Create([Bind(Include = "id_exam,name,start_time,end_time,time_to_do,date_create,note,id_subject,id_subject_grade,status,score,number_of_questions")] exam exam)
+        public ActionResult Create([Bind(Include = "id_exam,name,start_time,end_time,time_to_do,date_create,note,id_subject,id_subject_grade,status,score,number_of_questions,number_of_redo")] exam exam)
         {
             if (ModelState.IsValid)
             {
@@ -99,6 +99,8 @@ namespace trac_nghiem_project.Areas.teacher.Controller
                     {
                         exam.number_of_questions = Convert.ToInt32(exam.score);
                     }
+                    if (exam.number_of_redo == null)
+                        exam.number_of_redo = 1;
                     exam.date_create = DateTime.Now;
                     db.exams.Add(exam);
                     db.SaveChanges();
@@ -117,13 +119,30 @@ namespace trac_nghiem_project.Areas.teacher.Controller
         {
             var query = db.exams.Where(s => s.id_subject_grade == id_subject_grade).ToList();
             ViewBag.id_subject_grade = id_subject_grade;
-            ViewBag.id_question_bank = db.question_bank.Where(s => s.id_subject_grade == id_subject_grade).ToList()[0].id_question_bank;
+            long id_question_bank = -1;
+            try
+            {
+                //Đã có question bank
+                id_question_bank = db.question_bank.Where(s => s.id_subject_grade == id_subject_grade).ToList()[0].id_question_bank;
+            }
+            catch
+            {
+                //chưa có question bank
+                var qB = new question_bank();
+                qB.id_subject_grade = (long)id_subject_grade;
+                qB.date_create = DateTime.Now;
 
+                db.question_bank.Add(qB);
+                db.SaveChanges();
+
+                id_question_bank = qB.id_question_bank;
+            }
             //get grade name
             //get subject name
             var query_2 = db.subject_grade.Find(id_subject_grade);
             ViewBag.name_grade = db.grades.Find(query_2.id_grade).name;
             ViewBag.name_subject = db.subjects.Find(query_2.id_subject).name;
+            ViewBag.id_question_bank = id_question_bank;
             return View(query);
         }
 
@@ -150,7 +169,7 @@ namespace trac_nghiem_project.Areas.teacher.Controller
         [Route("cap-nhat-bai-kiem-tra/{id_exam}")]
         [HasRole(RoleID = "2")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id_exam,name,start_time,end_time,time_to_do,date_create,note,id_subject_grade,status,score,number_of_questions")] exam exam)
+        public ActionResult Edit([Bind(Include = "id_exam,name,start_time,end_time,time_to_do,date_create,note,id_subject_grade,status,score,number_of_questions,number_of_redo")] exam exam)
         {
             if (ModelState.IsValid)
             {
@@ -179,6 +198,8 @@ namespace trac_nghiem_project.Areas.teacher.Controller
                 {
                     exam.number_of_questions = Convert.ToInt32(exam.score);
                 }
+                if (exam.number_of_redo == null)
+                    exam.number_of_redo = 1;
 
                 db.Entry(exam).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
@@ -231,6 +252,7 @@ namespace trac_nghiem_project.Areas.teacher.Controller
             re.id_exam = s.id_exam;
             re.score = s.score;
             re.number_of_questions = s.number_of_questions;
+            re.number_of_redo = s.number_of_redo;
 
             return re;
         }

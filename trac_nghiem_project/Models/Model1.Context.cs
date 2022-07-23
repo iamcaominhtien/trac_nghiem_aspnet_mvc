@@ -76,13 +76,13 @@ namespace trac_nghiem_project.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getDetailDoExam_Result>("getDetailDoExam", id_examParameter, id_userParameter);
         }
     
-        public virtual ObjectResult<SelectAllQuestionFrom_Result> SelectAllQuestionFrom(Nullable<long> id_exam)
+        public virtual ObjectResult<SelectAllQuestionFrom_Result> SelectAllQuestionFrom(Nullable<long> id_question_bank)
         {
-            var id_examParameter = id_exam.HasValue ?
-                new ObjectParameter("id_exam", id_exam) :
-                new ObjectParameter("id_exam", typeof(long));
+            var id_question_bankParameter = id_question_bank.HasValue ?
+                new ObjectParameter("id_question_bank", id_question_bank) :
+                new ObjectParameter("id_question_bank", typeof(long));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SelectAllQuestionFrom_Result>("SelectAllQuestionFrom", id_examParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SelectAllQuestionFrom_Result>("SelectAllQuestionFrom", id_question_bankParameter);
         }
     
         public virtual ObjectResult<SelectOneQuestionFrom_Result> SelectOneQuestionFrom(Nullable<long> id_exam, Nullable<long> stt)
@@ -96,6 +96,19 @@ namespace trac_nghiem_project.Models
                 new ObjectParameter("stt", typeof(long));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SelectOneQuestionFrom_Result>("SelectOneQuestionFrom", id_examParameter, sttParameter);
+        }
+    
+        public virtual ObjectResult<SelectRandomQuestionFrom_Result> SelectRandomQuestionFrom(Nullable<long> id_question_bank, Nullable<int> number_of_question)
+        {
+            var id_question_bankParameter = id_question_bank.HasValue ?
+                new ObjectParameter("id_question_bank", id_question_bank) :
+                new ObjectParameter("id_question_bank", typeof(long));
+    
+            var number_of_questionParameter = number_of_question.HasValue ?
+                new ObjectParameter("number_of_question", number_of_question) :
+                new ObjectParameter("number_of_question", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SelectRandomQuestionFrom_Result>("SelectRandomQuestionFrom", id_question_bankParameter, number_of_questionParameter);
         }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)

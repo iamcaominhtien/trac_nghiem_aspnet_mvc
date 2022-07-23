@@ -11,8 +11,6 @@ namespace trac_nghiem_project.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
     
     public partial class do_exam
     {
@@ -21,6 +19,7 @@ namespace trac_nghiem_project.Models
         public string note { get; set; }
         public Nullable<System.DateTime> statrt_time { get; set; }
         public Nullable<System.DateTime> finsh_time { get; set; }
+        public int id_redo { get; set; }
         public long id_exam { get; set; }
         public long id_student { get; set; }
         public long id_question { get; set; }

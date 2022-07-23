@@ -33,5 +33,7 @@ namespace trac_nghiem_project.Common
         public bool isChose { get; set; }
 
         public Nullable<System.DateTime> date_create { get; set; }
+        public Nullable<System.DateTime> finish_time { get; set; }
+        public Nullable<System.DateTime> start_time { get; set; }
     }
 }

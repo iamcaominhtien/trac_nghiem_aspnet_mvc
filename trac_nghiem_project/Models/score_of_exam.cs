@@ -16,6 +16,7 @@ namespace trac_nghiem_project.Models
     {
         public long id_exam { get; set; }
         public long id_student { get; set; }
+        public int id_redo { get; set; }
         public Nullable<double> score { get; set; }
         public string note { get; set; }
         public Nullable<System.DateTime> start_time { get; set; }

@@ -1,0 +1,310 @@
+﻿@model IEnumerable<trac_nghiem_project.Common.ReviewQuestion>
+
+@{
+    ViewBag.Title = "Xem lại bài làm";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<style>
+    .box-question-page {
+        width: 30px;
+        color: black;
+        text-decoration-line: none;
+        height: 45px;
+        border: 1px solid black;
+        padding: 0;
+        border-radius: 5px;
+        margin: 2px 3px;
+        background-color: white;
+        cursor: pointer;
+    }
+
+    #container_question {
+        height: fit-content;
+        background-color: !important;
+    }
+
+    .box-question-page-top {
+    }
+
+    .box-question-page-bottom {
+        background-color: lightgrey;
+        border-radius: 0 0 5px 5px;
+        border-bottom: 1px solid;
+        text-align: center;
+    }
+</style>
+
+<table class="table bg-white">
+    <tr style="">
+        <td class="fw-bold">Bắt đầu</td>
+        <td>@Html.FormatValue(ViewBag.exam_info.start_time, "{0:dd/MM/yyyy, hh:mm:ss tt}")</td>
+    </tr>
+    <tr>
+        <td class="fw-bold">Kết thúc</td>
+        <td>@Html.FormatValue(ViewBag.exam_info.finish_time, "{0:dd/MM/yyyy, hh:mm:ss tt}")</td>
+    </tr>
+    <tr>
+        <td class="fw-bold">Thời gian thực hiện</td>
+        <td>
+            @{
+                var my_time = ViewBag.exam_info.finish_time - ViewBag.exam_info.start_time;
+                var my_time_m = my_time.Minutes;
+                var my_time_s = my_time.Seconds;
+                <span>@my_time_m phút @my_time_s giây</span>
+            }
+        </td>
+    </tr>
+    <tr>
+        <td class="fw-bold">Điểm</td>
+        <td>@Math.Round(ViewBag.exam_info.score,2) / @ViewBag.score</td>
+    </tr>
+</table>
+
+<div class="row">
+    <div class="col-lg-9 col-md-12 col-12">
+        @{
+            int page = 1;
+            foreach (var item in Model)
+            {
+                <div class="row mt-lg-0 mt-md-0 mt-sm-3 mt-3 mx-0" id="cau_@page">
+                    <div id="number_of_question" class="col-lg-2 col-md-2 col-12 bg-white border border-1 py-3 border-danger" style="height:fit-content">
+                        <div id="number_of_question_child" class="text-danger fw-bolder">
+                            Câu @page
+                            @{ page++;}
+                        </div>
+                        <div>
+                            @{ 
+                                if (item.isCorrect == 1)
+                {
+                    <span>Đúng</span>
+                }
+                else
+                {
+                    <span>Sai</span>
+                }
+                            }
+                        </div>
+                        <div>Đạt điểm @item.isCorrect / 1</div>
+                    </div>
+
+
+                    <div id="container_question" class="col-lg-9 bg-white col-md-9 col-12 mx-lg-2 mx-md-2 mx-0 px-4 py-3 mt-lg-0 mt-md-0 mt-0" style="height:fit-content">
+                        <form action="@Url.Action("StartExam")" method="post" id="theForm">
+                            <div>
+                                @if (item.id_question_type == 3)
+                                {
+                                    <div><strong>@item.question</strong></div>
+                                    <div><span class="text-danger">@item.note</span></div>
+                                    <div class="mt-3">
+                                        Trả lời
+                                    </div>
+                                    if (!String.IsNullOrEmpty(item.chose))
+                                    {
+                                        <input type="text" name="correct" id="correct" class="input my-2 col-12 px-3 py-2 border-0" style="background-color:lightgray" value="@item.chose" disabled />
+                                    }
+                                    else
+                                    {
+                                        <input type="text" name="correct" id="correct" class="input my-2 col-12 px-3 py-2 border-0" style="background-color:lightgray" value="" disabled />
+                                    }
+                                }
+                                else if (item.id_question_type == 1)
+                                {
+                                    <div><strong>@item.question</strong></div>
+                                    <div><span class="text-danger">@item.note</span></div>
+                                    <div class="mt-3">
+                                        Select 1:
+                                    </div>
+                                    if (item.chose == "1")
+                                    {
+                                        <div class="my-2">
+                                            <input type="radio" name="correct" id="correct" value="1" checked disabled /> A. @item.answer_1
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="my-2">
+                                            <input type="radio" name="correct" id="correct" value="1" disabled /> A. @item.answer_1
+                                        </div>
+                                    }
+
+                                    if (item.chose == "2")
+                                    {
+                                        <div class="my-2">
+                                            <input type="radio" name="correct" id="correct" value="2" checked disabled /> B. @item.answer_2
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="my-2">
+                                            <input type="radio" name="correct" id="correct" value="2" disabled /> B. @item.answer_2
+                                        </div>
+                                    }
+
+                                    if (!String.IsNullOrEmpty(item.answer_3))
+                                    {
+                                        if (item.chose == "3")
+                                        {
+                                            <div class="my-2">
+                                                <input type="radio" name="correct" id="correct" value="3" checked disabled /> C. @item.answer_3
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="my-2">
+                                                <input type="radio" name="correct" id="correct" value="3" disabled /> C. @item.answer_3
+                                            </div>
+                                        }
+
+                                    }
+
+                                    if (!String.IsNullOrEmpty(item.answer_4))
+                                    {
+                                        if (item.chose == "4")
+                                        {
+                                            <div class="my-2">
+                                                <input type="radio" name="correct" id="correct" value="4" checked disabled /> D. @item.answer_4
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="my-2">
+                                                <input type="radio" name="correct" id="correct" value="4" disabled /> D. @item.answer_4
+                                            </div>
+                                        }
+                                    }
+
+                                }
+                                else
+                                {
+                                    <div><strong>@item.question</strong></div>
+                                    <div><span class="text-danger">@item.note</span></div>
+                                    <div class="mt-3">
+                                        Select 1 or more:
+                                    </div>
+                                    if (String.IsNullOrEmpty(item.chose) == false && item.chose.Contains("1"))
+                                    {
+                                        <div class="my-2">
+                                            <input type="checkbox" name="correct_a" id="correct_a" value="1" checked disabled /> A. @item.answer_1
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="my-2">
+                                            <input type="checkbox" name="correct_a" id="correct_a" value="1" disabled /> A. @item.answer_1
+                                        </div>
+                                    }
+
+                                    if (String.IsNullOrEmpty(item.chose) == false && item.chose.Contains("2"))
+                                    {
+                                        <div class="my-2">
+                                            <input type="checkbox" name="correct_b" id="correct_b" value="2" checked disabled /> B. @item.answer_2
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="my-2">
+                                            <input type="checkbox" name="correct_b" id="correct_b" value="2" disabled /> B. @item.answer_2
+                                        </div>
+                                    }
+
+                                    if (String.IsNullOrEmpty(item.answer_3) == false)
+                                    {
+                                        if (String.IsNullOrEmpty(item.chose) == false && item.chose.Contains("3"))
+                                        {
+                                            <div class="my-2">
+                                                <input type="checkbox" name="correct_c" id="correct_c" value="3" checked disabled /> C. @item.answer_3
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="my-2">
+                                                <input type="checkbox" name="correct_c" id="correct_c" value="3" disabled /> C. @item.answer_3
+                                            </div>
+                                        }
+
+                                    }
+
+                                    if (String.IsNullOrEmpty(item.answer_4) == false)
+                                    {
+                                        if (String.IsNullOrEmpty(item.chose) == false && item.chose.Contains("4"))
+                                        {
+                                            <div class="my-2">
+                                                <input type="checkbox" name="correct_d" id="correct_d" value="4" checked disabled /> D. @item.answer_4
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="my-2">
+                                                <input type="checkbox" name="correct_d" id="correct_d" value="4" disabled /> D. @item.answer_4
+                                            </div>
+                                        }
+                                    }
+                                }
+
+                            </div>
+                        </form>
+                        @{
+                            if (item.isCorrect == 1)
+                            {
+                                <div class="bg-success text-white px-2 py-2">
+                                    Câu trả lời của bạn đúng
+                                </div>
+                            }
+                            else
+                            {
+                    <div class="bg-danger text-white px-2 py-2">
+                        Câu trả lời của bạn sai. Đáp án là
+                        @{
+                            if (item.id_question_type == 1 || item.id_question_type == 4)
+                            {
+                                <span>@item.correct.Replace("1", "A ").Replace("2", "B ").Replace("3", "C ").Replace("4", "D ")</span>
+                            }
+                            else
+                            {
+                    <span>@item.correct</span>
+                            }
+                        }
+                    </div>
+                            }
+                        }
+                    </div>
+                </div>
+            }
+        }
+    </div>
+    <div class="col-lg-3 col-12">
+        <div class="col-12 row mt-5 mt-lg-0 mx-0 justify-content-lg-start justify-content-center">
+            <a href="@Url.Action("GoToExam", new {id_exam=ViewBag.exam_info.id_exam})" class="ps-0 text-decoration-none mb-2 text-lg-start text-center">Hoàn thành việc xem lại</a>
+            <div class="justify-content-lg-start justify-content-center row" style="width:100%;height:fit-content">
+                @{
+                    page = 1;
+                    foreach (var item in Model)
+                    {
+                        //Kiểm tra đúng ko
+                        if (item.isCorrect == 1)
+                        {
+                            <a href="#cau_@page" class="box-question-page">
+                                <div class="box-question-page-top" style="width: max-content; height: 20px">
+
+                                </div>
+                                <div class="box-question-page-bottom bg-success text-white" style="width:100%;height:auto">@page</div>
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="#cau_@page" class="box-question-page">
+                                <div class="box-question-page-top" style="width: max-content; height: 20px">
+
+                                </div>
+                                <div class="box-question-page-bottom bg-danger text-white" style="width:100%;height:auto">@page</div>
+                            </a>
+                        }
+                        page++;
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

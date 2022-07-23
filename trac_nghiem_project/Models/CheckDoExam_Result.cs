@@ -18,6 +18,7 @@ namespace trac_nghiem_project.Models
         public string note { get; set; }
         public Nullable<System.DateTime> statrt_time { get; set; }
         public Nullable<System.DateTime> finsh_time { get; set; }
+        public int id_redo { get; set; }
         public long id_exam { get; set; }
         public long id_student { get; set; }
         public long id_question { get; set; }

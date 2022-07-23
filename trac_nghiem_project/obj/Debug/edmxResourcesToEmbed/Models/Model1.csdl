@@ -2,6 +2,7 @@
 <Schema Namespace="trac_nghiem_aspModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
   <EntityType Name="do_exam">
     <Key>
+      <PropertyRef Name="id_redo" />
       <PropertyRef Name="id_exam" />
       <PropertyRef Name="id_student" />
       <PropertyRef Name="id_question" />
@@ -11,6 +12,7 @@
     <Property Name="note" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="statrt_time" Type="DateTime" Precision="3" />
     <Property Name="finsh_time" Type="DateTime" Precision="3" />
+    <Property Name="id_redo" Type="Int32" Nullable="false" />
     <Property Name="id_exam" Type="Int64" Nullable="false" />
     <Property Name="id_student" Type="Int64" Nullable="false" />
     <Property Name="id_question" Type="Int64" Nullable="false" />
@@ -45,6 +47,7 @@
     <Property Name="status" Type="Boolean" />
     <Property Name="score" Type="Double" />
     <Property Name="number_of_questions" Type="Int32" />
+    <Property Name="number_of_redo" Type="Int32" />
     <NavigationProperty Name="do_exam" Relationship="Self.FK_do_exam_exams" FromRole="exams" ToRole="do_exam" />
     <NavigationProperty Name="exam_question" Relationship="Self.FK_exam_question_exams" FromRole="exams" ToRole="exam_question" />
     <NavigationProperty Name="subject_grade" Relationship="Self.FK_exams_subject_grade" FromRole="exams" ToRole="subject_grade" />
@@ -153,9 +156,11 @@
     <Key>
       <PropertyRef Name="id_exam" />
       <PropertyRef Name="id_student" />
+      <PropertyRef Name="id_redo" />
     </Key>
     <Property Name="id_exam" Type="Int64" Nullable="false" />
     <Property Name="id_student" Type="Int64" Nullable="false" />
+    <Property Name="id_redo" Type="Int32" Nullable="false" />
     <Property Name="score" Type="Double" />
     <Property Name="note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
     <Property Name="start_time" Type="DateTime" Precision="3" />
@@ -687,11 +692,15 @@
       <Parameter Name="id_user" Mode="In" Type="Int64" />
     </FunctionImport>
     <FunctionImport Name="SelectAllQuestionFrom" ReturnType="Collection(trac_nghiem_aspModel.SelectAllQuestionFrom_Result)">
-      <Parameter Name="id_exam" Mode="In" Type="Int64" />
+      <Parameter Name="id_question_bank" Mode="In" Type="Int64" />
     </FunctionImport>
     <FunctionImport Name="SelectOneQuestionFrom" ReturnType="Collection(trac_nghiem_aspModel.SelectOneQuestionFrom_Result)">
       <Parameter Name="id_exam" Mode="In" Type="Int64" />
       <Parameter Name="stt" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="SelectRandomQuestionFrom" ReturnType="Collection(trac_nghiem_aspModel.SelectRandomQuestionFrom_Result)">
+      <Parameter Name="id_question_bank" Mode="In" Type="Int64" />
+      <Parameter Name="number_of_question" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="sp_alterdiagram">
       <Parameter Name="diagramname" Mode="In" Type="String" />
@@ -735,6 +744,7 @@
     <Property Type="String" Name="note" Nullable="true" MaxLength="Max" />
     <Property Type="DateTime" Name="statrt_time" Nullable="true" Precision="23" />
     <Property Type="DateTime" Name="finsh_time" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="id_redo" Nullable="false" />
     <Property Type="Int64" Name="id_exam" Nullable="false" />
     <Property Type="Int64" Name="id_student" Nullable="false" />
     <Property Type="Int64" Name="id_question" Nullable="false" />
@@ -745,7 +755,7 @@
     <Property Type="Int32" Name="status" Nullable="false" />
   </ComplexType>
   <ComplexType Name="SelectAllQuestionFrom_Result">
-    <Property Type="Int64" Name="id_exam" Nullable="false" />
+    <Property Type="Int64" Name="id_question_bank" Nullable="false" />
     <Property Type="Int64" Name="id_question_type" Nullable="true" />
     <Property Type="Int64" Name="id_question" Nullable="false" />
     <Property Type="String" Name="question" Nullable="true" MaxLength="200" />
@@ -760,6 +770,19 @@
   </ComplexType>
   <ComplexType Name="SelectOneQuestionFrom_Result">
     <Property Type="Int64" Name="id_exam" Nullable="false" />
+    <Property Type="Int64" Name="id_question_type" Nullable="true" />
+    <Property Type="Int64" Name="id_question" Nullable="false" />
+    <Property Type="String" Name="question" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="answer_1" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="answer_2" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="answer_3" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="answer_4" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="note" Nullable="true" MaxLength="500" />
+    <Property Type="DateTime" Name="date_create" Nullable="true" Precision="23" />
+    <Property Type="String" Name="question_type" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="SelectRandomQuestionFrom_Result">
+    <Property Type="Int64" Name="id_question_bank" Nullable="false" />
     <Property Type="Int64" Name="id_question_type" Nullable="true" />
     <Property Type="Int64" Name="id_question" Nullable="false" />
     <Property Type="String" Name="question" Nullable="true" MaxLength="200" />

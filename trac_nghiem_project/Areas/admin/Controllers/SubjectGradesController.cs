@@ -65,7 +65,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id_subject_grade,id_subject,id_grade,id_teacher,note")] subject_grade subject_grade)
         {
-            var query = db.subject_grade.Where(s => (s.id_teacher == subject_grade.id_teacher && s.id_grade == subject_grade.id_grade));
+            var query = db.subject_grade.Where(s => (s.id_teacher == subject_grade.id_teacher && s.id_grade == subject_grade.id_grade && s.id_subject == subject_grade.id_subject));
             if (ModelState.IsValid)
             {
                 if (query.Any())
@@ -115,7 +115,7 @@ namespace trac_nghiem_project.Areas.admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_subject_grade,id_subject,id_grade,id_teacher,note")] subject_grade subject_grade)
         {
-            var query = db.subject_grade.Where(s=>s.id_subject_grade!=subject_grade.id_subject_grade).Where(s => (s.id_teacher == subject_grade.id_teacher && s.id_grade == subject_grade.id_grade));
+            var query = db.subject_grade.Where(s=>s.id_subject_grade!=subject_grade.id_subject_grade).Where(s => (s.id_teacher == subject_grade.id_teacher && s.id_grade == subject_grade.id_grade && s.id_subject==subject_grade.id_subject));
             if (ModelState.IsValid)
             {
                 if (query.Any())

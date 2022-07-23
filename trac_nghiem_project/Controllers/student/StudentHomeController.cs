@@ -18,6 +18,7 @@ namespace trac_nghiem_project.Controllers.student
     {
         static List<CreatedQuestion> list_questions = new List<CreatedQuestion>();
         static long current_id_subject_grade=-1;
+        static Nullable<System.DateTime> start_time = DateTime.Now;
         private trac_nghiem_aspEntities db = new trac_nghiem_aspEntities();
 
         [Route("")]
@@ -132,42 +133,43 @@ namespace trac_nghiem_project.Controllers.student
         [HasRole(RoleID = "3")]
         public ActionResult GoToExam(long id_exam)
         {
-            var exam = db.exams.Find(id_exam);
-            var student = getStudentInfo();
-            var query = db.score_of_exam.Where(s => (s.id_exam == id_exam && s.id_student == student.id_user));
-            var done = false;
-            var score = 0.0;
+            var list_score = new List<double>();
             var canDo = true;
+            var number_of_done = 0;
 
-            //Đã làm chưa?
-            if (query.Any())
+            //Kiểm tra số lần làm
+            //Lấy thông tin student từ session
+            var student = getStudentInfo();
+
+                //Lấy ra số lần làm bài từ bảng score_of_exam
+            var exam = db.exams.Find(id_exam);
+            int index_redo = 1;
+            for (index_redo = 1; index_redo <= exam.number_of_redo; index_redo++)
             {
-                done = true;
-                try
+                var check = db.score_of_exam.Where(s => (s.id_redo == index_redo && s.id_student == student.id_user && s.id_exam == id_exam));
+                if (!check.Any())
                 {
-                    score = (double)query.ToList()[0].score;
+                    break;
                 }
-                catch
+                else
                 {
-                    done = false;
-                    canDo = true;
+                    number_of_done++;
+                    list_score.Add((double)check.ToList()[0].score);
                 }
             }
+            if (index_redo > exam.number_of_redo)
+            {
+                //Đã đủ số lần làm lại
+                canDo = false;
+            }
 
-            //Có câu hỏi nào không?
-            //var all_question = db.Database.SqlQuery<CreatedQuestion>("exec SelectAllQuestionFrom @id_exam", new SqlParameter("id_exam", id_exam));
-            //if (!all_question.Any())
-            //{
-            //    canDo = false;
-            //}
-
+            //Ngân hàng câu hỏi có câu nào không?
             var id_question_bank = db.question_bank.Where(s => s.id_subject_grade == exam.id_subject_grade).ToList()[0].id_question_bank;
             var query_qB_question = db.question_bank_questions.Where(s => s.id_question_bank == id_question_bank);
             if (!query_qB_question.Any())
             {
                 canDo = false;
             }
-           
 
             //Tới hạn/ quá hạn chưa?
             if (exam.start_time.HasValue)
@@ -179,7 +181,7 @@ namespace trac_nghiem_project.Controllers.student
                 {
                     if (exam.end_time < DateTime.Now)
                         canDo = false;
-                }   
+                }
             }
 
             //Có bị khóa không
@@ -188,11 +190,11 @@ namespace trac_nghiem_project.Controllers.student
                 canDo = false;
             }
 
-            ViewBag.done = done;
-            ViewBag.score = score;
+            ViewBag.scores = list_score;
             ViewBag.canDo = canDo;
             ViewBag.score_of_exam = exam.score;
             ViewBag.current_id_subject_grade = current_id_subject_grade;
+            ViewBag.number_of_done = number_of_done;
             return View(exam);
         }
 
@@ -201,24 +203,13 @@ namespace trac_nghiem_project.Controllers.student
         [HasRole(RoleID = "3")]
         public ActionResult StartExam(long id_exam, long? stt=1)
         {
-            //Lưu thông tin kiểm tra
             var student = getStudentInfo();
-            var my_exam = new score_of_exam();
-            my_exam.id_exam = id_exam;
-            my_exam.id_student = student.id_user;
-            my_exam.start_time = DateTime.Now;
+            var index_redo = canDoExam(id_exam);
+            if (index_redo == -1)
+                return RedirectToAction("GoToExam", new { id_exam = id_exam });
 
-            var check_my_exam = db.score_of_exam.Where(s => (s.id_student == my_exam.id_student && s.id_exam == my_exam.id_exam));
-            if (check_my_exam.Any())
-            {
-                db.Entry(my_exam).State = System.Data.Entity.EntityState.Modified;
-                db.SaveChanges();
-            }
-            else
-            {
-                db.score_of_exam.Add(my_exam);
-                db.SaveChanges();
-            }
+            //Lấy thời gian bắt đầu kiểm tra
+            start_time = DateTime.Now;
 
             //Lấy thông tin bài kiểm tra và id_question_bank
             var exam = db.exams.Find(id_exam);
@@ -242,6 +233,7 @@ namespace trac_nghiem_project.Controllers.student
             }
             ViewBag.number_all_question = list_questions.Count;
             ViewBag.current_page = stt;
+            list_questions[(int)stt - 1].start_time=DateTime.Now;
             var question = list_questions[(int)stt-1];
             question.id_exam = id_exam;
             ViewBag.current_id_question = question.id_question;
@@ -251,17 +243,9 @@ namespace trac_nghiem_project.Controllers.student
             List<bool> isCheck = new List<bool>();
             for (int i = 0; i < n; i++)
             {
-                var checkIn = db.Database.SqlQuery<do_exam>("exec CheckDoExam @id_exam, @id_question, @id_student", 
-                    new SqlParameter("id_exam", list_questions[i].id_exam),
-                    new SqlParameter("id_question", list_questions[i].id_question),
-                    new SqlParameter("id_student", student.id_user)).ToList();
-                if (checkIn.Any())
+                if (String.IsNullOrEmpty(list_questions[i].correct) == false)
                 {
                     isCheck.Add(true);
-                    if (list_questions[i].id_question == question.id_question)
-                    {
-                        question.correct = checkIn.ToList()[0].chose;
-                    }
                 }
                 else
                 {
@@ -290,32 +274,11 @@ namespace trac_nghiem_project.Controllers.student
             }
             ViewBag.number_all_question = list_questions.Count;
             ViewBag.current_page = Convert.ToInt16(stt);
+            list_questions[(int)stt - 1].start_time = DateTime.Now;
             var question = list_questions[(int)stt - 1];
             question.id_exam = id_exam;
             Console.Write(correct);
             ViewBag.current_id_question = question.id_question;
-
-            //Lưu vào bảng do_exam
-            var my_do = new do_exam();
-            my_do.id_student = student.id_user;
-            my_do.id_exam = id_exam;
-            my_do.id_question = current_id_question;
-            my_do.finsh_time = DateTime.Now;
-            my_do.chose = correct;
-            //list_questions[stt-1]
-
-            //Kiểm tra đã đánh hay chưa đánh
-            var query = db.do_exam.Where(s => (s.id_exam == my_do.id_exam && s.id_question == my_do.id_question && s.id_student == my_do.id_student ));
-            if (query.Any())
-            {
-                db.Entry(my_do).State = System.Data.Entity.EntityState.Modified;
-                db.SaveChanges();
-            }
-            else
-            {
-                db.do_exam.Add(my_do);
-                db.SaveChanges();
-            }
 
             //Lưu phương án đã chọn vào list_question
             for (int i = 0; i < list_questions.Count; i++)
@@ -332,26 +295,7 @@ namespace trac_nghiem_project.Controllers.student
                 //Hiển thị những câu đã làm tại nút chuyển trang
                 int n = list_questions.Count;
                 List<bool> isCheck = new List<bool>();
-                //for (int i = 0; i < n; i++)
-                //{
-                //    var checkIn = db.Database.SqlQuery<do_exam>("exec CheckDoExam @id_exam, @id_question, @id_student",
-                //        new SqlParameter("id_exam", list_questions[i].id_exam),
-                //        new SqlParameter("id_question", list_questions[i].id_question),
-                //        new SqlParameter("id_student", student.id_user)).ToList();
-                //    if (checkIn.Any())
-                //    {
-                //        isCheck.Add(true);
-                //        if (list_questions[i].id_question == question.id_question)
-                //        {
-                //            question.correct = checkIn.ToList()[0].chose;
-                //        }
-                //    }
-                //    else
-                //    {
-                //        isCheck.Add(false);
-                //    }
-                //}
-
+                
                 for (int i = 0; i < n; i++)
                 {
                     if (String.IsNullOrEmpty(list_questions[i].correct) == false)
@@ -380,16 +324,23 @@ namespace trac_nghiem_project.Controllers.student
         [HasRole(RoleID = "3")]
         public ActionResult SubmitExam(long id_exam)
         {
+            //Lưu thông tin bài kiểm tra đã làm
+            int index_redo = saveMyDoExam(id_exam);
+
             var student = getStudentInfo();
 
-            var detailDoExam = db.Database.SqlQuery<DetailDoExam>("exec getDetailDoExam @id_exam, @id_user", new SqlParameter("id_exam", id_exam),
-                new SqlParameter("id_user", student.id_user)).ToList();
+            //Chấm điểm
+            var detailDoExam = db.Database.SqlQuery<DetailDoExam>("exec getDetailDoExam @id_exam, @id_user, @id_redo", new SqlParameter("id_exam", id_exam),
+                new SqlParameter("id_user", student.id_user),
+                new SqlParameter("id_redo", index_redo)).ToList();
             var exam = db.exams.Find(id_exam);
 
             var my_exam = new score_of_exam();
             my_exam.id_exam = id_exam;
             my_exam.id_student = student.id_user;
             my_exam.finish_time = DateTime.Now;
+            my_exam.id_redo = index_redo;
+            my_exam.start_time = start_time;
             
             try
             {
@@ -399,11 +350,124 @@ namespace trac_nghiem_project.Controllers.student
             {
                 my_exam.score = 0;
             }
-            db.Entry(my_exam).State = System.Data.Entity.EntityState.Modified;
+            db.score_of_exam.Add(my_exam);
             db.SaveChanges();
             list_questions.Clear();
 
             return RedirectToAction("GoToExam", new {id_exam=id_exam});
+        }
+
+        [HasRole(RoleID = "3")]
+        [Route("xem-lai-bai-kiem-tra-{id_exam}/lan-lam-so-{id_redo}")]
+        public ActionResult Review(long id_exam, int id_redo)
+        {
+            try
+            {
+                var exam = db.exams.Find(id_exam);
+                var student = getStudentInfo();
+                var exam_info = db.score_of_exam.Where(s => (s.id_exam == id_exam && s.id_redo == id_redo && s.id_student == student.id_user)).ToList()[0];
+                var reviewDoExam = db.Database.SqlQuery<ReviewQuestion>("exec ReviewDoExam @id_exam, @id_user, @id_redo", new SqlParameter("id_exam", id_exam),
+                    new SqlParameter("id_user", student.id_user),
+                    new SqlParameter("id_redo", id_redo)).ToList();
+
+                ViewBag.exam_info = exam_info;
+                ViewBag.score = exam.score;
+                ViewBag.number_of_question = exam.number_of_questions;
+                return View(reviewDoExam);
+            }
+            catch
+            {
+                return RedirectToAction("GoToExam", new { id_exam = id_exam });
+            }
+        }
+
+        private int canDoExam(long id_exam)
+        {
+            //Kiểm tra số lần làm
+                //Lấy thông tin student từ session
+            var student = getStudentInfo();
+
+                //Lấy ra số lần làm bài từ bảng score_of_exam
+            var exam = db.exams.Find(id_exam);
+            int index_redo = 1;
+            for (index_redo = 1; index_redo <= exam.number_of_redo; index_redo++)
+            {
+                var check = db.score_of_exam.Where(s => (s.id_redo == index_redo && s.id_student == student.id_user && s.id_exam == id_exam));
+                if (!check.Any())
+                {
+                    break;
+                }
+            }
+            if (index_redo > exam.number_of_redo)
+                return -1;
+
+            //Có câu hỏi nào không?
+            var id_question_bank = db.question_bank.Where(s => s.id_subject_grade == exam.id_subject_grade).ToList()[0].id_question_bank;
+            var query_qB_question = db.question_bank_questions.Where(s => s.id_question_bank == id_question_bank);
+            if (!query_qB_question.Any())
+                return -1;
+
+
+            //Tới hạn/ quá hạn chưa?
+            if (exam.start_time.HasValue)
+            {
+                if (exam.start_time > DateTime.Now)
+                    return -1;
+
+                if (exam.end_time.HasValue)
+                {
+                    if (exam.end_time < DateTime.Now)
+                        return -1;
+                }
+            }
+
+            //Có bị khóa không
+            if (exam.status == false)
+                return -1;
+
+            return index_redo;
+        }
+
+        private int saveMyDoExam(long id_exam)
+        {
+            //Lấy thông tin student từ session
+            var student = getStudentInfo();
+
+            //Lấy ra số lần làm bài từ bảng score_of_exam
+            var exam = db.exams.Find(id_exam);
+            int index_redo = 1;
+            for (index_redo=1; index_redo <= exam.number_of_redo; index_redo++)
+            {
+                var check = db.score_of_exam.Where(s => (s.id_redo == index_redo && s.id_student == student.id_user && s.id_exam == id_exam));
+                if (!check.Any())
+                {
+                    break;
+                }
+            }    
+
+            foreach(var question in list_questions)
+            {
+                var my_doexam = new do_exam();
+                my_doexam.id_redo = index_redo;
+                my_doexam.id_exam = id_exam;
+                my_doexam.id_student = student.id_user;
+                my_doexam.id_question = question.id_question;
+                my_doexam.chose = question.correct;
+                my_doexam.statrt_time = question.start_time;
+                my_doexam.finsh_time = question.finish_time;
+
+                try
+                {
+                    db.do_exam.Add(my_doexam);
+                    db.SaveChanges();
+                }
+                catch
+                {
+
+                }
+            }
+
+            return index_redo;
         }
 
         private List<SubjectGradeFilter> subjectGradeFilter(long? id_subject, long? id_teacher, long? id_grade)

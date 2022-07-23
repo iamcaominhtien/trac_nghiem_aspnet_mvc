@@ -97,6 +97,14 @@
     </div>
 
     <div class="form-group my-2">
+        @Html.LabelFor(model => model.number_of_redo, htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
+        <div class="col-md-5">
+            @Html.EditorFor(model => model.number_of_redo, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.number_of_redo, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group my-2">
         @Html.LabelFor(model => model.status, htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
         <div class="col-md-5">
             <div class="checkbox">

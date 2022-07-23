@@ -25,7 +25,7 @@ namespace trac_nghiem_project.Models
         }
     
         public long id_exam { get; set; }
-		
+        
 		[DisplayName("Tên bài kiểm tra")]
         [Required(ErrorMessage ="Không được bỏ trống")]
         public string name { get; set; }
@@ -65,6 +65,9 @@ namespace trac_nghiem_project.Models
 		
 		[DisplayName("Số câu hỏi")]
         public Nullable<int> number_of_questions { get; set; }
+		
+		[DisplayName("Số lần làm lại")]
+        public Nullable<int> number_of_redo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<do_exam> do_exam { get; set; }

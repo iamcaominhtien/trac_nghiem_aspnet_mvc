@@ -9,6 +9,7 @@
           <ScalarProperty Name="note" ColumnName="note" />
           <ScalarProperty Name="statrt_time" ColumnName="statrt_time" />
           <ScalarProperty Name="finsh_time" ColumnName="finsh_time" />
+          <ScalarProperty Name="id_redo" ColumnName="id_redo" />
           <ScalarProperty Name="id_exam" ColumnName="id_exam" />
           <ScalarProperty Name="id_student" ColumnName="id_student" />
           <ScalarProperty Name="id_question" ColumnName="id_question" />
@@ -39,6 +40,7 @@
           <ScalarProperty Name="status" ColumnName="status" />
           <ScalarProperty Name="score" ColumnName="score" />
           <ScalarProperty Name="number_of_questions" ColumnName="number_of_questions" />
+          <ScalarProperty Name="number_of_redo" ColumnName="number_of_redo" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -135,6 +137,7 @@
         <MappingFragment StoreEntitySet="score_of_exam">
           <ScalarProperty Name="id_exam" ColumnName="id_exam" />
           <ScalarProperty Name="id_student" ColumnName="id_student" />
+          <ScalarProperty Name="id_redo" ColumnName="id_redo" />
           <ScalarProperty Name="score" ColumnName="score" />
           <ScalarProperty Name="note" ColumnName="note" />
           <ScalarProperty Name="start_time" ColumnName="start_time" />
@@ -225,6 +228,7 @@
           <ScalarProperty Name="note" ColumnName="note" />
           <ScalarProperty Name="statrt_time" ColumnName="statrt_time" />
           <ScalarProperty Name="finsh_time" ColumnName="finsh_time" />
+          <ScalarProperty Name="id_redo" ColumnName="id_redo" />
           <ScalarProperty Name="id_exam" ColumnName="id_exam" />
           <ScalarProperty Name="id_student" ColumnName="id_student" />
           <ScalarProperty Name="id_question" ColumnName="id_question" />
@@ -243,7 +247,7 @@
     <FunctionImportMapping FunctionImportName="SelectAllQuestionFrom" FunctionName="trac_nghiem_aspModel.Store.SelectAllQuestionFrom">
       <ResultMapping>
         <ComplexTypeMapping TypeName="trac_nghiem_aspModel.SelectAllQuestionFrom_Result">
-          <ScalarProperty Name="id_exam" ColumnName="id_exam" />
+          <ScalarProperty Name="id_question_bank" ColumnName="id_question_bank" />
           <ScalarProperty Name="id_question_type" ColumnName="id_question_type" />
           <ScalarProperty Name="id_question" ColumnName="id_question" />
           <ScalarProperty Name="question" ColumnName="question" />
@@ -262,6 +266,23 @@
       <ResultMapping>
         <ComplexTypeMapping TypeName="trac_nghiem_aspModel.SelectOneQuestionFrom_Result">
           <ScalarProperty Name="id_exam" ColumnName="id_exam" />
+          <ScalarProperty Name="id_question_type" ColumnName="id_question_type" />
+          <ScalarProperty Name="id_question" ColumnName="id_question" />
+          <ScalarProperty Name="question" ColumnName="question" />
+          <ScalarProperty Name="answer_1" ColumnName="answer_1" />
+          <ScalarProperty Name="answer_2" ColumnName="answer_2" />
+          <ScalarProperty Name="answer_3" ColumnName="answer_3" />
+          <ScalarProperty Name="answer_4" ColumnName="answer_4" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="date_create" ColumnName="date_create" />
+          <ScalarProperty Name="question_type" ColumnName="question_type" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SelectRandomQuestionFrom" FunctionName="trac_nghiem_aspModel.Store.SelectRandomQuestionFrom">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="trac_nghiem_aspModel.SelectRandomQuestionFrom_Result">
+          <ScalarProperty Name="id_question_bank" ColumnName="id_question_bank" />
           <ScalarProperty Name="id_question_type" ColumnName="id_question_type" />
           <ScalarProperty Name="id_question" ColumnName="id_question" />
           <ScalarProperty Name="question" ColumnName="question" />

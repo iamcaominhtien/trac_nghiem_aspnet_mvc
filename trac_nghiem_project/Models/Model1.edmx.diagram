@@ -4,25 +4,25 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="9909778e427e467ba23f5c5d63849285" Name="Diagram1">
-        <EntityTypeShape EntityType="trac_nghiem_aspModel.do_exam" Width="1.5" PointX="9.75" PointY="14.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="trac_nghiem_aspModel.exam_question" Width="1.5" PointX="9.75" PointY="18.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="trac_nghiem_aspModel.exam" Width="1.5" PointX="7.5" PointY="16.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="trac_nghiem_aspModel.field" Width="1.5" PointX="1.5" PointY="6.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="trac_nghiem_aspModel.grade" Width="1.5" PointX="3.75" PointY="6.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="trac_nghiem_aspModel.manager" Width="1.5" PointX="3" PointY="10.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="trac_nghiem_aspModel.question_bank" Width="1.5" PointX="7.5" PointY="21.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="trac_nghiem_aspModel.question_bank_questions" Width="1.5" PointX="9.75" PointY="22.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="trac_nghiem_aspModel.question_types" Width="1.5" PointX="5.25" PointY="26" IsExpanded="true" />
-        <EntityTypeShape EntityType="trac_nghiem_aspModel.question" Width="1.5" PointX="7.5" PointY="25.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="trac_nghiem_aspModel.right" Width="1.5" PointX="0.75" PointY="12.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="trac_nghiem_aspModel.score_of_exam" Width="1.5" PointX="12.75" PointY="14.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="trac_nghiem_aspModel.students_user" Width="1.5" PointX="6" PointY="11.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="trac_nghiem_aspModel.subject_grade" Width="1.5" PointX="5.25" PointY="18.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="trac_nghiem_aspModel.subject_student" Width="1.5" PointX="8.25" PointY="11.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="trac_nghiem_aspModel.subject" Width="1.5" PointX="3" PointY="15" IsExpanded="true" />
+      <Diagram DiagramId="7fe574b2e2fb45c5a3d68fc1769376f2" Name="Diagram1">
+        <EntityTypeShape EntityType="trac_nghiem_aspModel.do_exam" Width="1.5" PointX="9.75" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="trac_nghiem_aspModel.exam_question" Width="1.5" PointX="9.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="trac_nghiem_aspModel.exam" Width="1.5" PointX="7.5" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="trac_nghiem_aspModel.field" Width="1.5" PointX="1.5" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="trac_nghiem_aspModel.grade" Width="1.5" PointX="3.75" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="trac_nghiem_aspModel.manager" Width="1.5" PointX="3" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="trac_nghiem_aspModel.question_bank" Width="1.5" PointX="7.5" PointY="21.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="trac_nghiem_aspModel.question_bank_questions" Width="1.5" PointX="9.75" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="trac_nghiem_aspModel.question_types" Width="1.5" PointX="5.25" PointY="26.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="trac_nghiem_aspModel.question" Width="1.5" PointX="7.5" PointY="25.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="trac_nghiem_aspModel.right" Width="1.5" PointX="0.75" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="trac_nghiem_aspModel.score_of_exam" Width="1.5" PointX="12.75" PointY="14.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="trac_nghiem_aspModel.students_user" Width="1.5" PointX="6" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="trac_nghiem_aspModel.subject_grade" Width="1.5" PointX="5.25" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="trac_nghiem_aspModel.subject_student" Width="1.5" PointX="8.25" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="trac_nghiem_aspModel.subject" Width="1.5" PointX="3" PointY="15.25" IsExpanded="true" />
         <EntityTypeShape EntityType="trac_nghiem_aspModel.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="trac_nghiem_aspModel.teachers_user" Width="1.5" PointX="3" PointY="18.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="trac_nghiem_aspModel.teachers_user" Width="1.5" PointX="3" PointY="18.5" IsExpanded="true" />
         <AssociationConnector Association="trac_nghiem_aspModel.FK_do_exam_exams" ManuallyRouted="false" />
         <AssociationConnector Association="trac_nghiem_aspModel.FK_do_exam_questions" ManuallyRouted="false" />
         <AssociationConnector Association="trac_nghiem_aspModel.FK_do_exam_users" ManuallyRouted="false" />

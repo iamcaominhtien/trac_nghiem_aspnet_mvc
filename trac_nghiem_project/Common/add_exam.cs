@@ -57,5 +57,8 @@ namespace trac_nghiem_project.Common
 
         [DisplayName("Số câu hỏi")]
         public Nullable<int> number_of_questions { get; set; }
+
+        [DisplayName("Số lần làm lại")]
+        public Nullable<int> number_of_redo { get; set; }
     }
 }

@@ -7,6 +7,7 @@
       <Schema Namespace="trac_nghiem_aspModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="do_exam">
           <Key>
+            <PropertyRef Name="id_redo" />
             <PropertyRef Name="id_exam" />
             <PropertyRef Name="id_student" />
             <PropertyRef Name="id_question" />
@@ -16,6 +17,7 @@
           <Property Name="note" Type="text" />
           <Property Name="statrt_time" Type="datetime" />
           <Property Name="finsh_time" Type="datetime" />
+          <Property Name="id_redo" Type="int" Nullable="false" />
           <Property Name="id_exam" Type="bigint" Nullable="false" />
           <Property Name="id_student" Type="bigint" Nullable="false" />
           <Property Name="id_question" Type="bigint" Nullable="false" />
@@ -45,6 +47,7 @@
           <Property Name="status" Type="bit" />
           <Property Name="score" Type="float" />
           <Property Name="number_of_questions" Type="int" />
+          <Property Name="number_of_redo" Type="int" />
         </EntityType>
         <EntityType Name="fields">
           <Key>
@@ -131,9 +134,11 @@
           <Key>
             <PropertyRef Name="id_exam" />
             <PropertyRef Name="id_student" />
+            <PropertyRef Name="id_redo" />
           </Key>
           <Property Name="id_exam" Type="bigint" Nullable="false" />
           <Property Name="id_student" Type="bigint" Nullable="false" />
+          <Property Name="id_redo" Type="int" Nullable="false" />
           <Property Name="score" Type="float" />
           <Property Name="note" Type="nvarchar" MaxLength="500" />
           <Property Name="start_time" Type="datetime" />
@@ -536,11 +541,15 @@
           <Parameter Name="id_user" Type="bigint" Mode="In" />
         </Function>
         <Function Name="SelectAllQuestionFrom" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="id_exam" Type="bigint" Mode="In" />
+          <Parameter Name="id_question_bank" Type="bigint" Mode="In" />
         </Function>
         <Function Name="SelectOneQuestionFrom" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id_exam" Type="bigint" Mode="In" />
           <Parameter Name="stt" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="SelectRandomQuestionFrom" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_question_bank" Type="bigint" Mode="In" />
+          <Parameter Name="number_of_question" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
@@ -696,6 +705,7 @@
       <Schema Namespace="trac_nghiem_aspModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="do_exam">
           <Key>
+            <PropertyRef Name="id_redo" />
             <PropertyRef Name="id_exam" />
             <PropertyRef Name="id_student" />
             <PropertyRef Name="id_question" />
@@ -705,6 +715,7 @@
           <Property Name="note" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="statrt_time" Type="DateTime" Precision="3" />
           <Property Name="finsh_time" Type="DateTime" Precision="3" />
+          <Property Name="id_redo" Type="Int32" Nullable="false" />
           <Property Name="id_exam" Type="Int64" Nullable="false" />
           <Property Name="id_student" Type="Int64" Nullable="false" />
           <Property Name="id_question" Type="Int64" Nullable="false" />
@@ -739,6 +750,7 @@
           <Property Name="status" Type="Boolean" />
           <Property Name="score" Type="Double" />
           <Property Name="number_of_questions" Type="Int32" />
+          <Property Name="number_of_redo" Type="Int32" />
           <NavigationProperty Name="do_exam" Relationship="Self.FK_do_exam_exams" FromRole="exams" ToRole="do_exam" />
           <NavigationProperty Name="exam_question" Relationship="Self.FK_exam_question_exams" FromRole="exams" ToRole="exam_question" />
           <NavigationProperty Name="subject_grade" Relationship="Self.FK_exams_subject_grade" FromRole="exams" ToRole="subject_grade" />
@@ -847,9 +859,11 @@
           <Key>
             <PropertyRef Name="id_exam" />
             <PropertyRef Name="id_student" />
+            <PropertyRef Name="id_redo" />
           </Key>
           <Property Name="id_exam" Type="Int64" Nullable="false" />
           <Property Name="id_student" Type="Int64" Nullable="false" />
+          <Property Name="id_redo" Type="Int32" Nullable="false" />
           <Property Name="score" Type="Double" />
           <Property Name="note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="start_time" Type="DateTime" Precision="3" />
@@ -1381,11 +1395,15 @@
             <Parameter Name="id_user" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="SelectAllQuestionFrom" ReturnType="Collection(trac_nghiem_aspModel.SelectAllQuestionFrom_Result)">
-            <Parameter Name="id_exam" Mode="In" Type="Int64" />
+            <Parameter Name="id_question_bank" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="SelectOneQuestionFrom" ReturnType="Collection(trac_nghiem_aspModel.SelectOneQuestionFrom_Result)">
             <Parameter Name="id_exam" Mode="In" Type="Int64" />
             <Parameter Name="stt" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="SelectRandomQuestionFrom" ReturnType="Collection(trac_nghiem_aspModel.SelectRandomQuestionFrom_Result)">
+            <Parameter Name="id_question_bank" Mode="In" Type="Int64" />
+            <Parameter Name="number_of_question" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_alterdiagram">
             <Parameter Name="diagramname" Mode="In" Type="String" />
@@ -1429,6 +1447,7 @@
           <Property Type="String" Name="note" Nullable="true" MaxLength="Max" />
           <Property Type="DateTime" Name="statrt_time" Nullable="true" Precision="23" />
           <Property Type="DateTime" Name="finsh_time" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="id_redo" Nullable="false" />
           <Property Type="Int64" Name="id_exam" Nullable="false" />
           <Property Type="Int64" Name="id_student" Nullable="false" />
           <Property Type="Int64" Name="id_question" Nullable="false" />
@@ -1439,7 +1458,7 @@
           <Property Type="Int32" Name="status" Nullable="false" />
         </ComplexType>
         <ComplexType Name="SelectAllQuestionFrom_Result">
-          <Property Type="Int64" Name="id_exam" Nullable="false" />
+          <Property Type="Int64" Name="id_question_bank" Nullable="false" />
           <Property Type="Int64" Name="id_question_type" Nullable="true" />
           <Property Type="Int64" Name="id_question" Nullable="false" />
           <Property Type="String" Name="question" Nullable="true" MaxLength="200" />
@@ -1454,6 +1473,19 @@
         </ComplexType>
         <ComplexType Name="SelectOneQuestionFrom_Result">
           <Property Type="Int64" Name="id_exam" Nullable="false" />
+          <Property Type="Int64" Name="id_question_type" Nullable="true" />
+          <Property Type="Int64" Name="id_question" Nullable="false" />
+          <Property Type="String" Name="question" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="answer_1" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="answer_2" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="answer_3" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="answer_4" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="note" Nullable="true" MaxLength="500" />
+          <Property Type="DateTime" Name="date_create" Nullable="true" Precision="23" />
+          <Property Type="String" Name="question_type" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="SelectRandomQuestionFrom_Result">
+          <Property Type="Int64" Name="id_question_bank" Nullable="false" />
           <Property Type="Int64" Name="id_question_type" Nullable="true" />
           <Property Type="Int64" Name="id_question" Nullable="false" />
           <Property Type="String" Name="question" Nullable="true" MaxLength="200" />
@@ -1490,6 +1522,7 @@
                 <ScalarProperty Name="note" ColumnName="note" />
                 <ScalarProperty Name="statrt_time" ColumnName="statrt_time" />
                 <ScalarProperty Name="finsh_time" ColumnName="finsh_time" />
+                <ScalarProperty Name="id_redo" ColumnName="id_redo" />
                 <ScalarProperty Name="id_exam" ColumnName="id_exam" />
                 <ScalarProperty Name="id_student" ColumnName="id_student" />
                 <ScalarProperty Name="id_question" ColumnName="id_question" />
@@ -1520,6 +1553,7 @@
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="score" ColumnName="score" />
                 <ScalarProperty Name="number_of_questions" ColumnName="number_of_questions" />
+                <ScalarProperty Name="number_of_redo" ColumnName="number_of_redo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1616,6 +1650,7 @@
               <MappingFragment StoreEntitySet="score_of_exam">
                 <ScalarProperty Name="id_exam" ColumnName="id_exam" />
                 <ScalarProperty Name="id_student" ColumnName="id_student" />
+                <ScalarProperty Name="id_redo" ColumnName="id_redo" />
                 <ScalarProperty Name="score" ColumnName="score" />
                 <ScalarProperty Name="note" ColumnName="note" />
                 <ScalarProperty Name="start_time" ColumnName="start_time" />
@@ -1706,6 +1741,7 @@
                 <ScalarProperty Name="note" ColumnName="note" />
                 <ScalarProperty Name="statrt_time" ColumnName="statrt_time" />
                 <ScalarProperty Name="finsh_time" ColumnName="finsh_time" />
+                <ScalarProperty Name="id_redo" ColumnName="id_redo" />
                 <ScalarProperty Name="id_exam" ColumnName="id_exam" />
                 <ScalarProperty Name="id_student" ColumnName="id_student" />
                 <ScalarProperty Name="id_question" ColumnName="id_question" />
@@ -1724,7 +1760,7 @@
           <FunctionImportMapping FunctionImportName="SelectAllQuestionFrom" FunctionName="trac_nghiem_aspModel.Store.SelectAllQuestionFrom">
             <ResultMapping>
               <ComplexTypeMapping TypeName="trac_nghiem_aspModel.SelectAllQuestionFrom_Result">
-                <ScalarProperty Name="id_exam" ColumnName="id_exam" />
+                <ScalarProperty Name="id_question_bank" ColumnName="id_question_bank" />
                 <ScalarProperty Name="id_question_type" ColumnName="id_question_type" />
                 <ScalarProperty Name="id_question" ColumnName="id_question" />
                 <ScalarProperty Name="question" ColumnName="question" />
@@ -1743,6 +1779,23 @@
             <ResultMapping>
               <ComplexTypeMapping TypeName="trac_nghiem_aspModel.SelectOneQuestionFrom_Result">
                 <ScalarProperty Name="id_exam" ColumnName="id_exam" />
+                <ScalarProperty Name="id_question_type" ColumnName="id_question_type" />
+                <ScalarProperty Name="id_question" ColumnName="id_question" />
+                <ScalarProperty Name="question" ColumnName="question" />
+                <ScalarProperty Name="answer_1" ColumnName="answer_1" />
+                <ScalarProperty Name="answer_2" ColumnName="answer_2" />
+                <ScalarProperty Name="answer_3" ColumnName="answer_3" />
+                <ScalarProperty Name="answer_4" ColumnName="answer_4" />
+                <ScalarProperty Name="note" ColumnName="note" />
+                <ScalarProperty Name="date_create" ColumnName="date_create" />
+                <ScalarProperty Name="question_type" ColumnName="question_type" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SelectRandomQuestionFrom" FunctionName="trac_nghiem_aspModel.Store.SelectRandomQuestionFrom">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="trac_nghiem_aspModel.SelectRandomQuestionFrom_Result">
+                <ScalarProperty Name="id_question_bank" ColumnName="id_question_bank" />
                 <ScalarProperty Name="id_question_type" ColumnName="id_question_type" />
                 <ScalarProperty Name="id_question" ColumnName="id_question" />
                 <ScalarProperty Name="question" ColumnName="question" />
